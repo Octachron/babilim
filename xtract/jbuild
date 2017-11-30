@@ -1,6 +1,6 @@
 (jbuild_version 1)
 (executable(
            (name xtract)
-           (libraries (compiler-libs.common))
+           (libraries (compiler-libs.common po))
  )
 )

@@ -11,29 +11,6 @@ let i18n_key = function
 let status = ref false
 
 
-type multiline = string list
-type comments =
-  {
-    translator: multiline;
-    programmer: multiline
-  }
-
-type loc = { file:string; line:int}
-
-type msg =
-  | Singular of { id:multiline; translation:multiline }
-  | Plural of {id:multiline;plural:multiline; translations: (int * multiline) list }
-
-type entry = {
-  comments: comments;
-  location: loc;
-  flags: string list;
-  context: multiline;
-  previous: msg option;
-  msg: msg;
-}
-
-
 type info = { plural: bool; context: string list }
 let info_default = { plural = false; context = [] }
 
@@ -53,67 +30,15 @@ let metadata e =
   | _ -> info_default
 
 
-let maybe f x = match x with
-  | Some x -> f x
-  | None -> ()
-
-let bind f x =  match x with
-  | Some x -> f x
-  | None -> None
-
-
-let (>>) x f = maybe f x
-let (>>=) x f = bind f x
-let (>>|) x f = x >>= (fun x -> Some(f x))
-
-let text ppf s = Format.fprintf ppf "\"%s\"" (Escape.string s)
-
-
-let list = Format.pp_print_list
-
-let fp = Format.fprintf
-let premtext ?(pre="") ppf =
-  list ~pp_sep:(fun ppf () -> fp ppf "@,") (fun ppf -> fp ppf "%s%a" pre text)
-    ppf
-
-let mtext = premtext ~pre:""
-
-
-let pp_msg ?(pre="") ppf = function
-  | Singular {id;translation} ->
-    fp ppf "%smsgid %a@," pre mtext id;
-    if translation = [] then ()
-    else fp ppf "%smsgstr %a@," pre mtext translation;
-  | Plural { id; plural; translations } ->
-    fp ppf "%smsgid %a@," pre mtext id ;
-    fp ppf "%smsgid_plural %a@," pre mtext plural;
-    let pr (n,l) = match l with
-    | [] -> ()
-    | a :: q ->
-      fp ppf "%smsgstr[%d] %a@," pre n text a;
-      premtext ~pre ppf q in
-    List.iter pr translations
-
-
-let pp ppf entry =
-  let f x = Format.fprintf ppf x in
-  f "@[<v>";
-  List.iter (f "# %s@,") entry.comments.translator;
-  List.iter (f"#. %s@,") entry.comments.programmer;
-  f "#: %s:%d@," entry.location.file entry.location.line;
-  List.iter (f "#, %s@,") entry.flags;
-  List.iter (f "msgctxt %a@," text) entry.context;
-  entry.previous >> pp_msg ~pre:"#| " ppf;
-  pp_msg ppf entry.msg;
-  f "@]@."
-
+open Po.Option
+module Ty = Po.Types
 
 let make info loc comment src =
   let msg = if info.plural = true then
-     Plural { id = src; plural = src; translations = [0,src] }
+     Ty.Plural { id = src; plural = src; translations = [0,src] }
     else
-       Singular { id = src; translation = src } in
-  { comments = { programmer = comment; translator = [] };
+       Ty.Singular { id = src; translation = src } in
+  { Ty.comments = { programmer = comment; translator = [] };
     location =
       (let s = loc.Location.loc_start in
        Lexing.{ file = s.pos_fname; line = s.pos_lnum });
@@ -177,7 +102,7 @@ let str info e = match e.pexp_desc with
   | _ -> None
 
 let register ppf entry =
-  Format.fprintf ppf "%a" pp entry
+  Format.fprintf ppf "%a" Ty.Pp.entry entry
 
 let apply ppf e =
   match e.pexp_desc with
@@ -269,7 +194,7 @@ let ml_file f = match Filename.extension f with
 
 
 let header =
-  Singular { id = [""]; translation =
+  Ty.Singular { id = [""]; translation =
                           [ "Content-Type: text/plain; charset=UTF-8\n";
                             "Content-Transfer-Encoding: 8bit\n";
                             "Language: en_US\n";
@@ -290,5 +215,5 @@ let () =
   let output = "-pot", Arg.Set_string f, "output pot file" in
   Arg.parse [output] register_files "ppxtract files";
   let ppf = Format.formatter_of_out_channel (open_out !f) in
-  Format.fprintf ppf "@[<v>%a@]@." (pp_msg ~pre:"") header;
+  Format.fprintf ppf "@[<v>%a@]@." (Ty.Pp.msg ~pre:"") header;
   List.iter (List.iter (parse ppf)) !files

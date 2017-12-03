@@ -13,7 +13,7 @@ type ('x,'list) index =
   | Z: ('x, 'x -> _ ) index
   | S: ('x,'list) index -> ('x, _ -> 'list) index
 
-let rec nth: type x fin list. (x,list) index -> (list,empty) L.t -> x =
+let rec nth: type x fin list. (x,list) index -> (list,unit) L.t -> x =
   fun index l ->
     match index, l with
     | Z, L.(a :: _) -> a
@@ -38,16 +38,13 @@ let rec apply: type a b. a -> (a,b) L.t -> b = fun f l ->
   | L.[a] -> f a
   | L.(a :: q) -> apply (f a) q
 
-let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> (src,empty) L.t
+let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> (src,unit) L.t
   -> b =
   fun f indices src ->
   match indices with
   | Meta.[] -> f
   | Meta.[n] -> f (nth n src)
   | Meta.(n :: q) -> indexed_apply (f (nth n src)) q src
-
-let () =
-  indexed_apply (Format.printf "%s %s %s %s %d") Meta.[Z;Z;Z;Z;S Z] L.[ "Hi"; 1 ]
 
 
 module W = Witness
@@ -64,17 +61,17 @@ open Format
 let print_elt (type x l fl) ppf (w:<x:x; l:l; fl:fl > W.arg) (x:x) =
   match w with
   | W.A -> let W.Show(f,x) = x in f ppf x
-  | W.Int -> pp_print_int ppf x
-  | W.Char -> pp_print_char ppf x
-  | W.Bool -> pp_print_bool ppf x
-  | W.Int32 -> Format.fprintf ppf "%ld" x
-  | W.Int64 -> Format.fprintf ppf "%Ld" x
-  | W.Nativeint -> Format.fprintf ppf "%nd" x
-  | W.Float -> pp_print_float ppf x
-  | W.String -> pp_print_string ppf x
-  | W.Theta -> x ppf
+  | W.(S Int) -> pp_print_int ppf x
+  | W.(S Char) -> pp_print_char ppf x
+  | W.(S Bool) -> pp_print_bool ppf x
+  | W.(S Int32) -> Format.fprintf ppf "%ld" x
+  | W.(S Int64) -> Format.fprintf ppf "%Ld" x
+  | W.(S Nativeint) -> Format.fprintf ppf "%nd" x
+  | W.(S Float) -> pp_print_float ppf x
+  | W.(S String) -> pp_print_string ppf x
+  | W.(S Theta) -> x ppf
 
-let rec print: type l. formatter -> l t -> (l,empty) L.t -> unit =
+let rec print: type l. formatter -> l t -> (l,unit) L.t -> unit =
   fun ppf x args ->
     match x with
     | [] -> ()
@@ -83,15 +80,27 @@ let rec print: type l. formatter -> l t -> (l,empty) L.t -> unit =
     | Hole(w,n) :: q ->
       print_elt ppf w (nth n args); print ppf q args
 
-let rec expand: type l m t. (l * m, unit * t ) W.l
-  -> ((l,empty) L.t -> unit) -> l =
+let rec expand_full: type l m. (l * m, unit * unit ) W.l
+  -> ((l,unit) L.t -> unit) -> m =
   fun spec f -> match spec with
-    | W.(Int :: q)  ->
-      fun n -> expand q (fun l -> f L.(n :: l) )
-    | _ -> assert false
+    | W.(S x :: q)  ->
+      fun n -> expand_full q (fun l -> f L.(n :: l) )
+    | W.(A :: q) ->
+      fun show x -> expand_full q (fun l -> f L.(W.Show(show,x) :: l))
+    | W.[] -> f []
 
-let int x = Hole(Int,x)
-let str x = Hole(String,x)
+let rec expand: type l m. (l * m, unit * unit ) W.l
+  -> ((l,unit) L.t -> unit) -> l =
+  fun spec f -> match spec with
+    | W.(S x :: q)  ->
+      fun n -> expand q (fun l -> f L.(n :: l) )
+    | W.(A :: q) ->
+      fun x -> expand q (fun l -> f L.(x :: l))
+    | W.[] -> f []
+
+
+let int x = Hole(S Int,x)
+let str x = Hole(S String,x)
 let show x = Hole(A,x)
 
 let _0 = Z
@@ -99,13 +108,3 @@ let _1 = S Z
 let _2 = S _1
 let _3 = S _2
 let _4 = S _3
-
-let f ppf =
-  print ppf
-    [Text "A text with a variable";
-     int _0;
-     Text "that appears";
-     int _0;
-     str _1]
-
-let g = expand W.[Int;String] (f Format.std_formatter)

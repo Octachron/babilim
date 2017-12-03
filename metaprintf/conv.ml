@@ -8,14 +8,14 @@ let padding (type a b c d) (y:(a,b) padding)
   match y with
     | No_padding -> H []
     | Lit_padding _ -> H []
-    | Arg_padding _ -> H [Int]
+    | Arg_padding _ -> H [S Int]
 
 let pr (type a b) (y:(a,b) precision)
   : (a, b) W.h  =
   match y with
     | No_precision -> H []
     | Lit_precision _ -> H []
-    | Arg_precision -> H [Int]
+    | Arg_precision -> H [S Int]
 
 exception Unsupported of string
 let unsupported s = raise (Unsupported s)
@@ -61,8 +61,8 @@ and boxes:  type a c d e f. (a,fmta,unit,d,e,f) formatting_gen -> (a,f) W.h =
 
 
 and (<::>): type x ll lm r d e f.
-  (x, ll * lm) s arg -> (r,fmta,unit,d,e,f) fmt -> (x->r,f) h =
-  fun x f -> let W.H r = typer f in H (refresh x :: r)
+  x s -> (r,fmta,unit,d,e,f) fmt -> (x->r,f) h =
+  fun x f -> let W.H r = typer f in H (S x :: r)
 
 type anyfmt = Any: _ format6 -> anyfmt [@@unboxed]
 
@@ -82,27 +82,9 @@ module Map = struct
 
 end
 
-let m = Map.empty
-
-let m = Map.add "%d/%d" [Int;Int]
-    (fun ppf -> Format.fprintf ppf "A nice ratio %d/%d") m
 
 
-let meta_add fmt spec metafmt m =
+let meta_add (type x y z l m) (fmt: (m,fmta,x,y,z,unit) format6)
+    (spec: (l * m, unit * unit) W.l)
+    (metafmt: l Metafmt.t) m =
   Map.add fmt spec Metafmt.(fun ppf -> expand spec @@ print ppf metafmt) m
-
-let m = meta_add "%d/%s %a" [Int;String;A]
-    Metafmt.
-      [
-        Text "Behold the α:";
-        show _2;
-        Text "A text with a variable";
-        int _0;
-        Text "that appears";
-        int _0;
-        str _1;
-    ] m
-
-let () =
-  Map.find "%d/%s %a" m Format.std_formatter 2 "times"
-    Format.pp_print_string "hi"

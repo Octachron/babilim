@@ -71,7 +71,7 @@ module Map = struct
 
   let add:
     ('a,fmta,_,_,_,unit) format6
-    -> ('ab * 'a, unit * unit) l -> 'ab -> box t -> box t =
+    -> ('ab * 'a, unit * unit) l -> (fmta -> 'ab) -> box t -> box t =
     fun fmt spec f m ->
       add (Any fmt) (Box(spec,f)) m
 
@@ -84,6 +84,25 @@ end
 
 let m = Map.empty
 
-let m = Map.add "%d/%d" [Int;Int] (Format.printf "A nice ratio %d/%d") m
+let m = Map.add "%d/%d" [Int;Int]
+    (fun ppf -> Format.fprintf ppf "A nice ratio %d/%d") m
 
-let () = Map.find "%d/%d" m 4 5
+
+let meta_add fmt spec metafmt m =
+  Map.add fmt spec Metafmt.(fun ppf -> expand spec @@ print ppf metafmt) m
+
+let m = meta_add "%d/%s %a" [Int;String;A]
+    Metafmt.
+      [
+        Text "Behold the α:";
+        show _2;
+        Text "A text with a variable";
+        int _0;
+        Text "that appears";
+        int _0;
+        str _1;
+    ] m
+
+let () =
+  Map.find "%d/%s %a" m Format.std_formatter 2 "times"
+    Format.pp_print_string "hi"

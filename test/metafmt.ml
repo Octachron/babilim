@@ -27,9 +27,9 @@ let () =
 
 end
 
-let m = C.Map.empty
+let m = Tmap.empty
 
-let m = C.Map.add "%d/%d" W.[S Int; S Int]
+let m = Tmap.box_then_add "%d/%d" W.[S Int; S Int]
     (fun ppf -> Format.fprintf ppf "A nice ratio %d/%d") m
 
 module Witness = struct
@@ -46,7 +46,7 @@ let () =
 
 end
 
-let m = C.meta_add "%d/%s %a" W.[S Int; S String; A]
+let m = Tmap.expand_then_add "%d/%s %a" W.[S Int; S String; A]
       M.[
         Text "Behold α:";
         show _2;
@@ -58,9 +58,12 @@ let m = C.meta_add "%d/%s %a" W.[S Int; S String; A]
         str _1;
     ] m
 
+let xprintf x = Tmap.find m Format.std_formatter x
 let () =
   Format.printf "Translation map test:\n";
-  C.Map.find "%d/%s %a" m Format.std_formatter 2 "times"
+  xprintf "%d/%s %a"
+    2
+    "times"
     Format.pp_print_string "to Ω";
   Format.printf "@.";
 
@@ -71,17 +74,30 @@ module Dyn = struct
     "Behold α:%2$a\n\
      A text with a variable %0$d that appears %0$d %1$s"
 
-  let y = Parser.metafmt Lexer.main (Lexing.from_string x)
+
+  let parse spec x = Parser.metafmt Lexer.main (Lexing.from_string x)
       spec
 
-  let add (Untyped.Dyn { spec; ref; fmt } ) m =
-    C.meta_add ref spec fmt m
+  let y = parse spec x
 
-  let m = add y m
+  let spec': _ format6 = "%d %f %s"
+  let r = "A seemingly classic format, %d = %f, %s"
+  let s = parse spec' r
+
+  let add = Tmap.add
+  let m = m |> add s |> add y
+
+  let xprintf x = Tmap.find m Format.std_formatter x
   let () =
     Format.printf "Dynamic metafmt:\n";
-    C.Map.find spec m Format.std_formatter 2 "times"
+    xprintf spec
+      2
+      "times"
       Format.pp_print_string "to β";
+    Format.printf "@.";
+    Format.printf "Dynamic metafmt 2:\n";
+    xprintf spec'
+      1 1. "isn'it?";
     Format.printf "@."
 
 end

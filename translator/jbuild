@@ -2,6 +2,6 @@
 
 (executable(
     (name translator)
-    (libraries(po))
+    (libraries(po metaprintf))
   )
 )

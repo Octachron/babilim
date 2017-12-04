@@ -63,28 +63,3 @@ and boxes:  type a c d e f. (a,fmta,unit,d,e,f) formatting_gen -> (a,f) W.h =
 and (<::>): type x ll lm r d e f.
   x s -> (r,fmta,unit,d,e,f) fmt -> (x->r,f) h =
   fun x f -> let W.H r = typer f in H (S x :: r)
-
-type anyfmt = Any: _ format6 -> anyfmt [@@unboxed]
-
-module Map = struct
-  include Map.Make(struct type t = anyfmt let compare = compare end)
-
-  let add:
-    ('a,fmta,_,_,_,unit) format6
-    -> ('ab * 'a, unit * unit) l -> (fmta -> 'ab) -> box t -> box t =
-    fun fmt spec f m ->
-      add (Any fmt) (Box(spec,f)) m
-
-  let find (Format (c,_) as fmt) m =
-    let box = find (Any fmt) m in
-    let expected_spec = typer c in
-    unbox expected_spec box
-
-end
-
-
-
-let meta_add (type x y z l m) (fmt: (m,fmta,x,y,z,unit) format6)
-    (spec: (l * m, unit * unit) W.l)
-    (metafmt: l Metafmt.t) m =
-  Map.add fmt spec Metafmt.(fun ppf -> expand spec @@ print ppf metafmt) m

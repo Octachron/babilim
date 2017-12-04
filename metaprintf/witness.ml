@@ -55,7 +55,9 @@ let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
 let l = [A;A; S Int; S Float]
 
 type box = Box: ('core * _, unit * _) l * (fmta -> 'core) -> box
-type sbox = SBox: (_ * 'core, unit * unit) l * (fmta -> 'core) -> sbox
+type sbox = SBox: (_ * 'core, unit * unit ) l * (fmta -> 'core) -> sbox
+
+
 
 type (_,_) h = H: ('a * 'b,unit * 'd) l -> ('b,'d) h
 
@@ -93,19 +95,3 @@ let rec unbox: type a b c. (b, unit) h -> box -> fmta -> b =
     | A :: l, A :: r ->
       fun show x -> unbox (H l) (Box(r, fun ppf -> f ppf (Show(show,x)))) ppf
     | _ -> do_nothing (H spec)
-
-(*
-let rec unbox_s: type a b c. (b, unit) h -> sbox -> fmta -> b =
-  fun (H spec) (SBox(spec',f)) ppf ->
-    match spec, spec' with
-    | [], [] -> f ppf
-    | S x :: l, S y :: r ->
-      begin match x === y with
-        | None -> do_nothing (H spec)
-        | Some Eq ->
-          fun x -> unbox_s (H l) (SBox(r,fun ppf -> f ppf x)) ppf
-      end
-    | A :: l, A :: r ->
-      fun show x -> unbox_s (H l) (SBox(r, fun ppf -> f ppf show x)) ppf
-    | _ -> do_nothing (H spec)
-*)

@@ -1,4 +1,4 @@
-
+open Metaprintf
 module C = Metaprintf.Conv
 
 module M = Metaprintf.Metafmt
@@ -63,3 +63,31 @@ let () =
   C.Map.find "%d/%s %a" m Format.std_formatter 2 "times"
     Format.pp_print_string "to Ω";
   Format.printf "@.";
+
+module Dyn = struct
+
+  let spec: _ format6 = "%d %s %a"
+  let x =
+    "Behold α:%2$a\n\
+     A text with a variable %0$d that appears %0$d %1$s"
+
+  let y = Parser.metafmt Lexer.main (Lexing.from_string x)
+      spec
+
+  let add (Untyped.Dyn { spec; ref; fmt } ) m =
+    C.meta_add ref spec fmt m
+
+  let m = add y m
+  let () =
+    Format.printf "Dynamic metafmt:\n";
+    C.Map.find spec m Format.std_formatter 2 "times"
+      Format.pp_print_string "to β";
+    Format.printf "@."
+
+end
+
+module Generator = struct
+ let gen =
+    Format.printf "Generated code:\n%a\n"
+      Untyped.gen Dyn.y
+ end

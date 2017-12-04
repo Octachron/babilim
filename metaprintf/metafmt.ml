@@ -56,20 +56,23 @@ type 'a t =
   | []: _ t
   | (::): 'a atom * 'a t -> 'a t
 
-
 open Format
-let print_elt (type x l fl) ppf (w:<x:x; l:l; fl:fl > W.arg) (x:x) =
+
+let print_elt (type x) ppf (w: x W.s) (x:x) = match w with
+  | W.Int -> pp_print_int ppf x
+  | W.Char -> pp_print_char ppf x
+  | W.Bool -> pp_print_bool ppf x
+  | W.Int32 -> Format.fprintf ppf "%ld" x
+  | W.Int64 -> Format.fprintf ppf "%Ld" x
+  | W.Nativeint -> Format.fprintf ppf "%nd" x
+  | W.Float -> pp_print_float ppf x
+  | W.String -> pp_print_string ppf x
+  | W.Theta -> x ppf
+
+let print_hole (type x l fl) ppf (w:<x:x; l:l; fl:fl > W.arg) (x:x) =
   match w with
   | W.A -> let W.Show(f,x) = x in f ppf x
-  | W.(S Int) -> pp_print_int ppf x
-  | W.(S Char) -> pp_print_char ppf x
-  | W.(S Bool) -> pp_print_bool ppf x
-  | W.(S Int32) -> Format.fprintf ppf "%ld" x
-  | W.(S Int64) -> Format.fprintf ppf "%Ld" x
-  | W.(S Nativeint) -> Format.fprintf ppf "%nd" x
-  | W.(S Float) -> pp_print_float ppf x
-  | W.(S String) -> pp_print_string ppf x
-  | W.(S Theta) -> x ppf
+  | W.(S w) -> print_elt ppf w x
 
 let rec print: type l. formatter -> l t -> (l,unit) L.t -> unit =
   fun ppf x args ->
@@ -78,7 +81,7 @@ let rec print: type l. formatter -> l t -> (l,unit) L.t -> unit =
     | Text s :: q ->
       pp_print_string ppf s; print ppf q args
     | Hole(w,n) :: q ->
-      print_elt ppf w (nth n args); print ppf q args
+      print_hole ppf w (nth n args); print ppf q args
 
 let rec expand_full: type l m. (l * m, unit * unit ) W.l
   -> ((l,unit) L.t -> unit) -> m =

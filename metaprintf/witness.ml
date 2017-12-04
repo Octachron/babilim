@@ -43,7 +43,7 @@ and (_,_) l =
     -> (('x -> 'l) *  'fm,'tail) l
 
 
-let x= [S Int; S Int; A]
+let canary = [S Int; S Int; A]
 type dyn = Dyn: ('a * 'b,'c * 'd) l -> dyn
 
 let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
@@ -55,7 +55,9 @@ let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
 let l = [A;A; S Int; S Float]
 
 type box = Box: ('core * _, unit * _) l * (fmta -> 'core) -> box
-type (_,_) h = H: ('a * 'b,'c * 'd) l -> ('b,'d) h
+type sbox = SBox: (_ * 'core, unit * unit) l * (fmta -> 'core) -> sbox
+
+type (_,_) h = H: ('a * 'b,unit * 'd) l -> ('b,'d) h
 
 let rec (@/): type ls l2 t. (ls, l2) h -> (l2,t) h -> (ls,t) h =
   fun (H x) (H y) -> match x with
@@ -66,7 +68,7 @@ let rec (@/): type ls l2 t. (ls, l2) h -> (l2,t) h -> (ls,t) h =
       H ( A :: r )
 (*   | ( (Box b) :: q ) -> H (b @ q) @/ (H y) *)
 and single: type x ll lm r rf t.
-  x s -> (ll * lm, rf * r) l ->
+  x s -> (ll * lm, unit * r) l ->
   (r,t) h -> (x->lm,t) h = fun x q y ->
   let H r = H q @/ y in
   H (S x :: r)
@@ -91,3 +93,19 @@ let rec unbox: type a b c. (b, unit) h -> box -> fmta -> b =
     | A :: l, A :: r ->
       fun show x -> unbox (H l) (Box(r, fun ppf -> f ppf (Show(show,x)))) ppf
     | _ -> do_nothing (H spec)
+
+(*
+let rec unbox_s: type a b c. (b, unit) h -> sbox -> fmta -> b =
+  fun (H spec) (SBox(spec',f)) ppf ->
+    match spec, spec' with
+    | [], [] -> f ppf
+    | S x :: l, S y :: r ->
+      begin match x === y with
+        | None -> do_nothing (H spec)
+        | Some Eq ->
+          fun x -> unbox_s (H l) (SBox(r,fun ppf -> f ppf x)) ppf
+      end
+    | A :: l, A :: r ->
+      fun show x -> unbox_s (H l) (SBox(r, fun ppf -> f ppf show x)) ppf
+    | _ -> do_nothing (H spec)
+*)

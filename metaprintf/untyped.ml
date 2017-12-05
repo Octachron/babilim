@@ -7,7 +7,9 @@ open Metafmt
 module Cfmt = struct
 
   type s = { label:string; pa:int; pr:string; mode:string }
-  type t = Dyn: ('a,Format.formatter,unit,'d,'e,unit) Internal.fmt -> t
+  type ('fmter,'mid,'fin) t =
+      Dyn: ('a,'fmter,'mid,'d,'e,'fin) Internal.fmt ->
+      ('fmter,'mid,'fin) t
 
   let nil = Dyn Internal.End_of_format
   exception Not_implemented of string
@@ -59,18 +61,23 @@ module Cfmt = struct
 
 end
 
-type u = Dyn: {
-    spec:('a * 'm , unit * unit) W.l;
-    ref: ('m,Format.formatter,unit,'d,'e,unit) format6;
-    fmt:'a t}  -> u
-type atom = A: 'a Metafmt.atom -> atom
+type ('finl, 'finr, 'fmter, 'mid ) u = Dyn: {
+    spec:('a * 'm , 'finl * 'finr, 'fmter, 'mid) W.l;
+    ref: ('m,'fmter,'mid,'d,'e,'finr) format6;
+    fmt:('a,'fmter, 'mid) t}  ->
+    ('finl, 'finr, 'fmter, 'mid )
+    u
+type ('driver,'mid) atom = A: ('a,'driver,'mid) Metafmt.atom ->
+  ('driver, 'mid) atom
 
 
 type nat = I: ('x,'src) index -> nat [@@unboxed]
-type arg = W : <x:'x; fl:_; l:_ > W.arg -> arg [@@unboxed]
+type ('d,'mid) arg = W : <x:'x; fl:_; l:_; mid:'mid; driver:'d > W.arg ->
+  ('d,'mid) arg [@@unboxed]
 
-let rec compat: type x x2 src dest a b c d e.
-  <x:x; l:d; fl:e> W.arg -> (x2,src) index -> (dest * a , unit * unit) W.l
+let rec compat: type x x2 src dest a b c d e dr fl fr mid.
+  <x:x; l:d; fl:e; driver:dr; mid:mid> W.arg -> (x2,src) index ->
+  (dest * a , fl * fr, dr, mid) W.l
   -> (x,dest) index option
   =
   let open W in
@@ -93,7 +100,8 @@ let nil (Internal.Format (core,_) as fmt) =
   let W.H spec = Conv.typer core in
   Dyn {spec;ref=fmt; fmt=[]}
 
-let cons (A atom) (Dyn r) =
+let cons (type finl finr d mid) (A atom: (d,mid) atom)
+    (Dyn r: (finl,finr,d,mid) u) =
   match atom with
   | Text s -> Dyn { r with fmt = Text s :: r.fmt }
   | Hole(W.S x as arg,n) ->
@@ -102,12 +110,17 @@ let cons (A atom) (Dyn r) =
       | Some n -> Dyn {r with fmt = Hole(S x, n ) :: r.fmt }
     end
   | Hole(W.A as arg,n) ->
+    begin
+      match compat arg n r.spec with
+      | None -> raise Dynamic_type_error
+      | Some n -> Dyn {r with fmt = Hole(W.A, n ) :: r.fmt }
+    end
+  | Hole(W.T as arg,n) ->
     match compat arg n r.spec with
     | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(W.A, n ) :: r.fmt }
+    | Some n -> Dyn {r with fmt = Hole(W.T, n ) :: r.fmt }
 
-
-let hcons (type x l fl) (W arg, I n) (Dyn r) =
+let hcons (type d m) ((W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
   match arg with
   | W.S x ->
     begin match compat arg n r.spec with
@@ -115,9 +128,15 @@ let hcons (type x l fl) (W arg, I n) (Dyn r) =
       | Some n -> Dyn {r with fmt = Hole(S x, n ) :: r.fmt }
     end
   | W.A ->
-    match compat arg n r.spec with
+    begin match compat arg n r.spec with
     | None -> raise Dynamic_type_error
     | Some n -> Dyn {r with fmt = Hole(W.A, n ) :: r.fmt }
+    end
+  | W.T ->
+    begin match compat arg n r.spec with
+    | None -> raise Dynamic_type_error
+    | Some n -> Dyn {r with fmt = Hole(W.T, n ) :: r.fmt }
+    end
 
 
 let rec integer n =
@@ -141,7 +160,7 @@ let arg = function
     W (S Nativeint)
   | "c" | "C" -> W (S Char)
   | "a" -> W A
-  | "t" -> W (S Theta)
+  | "t" -> W T
   | s -> unsupported s
 
 let ff = Format.fprintf
@@ -151,13 +170,13 @@ let rec gen_pos ppf = function
   | I Z -> ff ppf "Z"
   | I S n -> ff ppf "(S %a)" gen_pos (I n)
 
-let gen_w ppf x =
+let gen_w (type d m) ppf (x: (d,m) arg) =
   Format.pp_print_string ppf @@
   match x with
   | W W.A -> "A"
   | W W.(S Int) -> "S Int"
   | W W.(S Float) -> "S Float"
-  | W W.(S Theta) -> "S Theta"
+  | W W.T -> "S Theta"
   | W W.(S Int32) -> "S Int32"
   | W W.(S Int64) -> "S Int64"
   | W W.(S Nativeint) -> "S Nativeint"

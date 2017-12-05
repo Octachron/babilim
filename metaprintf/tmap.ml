@@ -4,11 +4,12 @@ module Inner=CamlinternalFormatBasics
 module U = Untyped.Cfmt
 
 type 'a gkey = { id: 'a; ctx: string; num: int option }
-type dynkey = U.t gkey
+type dynkey = (Format.formatter, unit, unit) U.t gkey
 
 module M =  Map.Make(struct type t = dynkey let compare = compare end)
 module W = Witness
-type t = Metafmt.box M.t
+
+type t = (unit, Format.formatter, unit) Metafmt.box M.t
 let empty: t = M.empty
 
 let fmt (Inner.Format(c,_)) = c
@@ -18,7 +19,8 @@ let make ?num ?(ctx="") id = { id; ctx; num }
 
 let box_then_add:
     ?num:int -> ?ctx:string -> ('a,_,_,_,_,_) format6
-    -> ('ab * 'a, unit * unit) W.l -> 'ab Metafmt.t -> t -> t =
+    -> ('ab * 'a, unit * unit, Format.formatter, unit) W.l ->
+    ('ab, Format.formatter, unit) Metafmt.t -> t -> t =
     fun ?num ?(ctx="") id spec f m ->
       M.add {id=dynamic id;ctx;num} (Metafmt.Box(spec,f)) m
 

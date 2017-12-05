@@ -1,12 +1,26 @@
-type fmta = Format.formatter
 
 type (_,_) eq = Eq: ('x,'x) eq
-type 'a cp = (fmta -> 'a -> unit)
-type show = Show: (fmta -> 'a -> unit) * 'a -> show
+type ('a,'c,'driver) cp = ('driver -> 'a -> 'c)
+type ('driver,'c) show = Show: ('driver -> 'a -> 'c) * 'a -> ('driver,'c) show
 
-type ('x,'l) exs = <x:'x; l:'l; fl:'x -> 'l>
-type ('x,'y, 'l) d = <x:'x; l:'l; fl:'y1 -> 'y2 -> 'l>
-  constraint 'y = 'y1 -> 'y2
+type ('x,'m) exs = <x:'x; l:'l; fl:'x -> 'l;
+                    driver:'driver; mid:'c
+                   >
+  constraint 'm = 'l * 'driver * 'c
+
+type 'm alpha =
+  <x:('driver,'c) show; l:'l; fl:('driver -> 'y -> 'c) -> 'y -> 'l;
+   driver: 'driver;
+   mid:'c
+  >
+  constraint 'm = 'l * 'driver * 'y * 'c
+
+
+type 'm theta = <x:('driver -> 'c as 't); l:'l; fl: 't -> 'l;driver: 'driver;
+                 mid:'c
+                >
+  constraint 'm = 'l * 'driver * 'c
+
 
 type _ s =
   | Char : char s
@@ -17,7 +31,6 @@ type _ s =
   | Bool: bool s
   | Float: float s
   | String: string s
-  | Theta: (fmta -> unit) s
 
 
 let (===) (type a b) (x:a s) (y:b s): (a,b) eq option =
@@ -30,20 +43,22 @@ let (===) (type a b) (x:a s) (y:b s): (a,b) eq option =
   | Bool, Bool -> Some Eq
   | Float, Float -> Some Eq
   | String, String -> Some Eq
-  | Theta, Theta -> Some Eq
   | _ -> None
 
 
 type _ arg =
-  | S:  'x s -> ('x, _ )exs arg
-  | A: (show, 'a cp -> 'a, _ ) d arg
+  | S:  'x s -> ('x, _ ) exs arg
+  | A:  _ alpha arg
+  | T: _ theta arg
 
-and (_,_) l =
-  | []: ('tail * 'moretail ,'tail *'moretail) l
-  | (::): <x:'x ; l:'m; fl:'fm > arg * ('l * 'm, 'tail) l
-    -> (('x -> 'l) *  'fm,'tail) l
+and (_,_,_,_) l =
+  | []: ('tail * 'moretail ,'tail *'moretail,'driver,'mid) l
+  | (::): <x:'x ; l:'m; fl:'fm; driver:'driver; mid:'mid > arg *
+          ('l * 'm, 'tail,'driver,'mid) l
+    -> (('x -> 'l) *  'fm,'tail,'driver,'mid) l
 
-let rec leq: type a b c d e f g h. (a * b, c * d) l -> (e * f, c * g) l ->
+let rec leq: type a b c d e f g h dr mid.
+  (a * b, c * d, dr, mid) l -> (e * f, c * g, dr, mid) l ->
   (a,e) eq option =
   fun x y ->
     match x, y with
@@ -60,13 +75,18 @@ let rec leq: type a b c d e f g h. (a * b, c * d) l -> (e * f, c * g) l ->
         | None -> None
         | Some Eq -> Some Eq
       end
+    | T :: l, T :: r ->
+      begin match leq l r with
+        | None -> None
+        | Some Eq -> Some Eq
+      end
     | _ -> None
 
-
 let canary = [S Int; S Int; A]
-type dyn = Dyn: ('a * 'b,'c * 'd) l -> dyn
+type ('b,'d,'mid,'driver) dyn = Dyn: ('a * 'b,'c * 'd,'mid,'driver) l ->
+  ('b,'d,'mid,'driver) dyn
 
-let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
+let rec (@): type ls l2 m d t. (ls, l2,d,m) l -> (l2,t,d,m) l -> (ls,t,d,m) l =
   fun l r ->
     match l with
     | [] -> r
@@ -74,41 +94,48 @@ let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
 
 let l = [A;A; S Int; S Float]
 
-type box = Box: ('core * _, unit * _) l * (fmta -> 'core) -> box
+type ('r,'d,'m) box = Box: ('core * _, 'r * _, 'd,'m) l * ('d -> 'core) ->
+  ('r,'d,'m) box
 
-type (_,_) h = H: ('a * 'b,unit * 'd) l -> ('b,'d) h
+type (_,_,_,_,_) h = H: ('a * 'b,'c * 'd,'dr,'m) l -> ('b,'d,'c,'dr,'m) h
 
-let rec (@/): type ls l2 t. (ls, l2) h -> (l2,t) h -> (ls,t) h =
+let rec (@/): type ls l2 m t x y z d. (ls, l2,x,d,m) h -> (l2,t,y,d,m) h
+  -> (ls,t,y,d,m) h =
   fun (H x) (H y) -> match x with
     | [] -> H y
     | S x :: q -> single x q (H y)
     | (A :: q) ->
       let H r = ( H q @/ H y ) in
       H ( A :: r )
-(*   | ( (Box b) :: q ) -> H (b @ q) @/ (H y) *)
-and single: type x ll lm r rf t.
-  x s -> (ll * lm, unit * r) l ->
-  (r,t) h -> (x->lm,t) h = fun x q y ->
+    | (T :: q) ->
+      let H r = ( H q @/ H y ) in
+      H ( T :: r )
+
+
+and single: type x m ll lm r rf t tm t2 d.
+  x s -> (ll * lm, tm * r,d,m) l ->
+  (r,t,t2,d,m) h -> (x->lm,t,t2,d, m) h = fun x q y ->
   let H r = H q @/ y in
   H (S x :: r)
 
-let rec do_nothing: type a b c. (a , unit) h -> a = fun (H spec) ->
-  match spec with
-  | [] -> ()
-  | S _ :: q -> fun _ -> do_nothing (H q)
-  | A :: q -> fun _ _ -> do_nothing (H q)
+let rec return: type a b c r r2 d m . r -> (a , r , r2, d, m) h -> a =
+  fun r (H spec) -> match spec with
+  | [] -> r
+  | S _ :: q -> fun _ -> return r (H q)
+  | T :: q -> fun _ -> return r (H q)
+  | A :: q -> fun _ _ -> return r (H q)
 
-
-let rec unbox: type a b c. (b, unit) h -> box -> fmta -> b =
+exception Unbox_error
+let rec unbox: type a b m c r r2 d. (b, r, r2,d,m) h -> (r,d,m) box -> d -> b =
   fun (H spec) (Box(spec',f)) ppf ->
     match spec, spec' with
     | [], [] -> f ppf
     | S x :: l, S y :: r ->
       begin match x === y with
-        | None -> do_nothing (H spec)
+        | None -> raise Unbox_error
         | Some Eq ->
           fun x -> unbox (H l) (Box(r,fun ppf -> f ppf x)) ppf
       end
     | A :: l, A :: r ->
       fun show x -> unbox (H l) (Box(r, fun ppf -> f ppf (Show(show,x)))) ppf
-    | _ -> do_nothing (H spec)
+    | _ -> raise Unbox_error

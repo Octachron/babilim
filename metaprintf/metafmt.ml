@@ -48,13 +48,14 @@ let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> (src,unit) L.t
 
 
 module W = Witness
-type 'a atom =
+type ('a,'driver,'mid) atom =
   | Text: string -> _ atom
-  | Hole: <x:'x; fl:_; l:_ > W.arg * ('x,'src) index -> 'src atom
+  | Hole: <x:'x; fl:_; l:_;driver:'driver; mid:'mid > W.arg
+          * ('x,'src) index -> ('src,'driver,'mid) atom
 
-type 'a t =
+type ('a,'driver,'mid) t =
   | []: _ t
-  | (::): 'a atom * 'a t -> 'a t
+  | (::): ('a,'driver,'mid) atom * ('a,'driver,'mid) t -> ('a,'driver,'mid) t
 
 open Format
 
@@ -67,14 +68,15 @@ let print_elt (type x) ppf (w: x W.s) (x:x) = match w with
   | W.Nativeint -> Format.fprintf ppf "%nd" x
   | W.Float -> pp_print_float ppf x
   | W.String -> pp_print_string ppf x
-  | W.Theta -> x ppf
 
-let print_hole (type x l fl) ppf (w:<x:x; l:l; fl:fl > W.arg) (x:x) =
+let print_hole (type x l fl) ppf
+    (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:unit > W.arg) (x:x) =
   match w with
-  | W.A -> let W.Show(f,x) = x in f ppf x
+  | W.A -> let W.Show(f,x) = x in (f ppf x:unit)
+  | W.T -> (x ppf:unit)
   | W.(S w) -> print_elt ppf w x
 
-let rec print: type l. formatter -> l t -> (l,unit) L.t -> unit =
+let rec print: type l. formatter -> (l,formatter,'c) t -> (l,unit) L.t -> unit =
   fun ppf x args ->
     match x with
     | [] -> ()
@@ -83,22 +85,54 @@ let rec print: type l. formatter -> l t -> (l,unit) L.t -> unit =
     | Hole(w,n) :: q ->
       print_hole ppf w (nth n args); print ppf q args
 
-let rec expand_full: type l m. (l * m, unit * unit ) W.l
+
+let sprint_elt (type x) (w: x W.s) (x:x) = match w with
+  | W.Int -> string_of_int x
+  | W.Char -> Format.sprintf "%c" x
+  | W.Bool -> string_of_bool x
+  | W.Int32 -> Int32.to_string  x
+  | W.Int64 -> Int64.to_string  x
+  | W.Nativeint -> Nativeint.to_string  x
+  | W.Float -> string_of_float x
+  | W.String -> x
+
+let sprint_hole (type x l fl) ppf
+    (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:string > W.arg) (x:x) =
+  match w with
+  | W.A -> let W.Show(f,x) = x in (f ppf x:string)
+  | W.T -> (x ppf:string)
+  | W.(S w) -> sprint_elt w x
+
+
+let rec sprint: type l. formatter -> (l,formatter,'c) t -> (l,unit) L.t -> string =
+  fun ppf x args ->
+    match x with
+    | [] -> ""
+    | Text s :: q ->
+      s ^ sprint ppf q args
+    | Hole(w,n) :: q ->
+      sprint_hole ppf w (nth n args) ^ sprint ppf q args
+
+let rec expand_full: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
   -> ((l,unit) L.t -> unit) -> m =
   fun spec f -> match spec with
     | W.(S x :: q)  ->
       fun n -> expand_full q (fun l -> f L.(n :: l) )
     | W.(A :: q) ->
       fun show x -> expand_full q (fun l -> f L.(W.Show(show,x) :: l))
+    | W.(T :: q) ->
+      fun t -> expand_full q (fun l -> f L.(t :: l))
     | W.[] -> f []
 
-let rec expand: type l m. (l * m, unit * unit ) W.l
+let rec expand: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
   -> ((l,unit) L.t -> unit) -> l =
   fun spec f -> match spec with
     | W.(S x :: q)  ->
       fun n -> expand q (fun l -> f L.(n :: l) )
     | W.(A :: q) ->
       fun x -> expand q (fun l -> f L.(x :: l))
+    | W.(T :: q)  ->
+      fun t -> expand q (fun l -> f L.(t :: l) )
     | W.[] -> f []
 
 
@@ -113,29 +147,16 @@ let _3 = S _2
 let _4 = S _3
 
 
-type box = Box: ('core * _, unit * unit) W.l * 'core t -> box
+type ('fin, 'driver, 'mid) box =
+    Box: ('core * _, 'fin * _, 'driver, 'mid) W.l
+         * ('core,'driver,'mid) t -> ('fin,'driver,'mid) box
 
 
 exception Metafmt_type_error
 
-let unbox (type x y) (W.H spec:(x, unit) W.h) (Box(spec',metafmt)):
-  W.fmta -> x =
+let unbox (type x y) (W.H spec:(x, unit, unit, Format.formatter,unit) W.h)
+    (Box(spec',metafmt)):
+  Format.formatter -> x =
   match W.leq spec spec' with
   | Some W.Eq -> fun ppf -> expand_full spec @@ print ppf metafmt
   | None -> raise Metafmt_type_error
-
-(*
-letunbox: type a b c. (b, unit) W.h -> box -> W.fmta -> b =
-  fun (H spec) (Box(spec',metafmt)) ppf ->
-    match spec, spec' with
-    | [], [] -> f ppf
-    | S x :: l, S y :: r ->
-      begin match x === y with
-        | None -> do_nothing (H spec)
-        | Some Eq ->
-          fun x -> unbox (H l) (Box(r,fun ppf -> f ppf x)) ppf
-      end
-    | A :: l, A :: r ->
-      fun show x -> unbox (H l) (Box(r, fun ppf -> f ppf (Show(show,x)))) ppf
-    | _ -> do_nothing (H spec)
-*)

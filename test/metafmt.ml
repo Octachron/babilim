@@ -29,9 +29,6 @@ end
 
 let m = Tmap.empty
 
-let m = Tmap.box_then_add "%d/%d" W.[S Int; S Int]
-    (fun ppf -> Format.fprintf ppf "A nice ratio %d/%d") m
-
 module Witness = struct
 open W
 let box =
@@ -46,7 +43,7 @@ let () =
 
 end
 
-let m = Tmap.expand_then_add "%d/%s %a" W.[S Int; S String; A]
+let m = Tmap.box_then_add "%d/%s %a" W.[S Int; S String; A]
       M.[
         Text "Behold α:";
         show _2;

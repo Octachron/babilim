@@ -6,8 +6,8 @@
 %token EOF
 
 
-%start <('a,Format.formatter,unit,'d,'e,unit) format6 -> Untyped.u> metafmt
-%start <Untyped.Cfmt.t> fmt
+%start <('a,'b,'c,'d,'e,'f) format6 -> ('fl, 'f, 'b, 'c) Untyped.u> metafmt
+%start <('a,'b,'c) Untyped.Cfmt.t> fmt
 
 %{ open Untyped %}
 

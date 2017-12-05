@@ -7,7 +7,7 @@ open Metafmt
 module Cfmt = struct
 
   type s = { label:string; pa:int; pr:string; mode:string }
-  type t = Dyn: ('a,'b,'c,'d,'e,'f) Internal.fmt -> t
+  type t = Dyn: ('a,Format.formatter,unit,'d,'e,unit) Internal.fmt -> t
 
   let nil = Dyn Internal.End_of_format
   exception Not_implemented of string

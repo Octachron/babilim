@@ -111,3 +111,31 @@ let _1 = S Z
 let _2 = S _1
 let _3 = S _2
 let _4 = S _3
+
+
+type box = Box: ('core * _, unit * unit) W.l * 'core t -> box
+
+
+exception Metafmt_type_error
+
+let unbox (type x y) (W.H spec:(x, unit) W.h) (Box(spec',metafmt)):
+  W.fmta -> x =
+  match W.leq spec spec' with
+  | Some W.Eq -> fun ppf -> expand_full spec @@ print ppf metafmt
+  | None -> raise Metafmt_type_error
+
+(*
+letunbox: type a b c. (b, unit) W.h -> box -> W.fmta -> b =
+  fun (H spec) (Box(spec',metafmt)) ppf ->
+    match spec, spec' with
+    | [], [] -> f ppf
+    | S x :: l, S y :: r ->
+      begin match x === y with
+        | None -> do_nothing (H spec)
+        | Some Eq ->
+          fun x -> unbox (H l) (Box(r,fun ppf -> f ppf x)) ppf
+      end
+    | A :: l, A :: r ->
+      fun show x -> unbox (H l) (Box(r, fun ppf -> f ppf (Show(show,x)))) ppf
+    | _ -> do_nothing (H spec)
+*)

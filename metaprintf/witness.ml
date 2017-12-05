@@ -33,6 +33,7 @@ let (===) (type a b) (x:a s) (y:b s): (a,b) eq option =
   | Theta, Theta -> Some Eq
   | _ -> None
 
+
 type _ arg =
   | S:  'x s -> ('x, _ )exs arg
   | A: (show, 'a cp -> 'a, _ ) d arg
@@ -41,6 +42,25 @@ and (_,_) l =
   | []: ('tail * 'moretail ,'tail *'moretail) l
   | (::): <x:'x ; l:'m; fl:'fm > arg * ('l * 'm, 'tail) l
     -> (('x -> 'l) *  'fm,'tail) l
+
+let rec leq: type a b c d e f g h. (a * b, c * d) l -> (e * f, c * g) l ->
+  (a,e) eq option =
+  fun x y ->
+    match x, y with
+    | [], [] -> Some Eq
+    | S x :: l, S y :: r ->
+      begin match x === y with
+        | None -> None
+        | Some Eq -> match leq l r with
+          | None -> None
+          | Some Eq -> Some Eq
+      end
+    | A :: l, A :: r ->
+      begin match leq l r with
+        | None -> None
+        | Some Eq -> Some Eq
+      end
+    | _ -> None
 
 
 let canary = [S Int; S Int; A]
@@ -55,9 +75,6 @@ let rec (@): type ls l2 t. (ls, l2) l -> (l2,t) l -> (ls,t) l =
 let l = [A;A; S Int; S Float]
 
 type box = Box: ('core * _, unit * _) l * (fmta -> 'core) -> box
-type sbox = SBox: (_ * 'core, unit * unit ) l * (fmta -> 'core) -> sbox
-
-
 
 type (_,_) h = H: ('a * 'b,unit * 'd) l -> ('b,'d) h
 

@@ -55,7 +55,7 @@ let m = Tmap.box_then_add "%d/%s %a" W.[S Int; S String; A]
         str _1;
     ] m
 
-let xprintf x = Tmap.xprintf m Format.std_formatter x
+let xprintf x = Tmap.xfprintf m Format.std_formatter x
 let () =
   Format.printf "Translation map test:\n";
   xprintf "%d/%s %a"
@@ -84,7 +84,7 @@ module Dyn = struct
   let add = Tmap.add
   let m = m |> add s |> add y
 
-  let xprintf x = Tmap.xprintf m Format.std_formatter x
+  let xprintf x = Tmap.xfprintf m Format.std_formatter x
   let () =
     Format.printf "Dynamic metafmt:\n";
     xprintf spec

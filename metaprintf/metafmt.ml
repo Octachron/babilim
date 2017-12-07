@@ -13,12 +13,12 @@ type ('x,'list) index =
   | Z: ('x, 'x -> _ ) index
   | S: ('x,'list) index -> ('x, _ -> 'list) index
 
-let rec nth: type x fin list. (x,list) index -> (list,unit) L.t -> x =
+let rec nth: type x fin list r. (x,list) index -> (list,r) L.t -> x =
   fun index l ->
     match index, l with
     | Z, L.(a :: _) -> a
     | S n, L.(_ :: q) -> nth n q
-    | _, L.[] -> .
+    | _, L.[] -> raise (Invalid_argument "Metafmt.nth")
 
 let m = nth Z [0]
 let k = nth (S Z) [0;"zero"]
@@ -76,14 +76,16 @@ let print_hole (type x l fl) ppf
   | W.T -> (x ppf:unit)
   | W.(S w) -> print_elt ppf w x
 
-let rec print: type l. formatter -> (l,formatter,'c) t -> (l,unit) L.t -> unit =
-  fun ppf x args ->
+let rec kprint: type l r. (formatter -> r) ->
+  formatter -> (l,formatter,unit) t -> (l,r) L.t
+  -> r  =
+  fun k ppf x args ->
     match x with
-    | [] -> ()
+    | [] -> k ppf
     | Text s :: q ->
-      pp_print_string ppf s; print ppf q args
+      pp_print_string ppf s; kprint k ppf q args
     | Hole(w,n) :: q ->
-      print_hole ppf w (nth n args); print ppf q args
+      print_hole ppf w (nth n args); kprint k ppf q args
 
 
 let sprint_elt (type x) (w: x W.s) (x:x) = match w with
@@ -96,25 +98,30 @@ let sprint_elt (type x) (w: x W.s) (x:x) = match w with
   | W.Float -> string_of_float x
   | W.String -> x
 
-let sprint_hole (type x l fl) ppf
+let sprint_hole (type x l fl)
     (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:string > W.arg) (x:x) =
+  let ppf = Format.formatter_of_buffer (Buffer.create 20) in
   match w with
-  | W.A -> let W.Show(f,x) = x in (f ppf x:string)
+  | W.A -> let W.Show(f,x) = x in
+    (f ppf x:string)
   | W.T -> (x ppf:string)
   | W.(S w) -> sprint_elt w x
 
 
-let rec sprint: type l. formatter -> (l,formatter,'c) t -> (l,unit) L.t -> string =
-  fun ppf x args ->
+let rec sprint: type l c. Buffer.t -> (l,formatter,string) t -> (l,string) L.t
+  -> string =
+  fun b x args ->
     match x with
-    | [] -> ""
+    | [] -> Buffer.contents b
     | Text s :: q ->
-      s ^ sprint ppf q args
+      Buffer.add_string b s;
+      sprint b q args
     | Hole(w,n) :: q ->
-      sprint_hole ppf w (nth n args) ^ sprint ppf q args
+      Buffer.add_string b (sprint_hole w (nth n args));
+      sprint b q args
 
-let rec expand_full: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
-  -> ((l,unit) L.t -> unit) -> m =
+let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
+  -> ((l,r) L.t -> r) -> m =
   fun spec f -> match spec with
     | W.(S x :: q)  ->
       fun n -> expand_full q (fun l -> f L.(n :: l) )
@@ -147,16 +154,36 @@ let _3 = S _2
 let _4 = S _3
 
 
-type ('fin, 'driver, 'mid) box =
+module Box = struct
+  type ('fin, 'driver, 'mid) b =
     Box: ('core * _, 'fin * _, 'driver, 'mid) W.l
-         * ('core,'driver,'mid) t -> ('fin,'driver,'mid) box
+         * ('core,'driver,'mid) t -> ('fin,'driver,'mid) b
+
+  type u = { u : 'fin 'driver 'mid.  ('fin, 'driver, 'mid) b } [@@unboxed]
+  exception Metafmt_type_error
+
+  let unsafe (b:('f,'driver,'mid) b): u = {u = Obj.magic b}
+
+  let kprintf (type x y r)
+      (k:Format.formatter -> r)
+      (W.H spec:(x, r, r, Format.formatter,unit) W.h)
+      { u = Box(spec',metafmt) }:
+    Format.formatter -> x =
+    match W.leq spec spec' with
+    | Some W.Eq -> fun ppf -> expand_full spec @@ kprint k ppf metafmt
+    | None -> raise Metafmt_type_error
 
 
-exception Metafmt_type_error
+  let fprintf spec = kprintf (fun _ -> ()) spec
 
-let unbox (type x y) (W.H spec:(x, unit, unit, Format.formatter,unit) W.h)
-    (Box(spec',metafmt)):
-  Format.formatter -> x =
-  match W.leq spec spec' with
-  | Some W.Eq -> fun ppf -> expand_full spec @@ print ppf metafmt
-  | None -> raise Metafmt_type_error
+  let sprintf spec u =
+    let b = Buffer.create 10 in
+    kprintf (fun _ -> Buffer.contents b) spec u (Format.formatter_of_buffer b)
+(*
+  let sprintf (type x y)
+      (W.H spec:(x, string, string, unit,string) W.h)
+      { u = Box(spec',metafmt) }: x =
+    match W.leq spec spec' with
+    | Some W.Eq -> expand_full spec @@ sprint (Buffer.create 20) metafmt
+    | None -> raise Metafmt_type_error*)
+end

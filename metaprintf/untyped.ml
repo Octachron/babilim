@@ -11,6 +11,10 @@ module Cfmt = struct
       Dyn: ('a,'fmter,'mid,'d,'e,'fin) Internal.fmt ->
       ('fmter,'mid,'fin) t
 
+  type u =
+    { u: 'fmter 'mid 'fin.  ('fmter,'mid,'fin) t }
+  let unsafe (d:(_,_,_) t) = { u = Obj.magic d }
+
   let nil = Dyn Internal.End_of_format
   exception Not_implemented of string
   open Internal

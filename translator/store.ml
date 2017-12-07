@@ -3,7 +3,6 @@ let magic = "Babilim.Translation.Store"
 
 module Mf = Metaprintf
 
-module M = Map.Make(struct type t = string let compare = compare end)
 type map = { lang:string; fmt: Mf.Tmap.t }
 
 let write (map:map) s =

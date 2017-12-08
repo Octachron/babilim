@@ -1,0 +1,2218 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Project-Id-Version: OCaml - babilim\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 2.0.4\n"
+"Last-Translator: \n"
+"Language: fr\n"
+
+#: utils/warnings.ml:668
+msgid "  %c Alias for warning %i.\n"
+msgstr " %c Alias pour l'avertissement %i.\n"
+
+#: utils/warnings.ml:670
+msgid "  %c warnings %s.\n"
+msgstr "  %c avertissements %s.\n"
+
+#: utils/warnings.ml:422
+msgid ""
+"%a %s is never used to build values.\n"
+"(However, this constructor appears in patterns.)"
+msgstr ""
+"%a %s n'est jamais utilisé pour construire des valeurs.\n"
+"(Cependant, ce constructeur apparaît dans des motifs.)"
+
+#: utils/warnings.ml:426
+msgid ""
+"%a %s is never used to build values.\n"
+"It is exported or rebound as a private extension."
+msgstr ""
+"%a %s n'est jamais utilisé pour construire des valeurs.\n"
+"Il est exporté ou redéfini comme une extension privée."
+
+#: typing/includecore.ml:169
+msgid "%a is not an immediate type"
+msgstr "%a n'est pas un type immédiat"
+
+#: utils/warnings.ml:373
+msgid "%a is not principal."
+msgstr "%a n'est pas principal."
+
+#: utils/warnings.ml:374
+msgid "%a without principality."
+msgstr ""
+
+#: utils/warnings.ml:446
+msgid ""
+"%s belongs to several types: %s\n"
+"The first one was selected. Please disambiguate if this is wrong."
+msgstr ""
+
+#: utils/warnings.ml:434
+msgid ""
+"%s was selected from type %s.\n"
+"It is not visible in the current scope, and will not \n"
+"be selected if the type becomes unknown."
+msgstr ""
+
+#: typing/includemod.ml:661
+msgid "...@ "
+msgstr ""
+
+#: typing/typedecl.ml:1935
+msgid ".@.@[<hov2>In %a@ %a@;<1 -2>the variable %a is unbound@]"
+msgstr ""
+
+#: typing/typecore.ml:5053
+msgid ""
+".@.@[<hov> This simple coercion was not fully general.@ Consider using a "
+"double coercion.@]"
+msgstr ""
+
+#: typing/includemod.ml:609
+msgid "<here>"
+msgstr ""
+
+#: typing/typecore.ml:4959
+msgid "@ @[It is applied to too many arguments;@ maybe you forgot a ';'@]@]"
+msgstr ""
+
+#: typing/printtyp.ml:1508
+msgid ""
+"@,@[%a is abstract because no corresponding cmi file was found in path.@]"
+msgstr ""
+
+#: typing/printtyp.ml:1455
+msgid "@,@[<hov>The type variable %a occurs inside@ %a@]"
+msgstr ""
+
+#: typing/printtyp.ml:1458
+msgid "@,@[<hov>This instance of %a is ambiguous:@ %s@]"
+msgstr ""
+
+#: typing/printtyp.ml:1476
+msgid "@,@[The %s object type has an abstract row, it cannot be closed@]"
+msgstr ""
+
+#: typing/printtyp.ml:1470
+msgid "@,@[The first object type has no method %s@]"
+msgstr ""
+
+#: typing/printtyp.ml:1486
+msgid "@,@[The first variant type does not allow tag(s)@ @[<hov>%a@]@]"
+msgstr ""
+
+#: typing/printtyp.ml:1473
+msgid "@,@[The second object type has no method %s@]"
+msgstr ""
+
+#: typing/printtyp.ml:1490
+msgid "@,@[The second variant type does not allow tag(s)@ @[<hov>%a@]@]"
+msgstr ""
+
+#: typing/printtyp.ml:1446
+msgid "@,@[The type constructor@;<1 2>%a@ would escape its scope@]"
+msgstr ""
+
+#: typing/printtyp.ml:1465
+msgid "@,Self type cannot be unified with a closed object type"
+msgstr ""
+
+#: typing/printtyp.ml:1438
+msgid "@,Self type cannot escape its class"
+msgstr ""
+
+#: typing/printtyp.ml:1450
+msgid "@,The universal variable %a would escape its scope"
+msgstr ""
+
+#: typing/printtyp.ml:1484
+msgid "@,These two variant types have no intersection"
+msgstr ""
+
+#: typing/printtyp.ml:1468
+msgid "@,Types for method %s are incompatible"
+msgstr ""
+
+#: typing/printtyp.ml:1495
+msgid "@,Types for tag `%s are incompatible"
+msgstr ""
+
+#: debugger/loadprinter.ml:182
+msgid "@[%a has the wrong type for a printing function.@]@."
+msgstr ""
+
+#: debugger/loadprinter.ml:185
+msgid "@[%a is not currently active as a printing function.@]@."
+msgstr ""
+
+#: typing/typedecl.ml:2003
+msgid "@[%a@ @[<hv>Type@ %a@ should be an instance of@ %a@]@]"
+msgstr ""
+
+#: typing/typeclass.ml:1887
+msgid "@[%t.@ @[<2>The following %s are undefined :%a@]@]"
+msgstr ""
+
+#: typing/typetexp.ml:931
+msgid "@[<hov>Method '%s' has type %a,@ which should be %a@]"
+msgstr ""
+
+#: typing/typecore.ml:4982
+msgid "@[<hov>Some record fields are undefined:%a@]"
+msgstr ""
+
+#: typing/typetexp.ml:920
+msgid "@[<hov>The universal type variable '%s cannot be generalized:@ %a.@]"
+msgstr ""
+
+#: typing/typetexp.ml:896
+msgid ""
+"@[<hov>This variant type contains a constructor@ %a@ which should be %a@]"
+msgstr ""
+
+#: typing/includemod.ml:639
+msgid "@[<hv 2>At position@ %a@]@ "
+msgstr ""
+
+#: typing/includemod.ml:586
+msgid ""
+"@[<hv 2>Class declarations do not match:@ %a@;<1 -2>does not match@ %a@]@ %a"
+msgstr ""
+
+#: typing/includemod.ml:579
+msgid ""
+"@[<hv 2>Class type declarations do not match:@ %a@;<1 -2>does not match@ "
+"%a@]@ %a"
+msgstr ""
+
+#: typing/includemod.ml:554
+msgid ""
+"@[<hv 2>Extension declarations do not match:@ %a@;<1 -2>is not included in@ "
+"%a@]"
+msgstr ""
+
+#: typing/includemod.ml:567
+msgid ""
+"@[<hv 2>Module type declarations do not match:@ %a@;<1 -2>does not match@ "
+"%a@]"
+msgstr ""
+
+#: typing/includemod.ml:561
+msgid "@[<hv 2>Modules do not match:@ %a@;<1 -2>is not included in@ %a@]"
+msgstr ""
+
+#: typing/includemod.ml:540
+msgid "@[<hv 2>Values do not match:@ %a@;<1 -2>is not included in@ %a@]"
+msgstr ""
+
+#: typing/typedecl.ml:2024
+msgid ""
+"@[<hv>An external function with more than 5 arguments requires a second stub "
+"function@ for native-code compilation@]"
+msgstr ""
+
+#: typing/typedecl.ml:2009
+msgid "@[<hv>In the definition of %s, type@ %a@ should be@ %a@]"
+msgstr ""
+
+#: typing/typecore.ml:4973
+msgid ""
+"@[<v>@[<2>The function applied to this argument has type@ %a@]@.This "
+"argument cannot be applied %a@]"
+msgstr ""
+
+#: typing/typecore.ml:4962
+msgid "@[<v>@[<2>This expression has type@ %a@]@ %a@]"
+msgstr ""
+
+#: typing/typecore.ml:4957
+msgid "@[<v>@[<2>This function has type@ %a@]"
+msgstr ""
+
+#: typing/typecore.ml:5073
+msgid "@[<v>@[<2>This function should have type@ %a@]@,%a@]"
+msgstr ""
+
+#: typing/typedecl.ml:2059
+msgid ""
+"@[<v>@[<hov>This extension@ does not match the definition of type %s@]%a@]"
+msgstr ""
+
+#: typing/typedecl.ml:1991
+msgid ""
+"@[<v>@[<hov>This variant or record definition@ does not match that of type@;"
+"<1 2>%a@]%a@]"
+msgstr ""
+
+#: typing/typemod.ml:1947
+msgid ""
+"@[<v>@[In this `with' constraint, the new definition of %a@ does not match "
+"its original definition@ in the constrained signature:@]@ %a@]"
+msgstr ""
+
+#: typing/typeclass.ml:1930
+msgid ""
+"@[<v>@[Self type should not occur in the non-generic type@;<1 2>%a@]@,It "
+"would escape the scope of its class@]"
+msgstr ""
+
+#: typing/typeclass.ml:1925
+msgid ""
+"@[<v>@[Some type variables are unbound in this type:@;<1 2>%t@]@ @[%a@]@]"
+msgstr ""
+
+#: typing/typecore.ml:5017
+msgid "@[<v>@[This expression has type@;<1 2>%a@]@,It has no method %s@]"
+msgstr ""
+
+#: typing/typemod.ml:1931
+msgid "@[<v>Signature mismatch:@ %a@]"
+msgstr ""
+
+#: typing/typedecl.ml:1987
+msgid "@[<v>The definition of %s contains a cycle:@ %a@]"
+msgstr ""
+
+#: typing/typecore.ml:4994
+msgid "@[@[<2>%s type@ %a@]@ "
+msgstr ""
+
+#: typing/typedecl.ml:2153
+msgid "@[A type cannot be boxed and unboxed at the same time.@]"
+msgstr ""
+
+#: typing/typedecl.ml:2052
+msgid "@[Cannot extend private type definition@ %a@]"
+msgstr ""
+
+#: typing/typemod.ml:1995
+msgid "@[Could not find the .cmi file for interface@ %a.@]"
+msgstr ""
+
+#: debugger/loadprinter.ml:171
+msgid "@[Error during code loading: %s@]@."
+msgstr ""
+
+#: typing/typecore.ml:5131
+msgid "@[Exception patterns must be at the top level of a match case.@]"
+msgstr ""
+
+#: typing/typedecl.ml:2155
+msgid "@[GADT case syntax cannot be used in a 'nonrec' block.@]"
+msgstr ""
+
+#: typing/typedecl.ml:2124
+msgid ""
+"@[In this GADT definition,@ the variance of some parameter@ cannot be "
+"checked@]"
+msgstr ""
+
+#: typing/typedecl.ml:2102
+msgid ""
+"@[In this definition, a type variable cannot be deduced@ from the type "
+"parameters.@]"
+msgstr ""
+
+#: typing/typedecl.ml:2106
+msgid ""
+"@[In this definition, a type variable has a variance that@ cannot be deduced "
+"from the type parameters.@ %t@]"
+msgstr ""
+
+#: typing/typedecl.ml:2097
+msgid ""
+"@[In this definition, a type variable has a variance that@ is not reflected "
+"by its occurrence in type parameters.@ %t@]"
+msgstr ""
+
+#: typing/typedecl.ml:2110
+msgid ""
+"@[In this definition, expected parameter variances are not satisfied.@ The "
+"%dst type parameter was expected to be %a,@ but it is %a.@]"
+msgid_plural ""
+"@[In this definition, expected parameter variances are not satisfied.@ The "
+"%d-th type parameter was expected to be %a,@ but it is %a.@]"
+msgstr[0] ""
+"@[In this definition, expected parameter variances are not satisfied.@ The "
+"%dst type parameter was expected to be %a,@ but it is %a.@]"
+msgstr[1] ""
+"@[In this definition, expected parameter variances are not satisfied.@ The "
+"%d-th type parameter was expected to be %a,@ but it is %a.@]"
+
+#: typing/typecore.ml:5125
+msgid "@[Invalid for-loop index: only variables and _ are allowed.@]"
+msgstr ""
+
+#: typing/typemod.ml:1973
+msgid ""
+"@[Multiple definition of the %s name %s.@ Names must be unique in a given "
+"structure or signature.@]"
+msgstr ""
+
+#: typing/typecore.ml:5123
+msgid "@[Only character intervals are supported in patterns.@]"
+msgstr ""
+
+#: typing/typeclass.ml:1972
+msgid "@[The %a `%s'@ has multiple definitions in this object@]"
+msgstr ""
+
+#: typing/typeclass.ml:1969
+msgid "@[The %a `%s'@ has no previous definition@]"
+msgstr ""
+
+#: typing/typecore.ml:5118
+msgid ""
+"@[The GADT constructor %s of type %a@ must be qualified in this pattern.@]"
+msgstr ""
+
+#: typing/typeclass.ml:1901
+msgid ""
+"@[The abbreviation %a@ is used with parameters@ %a@ which are incompatible "
+"with constraints@ %a@]"
+msgstr ""
+
+#: typing/typeclass.ml:1864
+msgid ""
+"@[The abbreviation@ %a@ expands to type@ %a@ but is used with type@ %a@]"
+msgstr ""
+
+#: typing/typeclass.ml:1891
+msgid ""
+"@[The class constructor %a@ expects %i type argument(s),@ but is here "
+"applied to %i type argument(s)@]"
+msgstr ""
+
+#: typing/typeclass.ml:1859
+msgid "@[The class type@ %a@ is not yet completely defined@]"
+msgstr ""
+
+#: typing/includeclass.ml:65
+msgid "@[The class type@;<1 2>%a@ is not matched by the class type@;<1 2>%a@]"
+msgstr ""
+
+#: typing/typeclass.ml:1856
+msgid "@[The class@ %a@ is not yet completely defined@]"
+msgstr ""
+
+#: typing/typedecl.ml:2072
+msgid ""
+"@[The constructor %a extends type %s whose declarations dos not match the "
+"declaration of type %s@]"
+msgstr ""
+
+#: typing/typecore.ml:4923
+msgid ""
+"@[The constructor %a@ expects %i argument(s),@ but is applied here to %i "
+"argument(s)@]"
+msgstr ""
+
+#: typing/typedecl.ml:2079
+msgid "@[The constructor@ %a@ is private@]"
+msgstr ""
+
+#: debugger/loadprinter.ml:177
+msgid ""
+"@[The debugger does not contain the code for@ %a.@ Please load an "
+"implementation of %s first.@]@."
+msgstr ""
+
+#: typing/typecore.ml:4988
+msgid ""
+"@[The field %s is not part of the record argument for the %a constructor@]"
+msgstr ""
+
+#: typing/includeclass.ml:88
+msgid "@[The first class type has no instance variable %s@]"
+msgstr ""
+
+#: typing/includeclass.ml:90
+msgid "@[The first class type has no method %s@]"
+msgstr ""
+
+#: typing/includemod.ml:575
+msgid "@[The implementation %s@ does not match the interface %s:"
+msgstr ""
+
+#: typing/typeclass.ml:1962
+msgid "@[The instance variable is %a;@ it cannot be redefined as %a@]"
+msgstr ""
+
+#: typing/typemod.ml:1990
+msgid ""
+"@[The interface %a@ declares values, not just types.@ An implementation must "
+"be provided.@]"
+msgstr ""
+
+#: typing/includeclass.ml:82
+msgid "@[The non-mutable instance variable %s cannot become mutable@]"
+msgstr ""
+
+#: typing/includeclass.ml:92
+msgid "@[The public method %s cannot be hidden@]"
+msgstr ""
+
+#: typing/includeclass.ml:96
+msgid "@[The public method %s cannot become private"
+msgstr ""
+
+#: typing/typecore.ml:4920
+msgid "@[The record field %a is polymorphic.@ %a@]"
+msgstr ""
+
+#: typing/typemod.ml:1943
+msgid "@[The signature constrained by `with' has no component named %a@]"
+msgstr ""
+
+#: typing/typetexp.ml:903
+msgid "@[The type %a@ does not expand to a polymorphic variant type@]"
+msgstr ""
+
+#: typing/typetexp.ml:974
+msgid "@[The type %a@ is not an object type@]"
+msgstr ""
+
+#: typing/typetexp.ml:869
+msgid ""
+"@[The type constructor %a@ expects %i argument(s),@ but is here applied to "
+"%i argument(s)@]"
+msgstr ""
+
+#: typing/typeclass.ml:1941
+msgid ""
+"@[The type of self cannot be coerced to@ the type of the current class:@ %a."
+"@.Some occurrences are contravariant@]"
+msgstr ""
+
+#: typing/typeclass.ml:1947
+msgid ""
+"@[The type of this class,@ %a,@ contains non-collapsible conjunctive types "
+"in constraints@]"
+msgstr ""
+
+#: typing/typeclass.ml:1936
+msgid ""
+"@[The type of this class,@ %a,@ contains type variables that cannot be "
+"generalized@]"
+msgstr ""
+
+#: typing/typemod.ml:1977
+msgid ""
+"@[The type of this expression,@ %a,@ contains type variables that cannot be "
+"generalized@]"
+msgstr ""
+
+#: typing/typemod.ml:1986
+msgid ""
+"@[The type of this module,@ %a,@ contains type variables that cannot be "
+"generalized@]"
+msgstr ""
+
+#: typing/includeclass.ml:94
+msgid "@[The virtual %s %s cannot be hidden@]"
+msgstr ""
+
+#: typing/includeclass.ml:85
+msgid "@[The virtual instance variable %s cannot become concrete@]"
+msgstr ""
+
+#: typing/includeclass.ml:98
+msgid "@[The virtual method %s cannot become concrete"
+msgstr ""
+
+#: typing/typeclass.ml:1831
+msgid "@[This class expression is not a class structure; it has type@ %a@]"
+msgstr ""
+
+#: typing/typecore.ml:5138
+msgid "@[This constructor expects an inlined record argument.@]"
+msgstr ""
+
+#: typing/typemod.ml:1999
+msgid "@[This expression creates fresh types.@ %s@]"
+msgstr ""
+
+#: typing/typecore.ml:5134
+msgid ""
+"@[This form is not allowed as the type of the inlined record could escape.@]"
+msgstr ""
+
+#: typing/typemod.ml:1934
+msgid ""
+"@[This functor has type@ %a@ The parameter cannot be eliminated in the "
+"result type.@  Please bind the argument to a module identifier.@]"
+msgstr ""
+
+#: typing/typeclass.ml:1966
+msgid "@[This inheritance does not override any method@ instance variable@]"
+msgstr ""
+
+#: typing/typecore.ml:5141
+msgid ""
+"@[This match case could not be refuted.@ Here is an example of a value that "
+"would reach it:@ %a@]"
+msgstr ""
+
+#: typing/typemod.ml:1928
+msgid "@[This module is not a functor; it has type@ %a@]"
+msgstr ""
+
+#: typing/typemod.ml:1940
+msgid "@[This module is not a structure; it has type@ %a"
+msgstr ""
+
+#: typing/typeclass.ml:1852
+msgid "@[This pattern cannot match self: it only matches values of type@ %a@]"
+msgstr ""
+
+#: typing/typedecl.ml:2147
+msgid "@[This type cannot be unboxed because@ %a.@]"
+msgstr ""
+
+#: typing/typedecl.ml:2149
+msgid ""
+"@[This type cannot be unboxed because@ it might contain both float and non-"
+"float values.@ You should annotate it with [%@%@ocaml.boxed].@]"
+msgstr ""
+
+#: typing/typedecl.ml:1977
+msgid ""
+"@[Too many non-constant constructors@ -- maximum is %i non-constant "
+"constructors@]"
+msgstr ""
+
+#: typing/printtyp.ml:1364
+msgid "@[Type@;<1 2>%a@ %t@;<1 2>%a@] %a"
+msgstr ""
+
+#: typing/typedecl.ml:2143
+msgid ""
+"@[Types marked with the immediate attribute must be@ non-pointer types like "
+"int or bool@]"
+msgstr ""
+
+#: debugger/loadprinter.ml:174
+msgid "@[Unbound identifier %a@]@."
+msgstr ""
+
+#: typing/typecore.ml:5167
+msgid "@[Unbound value %a.@ %a %i.@]"
+msgstr ""
+
+#: typing/typetexp.ml:913
+msgid ""
+"@[Variant tags `%s@ and `%s have the same hash value.@ Change one of them.@]"
+msgstr ""
+
+#: typing/includeclass.ml:55
+msgid "A class cannot be changed from virtual to concrete"
+msgstr ""
+
+#: utils/warnings.ml:625
+msgid "A module is linked twice in the same executable."
+msgstr ""
+
+#: typing/includeclass.ml:71
+msgid "A parameter has type"
+msgstr ""
+
+#: utils/warnings.ml:528
+msgid ""
+"A potential assignment to a non-mutable value was detected \n"
+"in this source file.  Such assignments may generate incorrect code \n"
+"when using Flambda."
+msgstr ""
+
+#: typing/includecore.ml:144
+msgid "A private type would be revealed"
+msgstr ""
+
+#: parsing/builtin_attributes.ml:135
+msgid "A single string literal is expected"
+msgstr ""
+
+#: typing/includeclass.ml:61
+msgid "A type parameter has type"
+msgstr ""
+
+#: typing/typedecl.ml:1973
+msgid "A type parameter occurs several times"
+msgstr ""
+
+#: typing/typedecl.ml:2048
+msgid "A type variable is unbound in this extension constructor"
+msgstr ""
+
+#: typing/typedecl.ml:2028
+msgid "A type variable is unbound in this type declaration"
+msgstr ""
+
+#: utils/warnings.ml:643
+msgid "Absent cmi file when looking up module alias."
+msgstr ""
+
+#: typing/includemod.ml:533
+msgid "Actual declaration"
+msgstr ""
+
+#: typing/typetexp.ml:874
+msgid "Already bound type parameter '%s"
+msgstr ""
+
+#: utils/warnings.ml:635
+msgid "Ambiguous constructor or label name."
+msgstr ""
+
+#: utils/warnings.ml:651
+msgid "Ambiguous or-pattern variables under guard"
+msgstr ""
+
+#: utils/warnings.ml:519
+msgid ""
+"Ambiguous or-pattern variables under guard;\n"
+"%a may match different arguments. (See manual section 8.5)"
+msgstr ""
+
+#: utils/warnings.ml:653
+msgid "Assignment to non-mutable value"
+msgstr ""
+
+#: utils/warnings.ml:647
+msgid "Attribute cannot appear in this context"
+msgstr ""
+
+#: utils/warnings.ml:648
+msgid "Attribute used more than once on an expression"
+msgstr ""
+
+#: utils/warnings.ml:612
+msgid "Bad module name: the source file name is not a valid OCaml module name."
+msgstr ""
+
+#: typing/typecore.ml:5089
+msgid "Cannot assign field %a of the private type %a"
+msgstr ""
+
+#: typing/typecore.ml:5087
+msgid "Cannot create values of the private type %a"
+msgstr ""
+
+#: utils/warnings.ml:509
+msgid "Cannot inline: %a"
+msgstr ""
+
+#: typing/typecore.ml:5028
+msgid "Cannot instantiate the virtual class %a"
+msgstr ""
+
+#: utils/warnings.ml:494
+msgid ""
+"Code should not depend on the actual values of\n"
+"this constructor's arguments. They are only for information\n"
+"and may change in future versions. (See manual section 8.5)"
+msgstr ""
+
+#: typing/typedecl.ml:2004
+msgid "Constraints are not satisfied in this type."
+msgstr ""
+
+#: utils/warnings.ml:634
+msgid "Constructor or label name used out of scope."
+msgstr ""
+
+#: utils/warnings.ml:546
+msgid "Definition"
+msgstr ""
+
+#: utils/warnings.ml:586
+msgid "Deprecated feature."
+msgstr ""
+
+#: utils/warnings.ml:614
+msgid "Deprecated: now part of warning 8."
+msgstr ""
+
+#: utils/warnings.ml:636
+msgid "Disambiguated constructor or label name (compatibility warning)."
+msgstr ""
+
+#: typing/typedecl.ml:2132
+msgid ""
+"Don't know how to unbox this type. Only float, int32, int64 and nativeint "
+"can be unboxed"
+msgstr ""
+
+#: typing/typedecl.ml:2135
+msgid "Don't know how to untag this type. Only int can be untagged"
+msgstr ""
+
+#: parsing/location.ml:286
+msgid "Error"
+msgstr ""
+
+#: utils/warnings.ml:640
+msgid "Error in environment variable."
+msgstr ""
+
+#: typing/includemod.ml:538
+msgid "Expected declaration"
+msgstr ""
+
+#: utils/warnings.ml:547
+msgid "Expected signature"
+msgstr ""
+
+#: utils/warnings.ml:596
+msgid ""
+"Expression on the left-hand side of a sequence that doesn't have type\n"
+"   I18n.s \"unit\" (and that is not a function, see warning number 5)."
+msgstr ""
+
+#: typing/typedecl.ml:2022
+msgid "External identifiers must be functions"
+msgstr ""
+
+#: typing/includecore.ml:156
+msgid "Fields number %i have different names, %s and %s"
+msgstr ""
+
+#: utils/warnings.ml:646
+msgid "Fragile constant pattern."
+msgstr ""
+
+#: utils/warnings.ml:587
+msgid ""
+"Fragile pattern matching: matching that will remain complete even\n"
+"    if additional constructors are added to one of the variant types\n"
+"    matched."
+msgstr ""
+
+#: parsing/ast_invariants.ml:24
+msgid "Function application with no argument."
+msgstr ""
+
+#: asmcomp/closure.ml:716
+msgid "Function information unavailable"
+msgstr ""
+
+#: parsing/ast_invariants.ml:27
+msgid "Functor application not allowed here."
+msgstr ""
+
+#: typing/typecore.ml:5170
+msgid "Hint: You are probably missing the `rec' keyword on line"
+msgstr ""
+
+#: parsing/location.ml:452
+msgid "I/O error: %s"
+msgstr ""
+
+#: parsing/builtin_attributes.ml:130
+msgid "Ill-formed list of warnings"
+msgstr ""
+
+#: typing/typetexp.ml:955
+msgid "Ill-typed functor application %a"
+msgstr ""
+
+#: utils/warnings.ml:641
+msgid "Illegal attribute payload."
+msgstr ""
+
+#: utils/warnings.ml:602
+msgid "Illegal backslash escape in a string constant."
+msgstr ""
+
+#: typing/typetexp.ml:967
+msgid "Illegal open object type%a"
+msgstr ""
+
+#: typing/includemod.ml:573
+msgid "Illegal permutation of structure fields"
+msgstr ""
+
+#: typing/typetexp.ml:957
+msgid "Illegal recursive module reference"
+msgstr ""
+
+#: utils/warnings.ml:642
+msgid "Implicit elimination of optional arguments."
+msgstr ""
+
+#: parsing/location.ml:463
+msgid "In hook %S:"
+msgstr ""
+
+#: typing/includemod.ml:637
+msgid "In module %a:@ "
+msgstr ""
+
+#: typing/ctype.ml:68
+msgid ""
+"In this program,@ variant constructors@ `%s and `%s@ have the same hash "
+"value.@ Change one of them."
+msgstr ""
+
+#: utils/warnings.ml:649
+msgid "Inlining impossible"
+msgstr ""
+
+#: utils/warnings.ml:618
+msgid ""
+"Innocuous unused variable: unused variable that is not bound with\n"
+"    \"let\" nor \"as\", and doesn't start with an underscore (\"_\")\n"
+"    character."
+msgstr ""
+
+#: utils/warnings.ml:601
+msgid "Instance variable overridden."
+msgstr ""
+
+#: typing/typecore.ml:5153
+msgid "Integer literal exceeds the range of representable integers of type %s"
+msgstr ""
+
+#: parsing/ast_mapper.ml:756
+msgid "Internal error: invalid [@@@ocaml.ppx.context { %s }] bool syntax"
+msgstr ""
+
+#: parsing/ast_mapper.ml:766
+msgid "Internal error: invalid [@@@ocaml.ppx.context { %s }] list syntax"
+msgstr ""
+
+#: parsing/ast_mapper.ml:780
+msgid "Internal error: invalid [@@@ocaml.ppx.context { %s }] option syntax"
+msgstr ""
+
+#: parsing/ast_mapper.ml:771
+msgid "Internal error: invalid [@@@ocaml.ppx.context { %s }] pair syntax"
+msgstr ""
+
+#: parsing/ast_mapper.ml:746
+msgid "Internal error: invalid [@@@ocaml.ppx.context { %s }] string syntax"
+msgstr ""
+
+#: parsing/ast_mapper.ml:740
+msgid "Internal error: invalid [@@@ocaml.ppx.context] syntax"
+msgstr ""
+
+#: typing/typecore.ml:5146
+msgid "Invalid [%%extension_constructor] payload, a constructor is expected."
+msgstr ""
+
+#: parsing/builtin_attributes.ml:58
+msgid "Invalid syntax for extension '%s'."
+msgstr ""
+
+#: parsing/builtin_attributes.ml:42
+msgid "Invalid syntax for sub-error of extension '%s'."
+msgstr ""
+
+#: typing/typedecl.ml:2094
+msgid "It was expected to be %a,@ but it is %a."
+msgstr ""
+
+#: typing/typemod.ml:2013
+msgid "Its type contains local dependencies:@ %a"
+msgstr ""
+
+#: utils/warnings.ml:592
+msgid "Label omitted in function application."
+msgstr ""
+
+#: parsing/ast_invariants.ml:25
+msgid "Let with no bindings."
+msgstr ""
+
+#: utils/warnings.ml:593
+msgid "Method overridden."
+msgstr ""
+
+#: utils/warnings.ml:652
+msgid "Missing cmx file"
+msgstr ""
+
+#: utils/warnings.ml:595
+msgid "Missing fields in a record pattern."
+msgstr ""
+
+#: typing/includemod.ml:597
+msgid "Module %a cannot be aliased"
+msgstr ""
+
+#: typing/typecore.ml:5103
+msgid "Modules are not allowed in this pattern."
+msgstr ""
+
+#: typing/typetexp.ml:927
+msgid "Multiple constraints for type %a"
+msgstr ""
+
+#: utils/warnings.ml:606
+msgid "Non-principal type."
+msgstr ""
+
+#: utils/warnings.ml:609
+msgid "Non-returning statement."
+msgstr ""
+
+#: typing/typecore.ml:5128
+msgid "None of the patterns in this 'match' expression match values."
+msgstr ""
+
+#: utils/warnings.ml:637
+msgid "Nonoptional label applied as optional."
+msgstr ""
+
+#: driver/pparse.ml:158
+msgid "OCaml and preprocessor have incompatible versions"
+msgstr ""
+
+#: typing/typecore.ml:5158
+msgid "Only variables are allowed as left-hand side of `let rec'"
+msgstr ""
+
+#: utils/warnings.ml:638
+msgid "Open statement shadows an already defined identifier."
+msgstr ""
+
+#: utils/warnings.ml:639
+msgid "Open statement shadows an already defined label or constructor."
+msgstr ""
+
+#: asmcomp/closure.ml:894
+msgid "Over-application"
+msgstr ""
+
+#: asmcomp/closure.ml:884
+msgid "Partial application"
+msgstr ""
+
+#: utils/warnings.ml:594
+msgid "Partial match: missing cases in pattern-matching."
+msgstr ""
+
+#: utils/warnings.ml:590
+msgid ""
+"Partially applied function: expression whose result has function\n"
+"    type and is ignored."
+msgstr ""
+
+#: utils/warnings.ml:610
+msgid "Preprocessor warning."
+msgstr ""
+
+#: utils/warnings.ml:603
+msgid "Private method made public implicitly."
+msgstr ""
+
+#: parsing/ast_invariants.ml:21
+msgid "Records cannot be empty."
+msgstr ""
+
+#: typing/typecore.ml:5113
+msgid "Recursive local constraint when unifying"
+msgstr ""
+
+#: typing/typemod.ml:2016
+msgid "Recursive modules require an explicit module type."
+msgstr ""
+
+#: utils/warnings.ml:599
+msgid "Redundant case in a pattern matching (unused match case)."
+msgstr ""
+
+#: utils/warnings.ml:600
+msgid "Redundant sub-pattern in a pattern-matching."
+msgstr ""
+
+#: utils/warnings.ml:615
+msgid ""
+"Suspicious unused variable: unused variable that is bound\n"
+"    with \"let\" or \"as\", and doesn't start with an underscore (\"_\")\n"
+"    character."
+msgstr ""
+
+#: utils/warnings.ml:585
+msgid "Suspicious-looking end-of-comment mark."
+msgstr ""
+
+#: utils/warnings.ml:584
+msgid "Suspicious-looking start-of-comment mark."
+msgstr ""
+
+#: parsing/syntaxerr.ml:39
+msgid "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
+msgstr ""
+
+#: typing/typeclass.ml:1828
+msgid "The %a %s@ has type"
+msgstr ""
+
+#: typing/typeclass.ml:1914
+msgid "The %a %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
+msgstr ""
+
+#: typing/typecore.ml:5007
+msgid "The %s %a@ belongs to one of the following %s types:"
+msgstr ""
+
+#: typing/typecore.ml:5004
+msgid "The %s %a@ belongs to the %s type"
+msgstr ""
+
+#: typing/typecore.ml:4996
+msgid "The %s %s does not belong to type %a@]"
+msgstr ""
+
+#: typing/includemod.ml:537
+msgid "The %s `%a' is required but not provided"
+msgstr ""
+
+#: typing/includecore.ml:154
+msgid "The arities for field %s differ"
+msgstr ""
+
+#: typing/typedecl.ml:2138
+msgid ""
+"The attribute '%s' should be attached to a direct argument or result of the "
+"primitive, it should not occur deeply into its type"
+msgstr ""
+
+#: typing/typeclass.ml:1822
+msgid "The class constraints are not consistent.@."
+msgstr ""
+
+#: typing/includeclass.ml:57
+msgid "The classes do not have the same number of type parameters"
+msgstr ""
+
+#: typing/typedecl.ml:2068
+msgid "The constructor %a@ has type"
+msgstr ""
+
+#: typing/typedecl.ml:2120
+msgid "The definition of type %a@ is unavailable"
+msgstr ""
+
+#: typing/typeclass.ml:1871
+msgid "The expression \"new %s\" has type"
+msgstr ""
+
+#: typing/includecore.ml:159
+msgid "The field %s is only present in %a %a"
+msgstr ""
+
+#: typing/typecore.ml:5082
+msgid ""
+"The instance variable %a@ cannot be accessed from the definition of another "
+"instance variable"
+msgstr ""
+
+#: typing/typecore.ml:5035
+msgid "The instance variable %s is not mutable"
+msgstr ""
+
+#: typing/typecore.ml:5043
+msgid "The instance variable %s is overridden several times"
+msgstr ""
+
+#: typing/includeclass.ml:75
+msgid "The instance variable %s@ has type"
+msgstr ""
+
+#: typing/includeclass.ml:79
+msgid "The method %s@ has type"
+msgstr ""
+
+#: typing/typetexp.ml:959
+msgid "The module %a is a functor, not a structure"
+msgstr ""
+
+#: typing/typetexp.ml:961
+msgid "The module %a is a structure, not a functor"
+msgstr ""
+
+#: typing/typetexp.ml:963
+msgid "The module %a is an alias for module %a, which is missing"
+msgstr ""
+
+#: typing/includecore.ml:152
+msgid "The mutability of field %s is different"
+msgstr ""
+
+#: typing/typetexp.ml:890
+msgid "The present constructor %s has a conjunctive type"
+msgstr ""
+
+#: typing/typetexp.ml:892
+msgid "The present constructor %s has no type"
+msgstr ""
+
+#: typing/includeclass.ml:100
+msgid "The private method %s cannot become public"
+msgstr ""
+
+#: typing/typecore.ml:4985
+msgid "The record field %a is not mutable"
+msgstr ""
+
+#: typing/typecore.ml:4929
+msgid "The record field %a@ belongs to the type"
+msgstr ""
+
+#: typing/typecore.ml:4978
+msgid "The record field label %s is defined several times"
+msgstr ""
+
+#: typing/typecore.ml:5105
+msgid "The signature for this packaged module couldn't be inferred."
+msgstr ""
+
+#: typing/typemod.ml:2011
+msgid "The type %a in this module cannot be exported.@ "
+msgstr ""
+
+#: typing/typecore.ml:5092
+msgid "The type %a@ is not a variant type"
+msgstr ""
+
+#: typing/typedecl.ml:1984
+msgid "The type abbreviation %s is cyclic"
+msgstr ""
+
+#: typing/typedecl.ml:2013
+msgid "The type constraints are not consistent.@."
+msgstr ""
+
+#: typing/typetexp.ml:866
+msgid "The type constructor@ %a@ is not yet completely defined"
+msgstr ""
+
+#: typing/typemod.ml:2007
+msgid "The type of this packed module contains variables:@ %a"
+msgstr ""
+
+#: typing/typeclass.ml:1897
+msgid "The type parameter"
+msgstr ""
+
+#: typing/typetexp.ml:918
+msgid "The type variable name %s is not allowed in programs"
+msgstr ""
+
+#: typing/includecore.ml:150
+msgid "The types for field %s are not equal"
+msgstr ""
+
+#: typing/typecore.ml:5037
+msgid "The value %s is not an instance variable"
+msgstr ""
+
+#: typing/typecore.ml:4938
+msgid "The variable %s on the left-hand side of this or-pattern has type"
+msgstr ""
+
+#: typing/includecore.ml:146
+msgid "Their constraints differ"
+msgstr ""
+
+#: typing/includecore.ml:166
+msgid "Their internal representations differ:@ %a %a %a"
+msgstr ""
+
+#: typing/includecore.ml:145
+msgid "Their kinds differ"
+msgstr ""
+
+#: typing/includecore.ml:148
+msgid "Their variances do not agree"
+msgstr ""
+
+#: typing/includecore.ml:143
+msgid "They have different arities"
+msgstr ""
+
+#: typing/typecore.ml:5100
+msgid "This %s has type"
+msgstr ""
+
+#: typing/typecore.ml:5077
+msgid ""
+"This `let module' expression has type@ %a.@ In this type, the locally bound "
+"module name %s escapes its scope"
+msgstr ""
+
+#: typing/typetexp.ml:887
+msgid "This alias is bound to type"
+msgstr ""
+
+#: typing/typeclass.ml:1844
+msgid "This argument cannot be applied with label %s"
+msgstr ""
+
+#: typing/typeclass.ml:1841
+msgid "This argument cannot be applied without label"
+msgstr ""
+
+#: typing/typeclass.ml:1836
+msgid "This class expression is not a class function, it cannot be applied"
+msgstr ""
+
+#: typing/typeclass.ml:1884
+msgid "This class should be virtual"
+msgstr ""
+
+#: typing/typeclass.ml:1885
+msgid "This class type should be virtual"
+msgstr ""
+
+#: typing/typecore.ml:5150
+msgid "This constructor is not an extension constructor."
+msgstr ""
+
+#: typing/typecore.ml:5048
+msgid "This expression cannot be coerced to type@;<1 2>%a;@ it has type"
+msgstr ""
+
+#: typing/typecore.ml:5025
+msgid "This expression has no method %s"
+msgstr ""
+
+#: typing/typecore.ml:4951
+msgid "This expression has type"
+msgstr ""
+
+#: typing/typemod.ml:2003
+msgid "This expression is not a packed module. It has type@ %a"
+msgstr ""
+
+#: typing/typecore.ml:5108
+msgid "This expression is packed module, but the expected type is@ %a"
+msgstr ""
+
+#: typing/typecore.ml:5062
+msgid "This expression should not be a function,@ the expected type is@ %a"
+msgstr ""
+
+#: typing/typedecl.ml:2122
+msgid "This fixed type %s"
+msgstr ""
+
+#: typing/typecore.ml:5058
+msgid "This function expects too many arguments,@ it should have type@ %a"
+msgstr ""
+
+#: typing/typecore.ml:5094
+msgid ""
+"This function is applied to arguments@ in an order different from other "
+"calls.@ This is only allowed when the real type is known."
+msgstr ""
+
+#: typing/typemod.ml:2018
+msgid "This is a generative functor. It can only be applied to ()"
+msgstr ""
+
+#: typing/typemod.ml:2020
+msgid "This is an alias for module %a, which is missing"
+msgstr ""
+
+#: typing/typecore.ml:4964
+msgid "This is not a function; it cannot be applied."
+msgstr ""
+
+#: typing/typecore.ml:5161
+msgid "This kind of expression is not allowed as right-hand side of `let rec'"
+msgstr ""
+
+#: typing/typecore.ml:5164
+msgid "This kind of recursive class expression is not allowed"
+msgstr ""
+
+#: typing/typemod.ml:1938
+msgid "This module type is not a signature"
+msgstr ""
+
+#: typing/typecore.ml:5041
+msgid "This object duplication occurs outside a method definition"
+msgstr ""
+
+#: typing/typeclass.ml:1883
+msgid "This object has virtual %s"
+msgstr ""
+
+#: typing/typeclass.ml:1956
+msgid "This object is expected to have type"
+msgstr ""
+
+#: typing/typecore.ml:4934
+msgid "This pattern matches values of type"
+msgstr ""
+
+#: utils/warnings.ml:534
+msgid ""
+"This primitive declaration uses type %s, which is unannotated and\n"
+"unboxable. The representation of such types may change in future\n"
+"versions. You should annotate the declaration of %s with [@@boxed]\n"
+"or [@@unboxed]."
+msgstr ""
+
+#: typing/typetexp.ml:883
+msgid "This type"
+msgstr ""
+
+#: typing/typedecl.ml:2019
+msgid "This type constructor expands to type"
+msgstr ""
+
+#: typing/typetexp.ml:876
+msgid "This type is recursive"
+msgstr ""
+
+#: typing/typedecl.ml:2130
+msgid "Too many [@@unboxed]/[@@untagged] attributes"
+msgstr ""
+
+#: parsing/ast_invariants.ml:23
+msgid "Tuples must have at least 2 components."
+msgstr ""
+
+#: typing/typedecl.ml:1975
+msgid "Two constructors are named %s"
+msgstr ""
+
+#: typing/typedecl.ml:1982
+msgid "Two labels are named %s"
+msgstr ""
+
+#: utils/warnings.ml:623
+msgid ""
+"Two labels or constructors of the same name are defined in two\n"
+"    mutually recursive types."
+msgstr ""
+
+#: typing/typedecl.ml:2015
+msgid "Type"
+msgstr ""
+
+#: utils/warnings.ml:656
+msgid "Type constraint on GADT type declaration"
+msgstr ""
+
+#: utils/warnings.ml:540
+msgid "Type constraints do not apply to GADT cases of variant types."
+msgstr ""
+
+#: parsing/ast_invariants.ml:26
+msgid "Type declarations cannot be empty."
+msgstr ""
+
+#: typing/includemod.ml:546
+msgid "Type declarations do not match"
+msgstr ""
+
+#: typing/typedecl.ml:2056
+msgid "Type definition"
+msgstr ""
+
+#: utils/warnings.ml:607
+msgid "Type without principality."
+msgstr ""
+
+#: typing/typetexp.ml:946
+msgid "Unbound class %a"
+msgstr ""
+
+#: typing/typetexp.ml:952
+msgid "Unbound class type %a"
+msgstr ""
+
+#: typing/typetexp.ml:940
+msgid "Unbound constructor %a"
+msgstr ""
+
+#: typing/typeclass.ml:1908
+msgid "Unbound instance variable %s"
+msgstr ""
+
+#: typing/typetexp.ml:937
+msgid "Unbound module %a"
+msgstr ""
+
+#: typing/typetexp.ml:949
+msgid "Unbound module type %a"
+msgstr ""
+
+#: typing/typetexp.ml:943
+msgid "Unbound record field %a"
+msgstr ""
+
+#: typing/typetexp.ml:880
+msgid "Unbound row variable in #%a"
+msgstr ""
+
+#: typing/typetexp.ml:863
+msgid "Unbound type constructor %a"
+msgstr ""
+
+#: typing/typetexp.ml:861
+msgid "Unbound type parameter %s@."
+msgstr ""
+
+#: typing/typetexp.ml:934
+msgid "Unbound value %a"
+msgstr ""
+
+#: utils/warnings.ml:655
+msgid "Unboxable type in primitive declaration"
+msgstr ""
+
+#: utils/warnings.ml:605
+msgid "Undeclared virtual method."
+msgstr ""
+
+#: utils/warnings.ml:604
+msgid "Unerasable optional argument."
+msgstr ""
+
+#: utils/warnings.ml:622
+msgid "Unescaped end-of-line in a string constant (non-portable code)."
+msgstr ""
+
+#: utils/warnings.ml:644
+msgid "Unexpected documentation comment."
+msgstr ""
+
+#: typing/typecore.ml:5116
+msgid "Unexpected existential"
+msgstr ""
+
+#: parsing/builtin_attributes.ml:61
+msgid "Uninterpreted extension '%s'."
+msgstr ""
+
+#: asmcomp/closure.ml:909
+msgid "Unknown function"
+msgstr ""
+
+#: typing/typecore.ml:5156
+msgid "Unknown modifier '%c' for literal %s%c"
+msgstr ""
+
+#: utils/warnings.ml:650
+msgid "Unreachable case in a pattern-matching (based on type information)."
+msgstr ""
+
+#: utils/warnings.ml:630
+msgid "Unused ancestor variable."
+msgstr ""
+
+#: utils/warnings.ml:631
+msgid "Unused constructor."
+msgstr ""
+
+#: utils/warnings.ml:632
+msgid "Unused extension constructor."
+msgstr ""
+
+#: utils/warnings.ml:629
+msgid "Unused for-loop index."
+msgstr ""
+
+#: utils/warnings.ml:608
+msgid "Unused function argument."
+msgstr ""
+
+#: utils/warnings.ml:654
+msgid "Unused module declaration"
+msgstr ""
+
+#: utils/warnings.ml:627
+msgid "Unused open statement."
+msgstr ""
+
+#: utils/warnings.ml:633
+msgid "Unused rec flag."
+msgstr ""
+
+#: utils/warnings.ml:628
+msgid "Unused type declaration."
+msgstr ""
+
+#: utils/warnings.ml:626
+msgid "Unused value declaration."
+msgstr ""
+
+#: utils/warnings.ml:611
+msgid "Useless record \"with\" clause."
+msgstr ""
+
+#: typing/typedecl.ml:2128
+msgid "Value declarations are only allowed in signatures"
+msgstr ""
+
+#: typing/typecore.ml:4944
+msgid "Variable %s is bound several times in this matching"
+msgstr ""
+
+#: typing/typecore.ml:4946
+msgid "Variable %s must occur on both sides of this | pattern"
+msgstr ""
+
+#: parsing/ast_invariants.ml:22
+msgid "Variant types cannot be empty."
+msgstr ""
+
+#: parsing/location.ml:287
+msgid "Warning"
+msgstr ""
+
+#: utils/warnings.ml:645
+msgid "Warning on non-tail calls if @tailcall present."
+msgstr ""
+
+#: utils/warnings.ml:621
+msgid "Wildcard pattern given as argument to a constant constructor."
+msgstr ""
+
+#: typing/typecore.ml:4921
+msgid "You cannot instantiate it in a pattern."
+msgstr ""
+
+#: middle_end/middle_end.ml:182
+msgid ""
+"[@inlined] attribute was not used on this function application (the "
+"optimizer did not know what function was being applied)"
+msgstr ""
+
+#: middle_end/inline_and_simplify.ml:794
+msgid "[@inlined] attributes may not be used on partial applications"
+msgstr ""
+
+#: middle_end/inline_and_simplify.ml:806
+msgid "[@specialised] attributes may not be used on partial applications"
+msgstr ""
+
+#: middle_end/middle_end.ml:188
+msgid ""
+"[@unroll] attribute was not used on this function application (the optimizer "
+"did not know what function was being applied)"
+msgstr ""
+
+#: middle_end/inline_and_simplify.ml:798
+msgid "[@unroll] attributes may not be used on partial applications"
+msgstr ""
+
+#: utils/warnings.ml:381
+msgid ""
+"all the fields are explicitly listed in this record:\n"
+"the 'with' clause is useless."
+msgstr ""
+
+#: utils/warnings.ml:490
+msgid "ambiguous documentation comment"
+msgstr ""
+
+#: utils/warnings.ml:384
+msgid "bad source file name: \"%s\" is not a valid module name."
+msgstr ""
+
+#: typing/typecore.ml:5010
+msgid "but a %s was expected belonging to the %s type"
+msgstr ""
+
+#: typing/typecore.ml:4935
+msgid "but a pattern was expected which matches values of type"
+msgstr ""
+
+#: typing/typeclass.ml:1957
+msgid "but actually has type"
+msgstr ""
+
+#: typing/typecore.ml:4952
+msgid "but an expression was expected of type"
+msgstr ""
+
+#: typing/includeclass.ml:80
+msgid "but is expected to have type"
+msgstr ""
+
+#: typing/typecore.ml:5051
+msgid "but is here used with type"
+msgstr ""
+
+#: typing/typecore.ml:4931
+msgid "but is mixed here with fields of type"
+msgstr ""
+
+#: typing/typetexp.ml:888
+msgid "but is used as an instance of type"
+msgstr ""
+
+#: typing/typedecl.ml:2020
+msgid "but is used here with type"
+msgstr ""
+
+#: typing/typeclass.ml:1872
+msgid "but is used with type"
+msgstr ""
+
+#: typing/typecore.ml:5070
+msgid "but its first argument is labelled %s"
+msgstr ""
+
+#: typing/typecore.ml:5069
+msgid "but its first argument is not labelled"
+msgstr ""
+
+#: typing/typecore.ml:4942
+msgid "but on the right-hand side it has type"
+msgstr ""
+
+#: typing/typedecl.ml:2070
+msgid "but was expected to be of type"
+msgstr ""
+
+#: typing/typedecl.ml:2036
+msgid "case"
+msgstr ""
+
+#: typing/env.ml:520
+msgid "class"
+msgstr ""
+
+#: typing/env.ml:521
+msgid "class type"
+msgstr ""
+
+#: typing/typecore.ml:4330
+msgid "commuted an argument"
+msgstr ""
+
+#: typing/typecore.ml:4301
+msgid "commuting this argument"
+msgstr ""
+
+#: typing/env.ml:512
+msgid "constructor"
+msgstr ""
+
+#: utils/warnings.ml:409
+msgid ""
+"constructor %s is never used to build values.\n"
+"(However, this constructor appears in patterns.)"
+msgstr ""
+
+#: utils/warnings.ml:413
+msgid ""
+"constructor %s is never used to build values.\n"
+"Its type is exported as a private type."
+msgstr ""
+
+#: typing/typedecl.ml:2089
+msgid "contravariant"
+msgstr ""
+
+#: typing/typedecl.ml:2087
+msgid "covariant"
+msgstr ""
+
+#: typing/includemod.ml:552
+msgid "declaration"
+msgstr ""
+
+#: typing/typedecl.ml:2064
+msgid "definition"
+msgstr ""
+
+#: utils/warnings.ml:316
+msgid "deprecated: %s"
+msgstr ""
+
+#: typing/typeclass.ml:1898
+msgid "does not meet its constraint: it should be"
+msgstr ""
+
+#: typing/typecore.ml:4325
+msgid "eliminated optional argument"
+msgstr ""
+
+#: utils/warnings.ml:418
+msgid "exception"
+msgstr ""
+
+#: utils/warnings.ml:492
+msgid "expected tailcall"
+msgstr ""
+
+#: typing/typedecl.ml:413
+msgid "extensible variant types cannot be unboxed"
+msgstr ""
+
+#: utils/warnings.ml:418
+msgid "extension constructor"
+msgstr ""
+
+#: typing/typedecl.ml:2042
+msgid "field"
+msgstr ""
+
+#: utils/warnings.ml:398
+msgid "files %s and %s both define a module named %s"
+msgstr ""
+
+#: utils/warnings.ml:364
+msgid "illegal backslash escape in string."
+msgstr ""
+
+#: utils/warnings.ml:473
+msgid "illegal environment variable %s : %s"
+msgstr ""
+
+#: utils/warnings.ml:475
+msgid ""
+"illegal payload for attribute '%s'.\n"
+"%s"
+msgstr ""
+
+#: typing/typeclass.ml:1961
+msgid "immutable"
+msgstr ""
+
+#: utils/warnings.ml:477
+msgid "implicit elimination of optional argument %s"
+msgid_plural "implicit elimination of optional arguments %s"
+msgstr[0] "implicit elimination of optional argument %s"
+msgstr[1] "implicit elimination of optional arguments %s"
+
+#: typing/typedecl.ml:2090
+msgid "injective"
+msgstr ""
+
+#: typing/typedecl.ml:2088
+msgid "injective contravariant"
+msgstr ""
+
+#: typing/typedecl.ml:2086
+msgid "injective covariant"
+msgstr ""
+
+#: typing/typedecl.ml:2084
+msgid "injective invariant"
+msgstr ""
+
+#: typing/typeclass.ml:1922
+msgid "instance variable"
+msgstr ""
+
+#: typing/typedecl.ml:2085
+msgid "invariant"
+msgstr ""
+
+#: typing/typecore.ml:5039
+msgid "is not a subtype of"
+msgstr ""
+
+#: typing/printtyp.ml:1605
+msgid "is not compatible with type"
+msgstr ""
+
+#: typing/includemod.ml:548
+msgid "is not included in"
+msgstr ""
+
+#: typing/typetexp.ml:923
+msgid "it escapes its scope"
+msgstr ""
+
+#: typing/typedecl.ml:403
+msgid "it has more than one constructor"
+msgstr ""
+
+#: typing/typedecl.ml:410
+msgid "it has more than one field"
+msgstr ""
+
+#: typing/typedecl.ml:386
+msgid "it is abstract"
+msgstr ""
+
+#: typing/typetexp.ml:924
+msgid "it is already bound to another variable"
+msgstr ""
+
+#: typing/typedecl.ml:407
+msgid "it is mutable"
+msgstr ""
+
+#: typing/typetexp.ml:925
+msgid "it is not a variable"
+msgstr ""
+
+#: typing/typedecl.ml:400
+msgid "its constructor has more than one argument"
+msgstr ""
+
+#: typing/typedecl.ml:389
+msgid "its constructor has no argument"
+msgstr ""
+
+#: typing/env.ml:515
+msgid "label"
+msgstr ""
+
+#: utils/warnings.ml:330
+msgid "label %s was omitted in the application of this function."
+msgid_plural "labels %s were omitted in the application of this function."
+msgstr[0] "label %s was omitted in the application of this function."
+msgstr[1] "labels %s were omitted in the application of this function."
+
+#: typing/typedecl.ml:1952
+msgid "method"
+msgstr ""
+
+#: typing/env.ml:518
+msgid "module"
+msgstr ""
+
+#: typing/env.ml:519
+msgid "module type"
+msgstr ""
+
+#: typing/typeclass.ml:1961
+msgid "mutable"
+msgstr ""
+
+#: parsing/builtin_attributes.ml:102
+msgid "mutating field %s"
+msgstr ""
+
+#: utils/warnings.ml:483
+msgid "no cmi file was found in path for module %s"
+msgstr ""
+
+#: utils/warnings.ml:524
+msgid ""
+"no cmx file was found in path for module %s, and its interface was not "
+"compiled with -opaque"
+msgstr ""
+
+#: utils/warnings.ml:485
+msgid "no valid cmi file was found in path for module %s. %s"
+msgstr ""
+
+#: typing/typetexp.ml:884
+msgid "should be an instance of type"
+msgstr ""
+
+#: utils/warnings.ml:503
+msgid "the %S attribute cannot appear in this context"
+msgstr ""
+
+#: utils/warnings.ml:505
+msgid "the %S attribute is used more than once on this expression"
+msgstr ""
+
+#: utils/warnings.ml:395
+msgid "the %a %s is defined in both types %s and %s."
+msgstr ""
+
+#: typing/includemod.ml:552
+msgid "the first"
+msgstr ""
+
+#: utils/warnings.ml:359
+msgid ""
+"the following instance variables are overridden by the class %s\n"
+"The behaviour changed in ocaml 3.10 (previous behaviour was hiding.)"
+msgstr ""
+
+#: utils/warnings.ml:345
+msgid ""
+"the following labels are not bound in this record pattern:\n"
+"%s\n"
+"Either bind these labels explicitly or add '; _' to the pattern."
+msgstr ""
+
+#: utils/warnings.ml:337
+msgid "the following methods are overridden by the class %s"
+msgstr ""
+
+#: utils/warnings.ml:366
+msgid ""
+"the following private methods were made public implicitly:\n"
+" %s."
+msgstr ""
+
+#: utils/warnings.ml:354
+msgid ""
+"the instance variable %s is overridden.\n"
+"The behaviour changed in ocaml 3.10 (previous behaviour was hiding.)"
+msgstr ""
+
+#: utils/warnings.ml:462
+msgid "the label %s is not optional."
+msgstr ""
+
+#: utils/warnings.ml:335
+msgid "the method %s is overridden."
+msgstr ""
+
+#: typing/typedecl.ml:1996
+msgid "the original"
+msgstr ""
+
+#: typing/includemod.ml:552
+msgid "the second"
+msgstr ""
+
+#: typing/typedecl.ml:2064
+msgid "the type"
+msgstr ""
+
+#: utils/warnings.ml:372
+msgid "the virtual method %s is not declared."
+msgstr ""
+
+#: utils/warnings.ml:452
+msgid ""
+"these field labels belong to several types: %s\n"
+"The first one was selected. Please disambiguate if this is wrong."
+msgstr ""
+
+#: typing/typedecl.ml:1997
+msgid "this"
+msgstr ""
+
+#: utils/warnings.ml:376
+msgid "this argument will not be used by the function."
+msgstr ""
+
+#: typing/typecore.ml:2715
+msgid "this coercion to format6"
+msgstr ""
+
+#: utils/warnings.ml:350
+msgid "this expression should have type unit."
+msgstr ""
+
+#: typing/typedecl.ml:2064
+msgid "this extension"
+msgstr "cette extension"
+
+#: utils/warnings.ml:325
+msgid ""
+"this function application is partial,\n"
+"maybe some arguments are missing."
+msgstr ""
+
+#: typing/typecore.ml:3231
+msgid "this ground coercion"
+msgstr ""
+
+#: utils/warnings.ml:308
+msgid "this is not the end of a comment."
+msgstr ""
+
+#: utils/warnings.ml:307
+msgid "this is the start of a comment."
+msgstr ""
+
+#: utils/warnings.ml:499
+msgid ""
+"this match case is unreachable.\n"
+"Consider replacing it with a refutation case '<pat> -> .'"
+msgstr ""
+
+#: utils/warnings.ml:351
+msgid "this match case is unused."
+msgstr ""
+
+#: typing/typecore.ml:3654
+msgid "this module packing"
+msgstr ""
+
+#: typing/typemod.ml:1382
+msgid "this module unpacking"
+msgstr ""
+
+#: utils/warnings.ml:469
+msgid "this open statement shadows the %a %s (which is later used)"
+msgstr ""
+
+#: utils/warnings.ml:464
+msgid "this open statement shadows the %a identifier %s (which is later used)"
+msgstr ""
+
+#: utils/warnings.ml:370
+msgid "this optional argument cannot be erased."
+msgstr ""
+
+#: utils/warnings.ml:318
+msgid "this pattern-matching is fragile."
+msgstr ""
+
+#: utils/warnings.ml:320
+msgid ""
+"this pattern-matching is fragile.\n"
+"It will remain exhaustive when constructors are added to type %s."
+msgstr ""
+
+#: utils/warnings.ml:340
+msgid "this pattern-matching is not exhaustive."
+msgstr ""
+
+#: utils/warnings.ml:387
+msgid ""
+"this pattern-matching is not exhaustive.\n"
+"All clauses in this pattern-matching are guarded."
+msgstr ""
+
+#: utils/warnings.ml:342
+msgid ""
+"this pattern-matching is not exhaustive.\n"
+"Here is an example of a case that is not matched:\n"
+"%s"
+msgstr ""
+
+#: utils/warnings.ml:440
+msgid ""
+"this record of type %s contains fields that are \n"
+"not visible in the current scope: %s.\n"
+"They will not be selected if the type becomes unknown."
+msgstr ""
+
+#: utils/warnings.ml:378
+msgid "this statement never returns (or has an unsound type.)"
+msgstr ""
+
+#: utils/warnings.ml:352
+msgid "this sub-pattern is unused."
+msgstr ""
+
+#: typing/typecore.ml:731
+msgid "this type-based %s disambiguation"
+msgstr ""
+
+#: typing/typecore.ml:856
+msgid "this type-based record disambiguation"
+msgstr ""
+
+#: utils/warnings.ml:457
+msgid ""
+"this use of %s relies on type-directed disambiguation,\n"
+"it will not compile with OCaml 4.00 or earlier."
+msgstr ""
+
+#: typing/typecore.ml:3359
+msgid "this use of a polymorphic method"
+msgstr ""
+
+#: typing/typedecl.ml:2050
+msgid "type"
+msgstr ""
+
+#: utils/warnings.ml:489
+msgid "unattached documentation comment (ignored)"
+msgstr ""
+
+#: utils/warnings.ml:393
+msgid "unescaped end-of-line in a string constant (non-portable code)"
+msgstr ""
+
+#: typing/typedecl.ml:2091
+msgid "unrestricted"
+msgstr ""
+
+#: utils/warnings.ml:420
+msgid "unused %a %s"
+msgstr ""
+
+#: utils/warnings.ml:405
+msgid "unused ancestor variable %s."
+msgstr ""
+
+#: utils/warnings.ml:407
+msgid "unused constructor %s."
+msgstr ""
+
+#: utils/warnings.ml:404
+msgid "unused for-loop index %s."
+msgstr ""
+
+#: utils/warnings.ml:532
+msgid "unused module %s."
+msgstr ""
+
+#: utils/warnings.ml:402
+msgid "unused open %s."
+msgstr ""
+
+#: utils/warnings.ml:432
+msgid "unused rec flag."
+msgstr ""
+
+#: utils/warnings.ml:403
+msgid "unused type %s."
+msgstr ""
+
+#: utils/warnings.ml:401
+msgid "unused value %s."
+msgstr ""
+
+#: utils/warnings.ml:389
+msgid "unused variable %s."
+msgstr ""
+
+#: typing/includecore.ml:164
+msgid "uses unboxed float representation"
+msgstr ""
+
+#: typing/includecore.ml:168
+msgid "uses unboxed representation"
+msgstr ""
+
+#: typing/typecore.ml:4312
+msgid "using an optional argument here"
+msgstr ""
+
+#: typing/env.ml:516
+msgid "value"
+msgstr ""
+
+#: utils/warnings.ml:516
+msgid "variable %s"
+msgid_plural "variables %s"
+msgstr[0] "variable %s"
+msgstr[1] "variables %s"
+
+#: parsing/location.ml:288
+msgid "warning"
+msgstr ""
+
+#: typing/typecore.ml:5101
+msgid "which is less general than"
+msgstr ""
+
+#: utils/warnings.ml:391
+msgid "wildcard pattern given as argument to a constant constructor"
+msgstr ""
+
+#: typing/typecore.ml:5114
+msgid "with"
+msgstr ""
+
+#: typing/typecore.ml:4970
+msgid "with label %s"
+msgstr ""
+
+#: typing/typecore.ml:4968
+msgid "without label"
+msgstr ""

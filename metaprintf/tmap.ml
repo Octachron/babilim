@@ -65,62 +65,44 @@ end
 
 module Implementation = struct
 
-  type t =
-    {
-      str: string -> string;
-      fprintf: 'a. Format.formatter -> ('a,Format.formatter,unit) format  -> 'a;
-      fnprintf: 'a.
-           Format.formatter
-        -> int
-        -> ('a,Format.formatter,unit) format
-        -> ('a,Format.formatter,unit) format
-        -> 'a;
+  type implementation =
+  {
 
-      sprintf: 'a. ('a,Format.formatter,unit,string) format4 -> 'a;
-      snprintf: 'a. int ->
-        (('a,Format.formatter,unit,string) format4 as 'f)
-        -> 'f  -> 'a
-    }
+
+    kfprintf:
+      'a 'r. (Format.formatter -> 'r) -> Format.formatter
+      -> ('a,Format.formatter,unit,'r) format4-> 'a;
+    (** Singular form printing function *)
+
+    knfprintf:
+      'a 'r. (Format.formatter -> 'r) -> Format.formatter
+      -> int -> (('a,Format.formatter,unit,'r) format4 as 'f)
+      -> 'f -> 'a;
+    (** Plural form printing function *)
+
+  }
 
   let default =
     {
-      str = (fun id -> id);
-      fprintf = Format.fprintf;
-      sprintf = Format.asprintf;
-      fnprintf = (fun ppf n s pl ->
-          if n = 1 then Format.fprintf ppf s
-          else Format.fprintf ppf pl
+      kfprintf = Format.kfprintf;
+      knfprintf = (fun k ppf n s pl ->
+          if n = 1 then Format.kfprintf k ppf s
+          else Format.kfprintf k ppf pl
         );
-      snprintf = (fun n s pl ->
-          if n = 1 then Format.asprintf s
-          else Format.asprintf pl
-        )
 
     }
 
   let from_map tmap =
-    let fprintf ppf fmt =
-      try xfprintf tmap ?num:None ?ctx:None ppf fmt  with
-      | Not_found -> default.fprintf ppf fmt
+    let kfprintf k ppf fmt =
+      try xkfprintf tmap ?num:None ?ctx:None k ppf fmt  with
+      | Not_found -> default.kfprintf k ppf fmt
     in
-    let sprintf fmt =
-      try xsprintf tmap ?num:None ?ctx:None fmt with
-      | Not_found -> default.sprintf fmt
-    in
-    let fnprintf ppf num fmts fmtpl =
+    let knfprintf k ppf num fmts fmtpl =
       let CamlinternalFormatBasics.(Format(_,ctx)) = fmts in
-      try xfprintf tmap ~num ~ctx ppf fmtpl with
-      | Not_found -> default.fnprintf ppf num fmts fmtpl
+      try xkfprintf tmap ~num ~ctx k ppf fmtpl with
+      | Not_found -> default.knfprintf k ppf num fmts fmtpl
     in
-    let snprintf num fmts fmtpl =
-      let CamlinternalFormatBasics.(Format(_,ctx)) = fmts in
-      try xsprintf tmap ~num ~ctx fmtpl with
-      | Not_found -> default.snprintf num fmts fmtpl
-    in
-    let to_fmt str = CamlinternalFormatBasics.(
-        Format(String_literal(str,End_of_format), str) ) in
-    let str x = sprintf (to_fmt x) in
-    { str; fprintf; sprintf; fnprintf; snprintf }
+    { kfprintf; knfprintf }
 
 
   let from_store f =

@@ -31,7 +31,7 @@ let rec typer : type a b c d e f g. (a,b,c,d,e,f) fmt -> (a,f,g,b,c) W.h =
     | Int32 (k,pa,pre,f) -> padding pa @ pr pre @ (Int32 <::> f)
     | Int64 (k,pa,pre,f) -> padding pa @ pr pre @ (Int64 <::> f)
     | Nativeint (k,pa,pre,f) -> padding pa @ pr pre @ (Nativeint <::> f)
-    | Bool f -> Bool <::> f
+    | Bool (pa,f) -> padding pa @ (Bool <::> f)
     | Float(_,pa,pre,f) -> padding pa @ pr pre @ (Float <::> f)
 
     | Flush f -> typer f

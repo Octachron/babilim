@@ -46,7 +46,7 @@ module Cfmt = struct
     | "f" -> Dyn(Float(Float_f, No_padding,No_precision,l) )
     | "g" -> Dyn(Float(Float_g, No_padding,No_precision,l) )
     | "e" -> Dyn(Float(Float_e, No_padding,No_precision,l) )
-    | "b" | "B" -> Dyn( Bool l )
+    | "b" | "B" -> Dyn( Bool(No_padding, l))
     | "c" -> Dyn( Char l )
     | "C" -> Dyn (Caml_char l)
     | "s" -> Dyn(String (No_padding, l))

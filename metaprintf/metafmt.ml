@@ -48,10 +48,68 @@ let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> (src,unit) L.t
 
 
 module W = Witness
+
+module Modal = struct
+type modifier = Plus | Space | Hash
+type ext = Lit of int | Star
+
+type t = {
+  modifier:modifier option ;
+  padding:ext option;
+  precision:ext option;
+  variant:string option;
+}
+
+
+let default =
+  { modifier = None; padding = None; precision = None; variant = None }
+
+let modifier = function
+  | "" -> None
+  | "+" -> Some Plus
+  | " " -> Some Space
+  | "#" -> Some Hash
+  | _ -> None
+
+let ext = function
+  | "" -> None
+  | "*" -> Some Star
+  | x -> Some (Lit (int_of_string x))
+
+
+let lexmodal ~m ~pa ~pr =
+  {modifier=modifier m ;
+   padding=ext pa;
+   precision=ext pr;
+   variant =  None
+  }
+
+end
+
+module Formatting_box = struct
+  type t = HV | V | HOV | C
+  let to_string = function
+    | V -> "v"
+    | HOV -> "hov"
+    | HV -> "hv"
+    | C -> ""
+end
+
+
 type ('a,'driver,'mid) atom =
   | Text: string -> _ atom
-  | Hole: <x:'x; fl:_; l:_;driver:'driver; mid:'mid > W.arg
-          * ('x,'src) index -> ('src,'driver,'mid) atom
+  | Hole:
+        Modal.t
+      * <x:'x; fl:_; l:_;driver:'driver; mid:'mid > W.arg
+      * ('x,'src) index -> ('src,'driver,'mid) atom
+  | Break: { space:int; indent: int } -> _ atom
+  | Open_box: { kind:Formatting_box.t; indent:int} -> _ atom
+  | Open_tag: string -> _ atom
+  | Close_box: _ atom
+  | Close_tag: _ atom
+  | Fullstop: _ atom
+  | Newline: _ atom
+
 
 type ('a,'driver,'mid) t =
   | []: _ t
@@ -59,7 +117,7 @@ type ('a,'driver,'mid) t =
 
 open Format
 
-let print_elt (type x) ppf (w: x W.s) (x:x) = match w with
+let print_elt (type x) ppf modal (w: x W.s) (x:x) = match w with
   | W.Int -> pp_print_int ppf x
   | W.Char -> pp_print_char ppf x
   | W.Bool -> pp_print_bool ppf x
@@ -69,12 +127,12 @@ let print_elt (type x) ppf (w: x W.s) (x:x) = match w with
   | W.Float -> pp_print_float ppf x
   | W.String -> pp_print_string ppf x
 
-let print_hole (type x l fl) ppf
+let print_hole (type x l fl) ppf modal
     (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:unit > W.arg) (x:x) =
   match w with
   | W.A -> let W.Show(f,x) = x in (f ppf x:unit)
   | W.T -> (x ppf:unit)
-  | W.(S w) -> print_elt ppf w x
+  | W.(S w) -> print_elt ppf modal w x
 
 let rec kprint: type l r. (formatter -> r) ->
   formatter -> (l,formatter,unit) t -> (l,r) L.t
@@ -84,41 +142,20 @@ let rec kprint: type l r. (formatter -> r) ->
     | [] -> k ppf
     | Text s :: q ->
       pp_print_string ppf s; kprint k ppf q args
-    | Hole(w,n) :: q ->
-      print_hole ppf w (nth n args); kprint k ppf q args
+    | Hole(modal,w,n) :: q ->
+      print_hole ppf modal w (nth n args); kprint k ppf q args
+    | Open_box {kind;indent} :: q ->
+      Format.fprintf ppf "@[<%s%d>" (Formatting_box.to_string kind) indent;
+      kprint k ppf q args
+    | Open_tag s :: q -> Format.pp_open_tag ppf s; kprint k ppf q args
+    | Close_box :: q ->
+      Format.pp_close_box ppf (); kprint k ppf q args
+    | Close_tag :: q -> Format.pp_close_tag ppf (); kprint k ppf q args
+    | Break {space;indent} :: q -> Format.pp_print_break ppf space indent;
+      kprint k ppf q args
+    | Fullstop :: q -> Format.pp_print_flush ppf (); kprint k ppf q args
+    | Newline :: q -> Format.pp_force_newline ppf (); kprint k ppf q args
 
-
-let sprint_elt (type x) (w: x W.s) (x:x) = match w with
-  | W.Int -> string_of_int x
-  | W.Char -> Format.sprintf "%c" x
-  | W.Bool -> string_of_bool x
-  | W.Int32 -> Int32.to_string  x
-  | W.Int64 -> Int64.to_string  x
-  | W.Nativeint -> Nativeint.to_string  x
-  | W.Float -> string_of_float x
-  | W.String -> x
-
-let sprint_hole (type x l fl)
-    (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:string > W.arg) (x:x) =
-  let ppf = Format.formatter_of_buffer (Buffer.create 20) in
-  match w with
-  | W.A -> let W.Show(f,x) = x in
-    (f ppf x:string)
-  | W.T -> (x ppf:string)
-  | W.(S w) -> sprint_elt w x
-
-
-let rec sprint: type l c. Buffer.t -> (l,formatter,string) t -> (l,string) L.t
-  -> string =
-  fun b x args ->
-    match x with
-    | [] -> Buffer.contents b
-    | Text s :: q ->
-      Buffer.add_string b s;
-      sprint b q args
-    | Hole(w,n) :: q ->
-      Buffer.add_string b (sprint_hole w (nth n args));
-      sprint b q args
 
 let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
   -> ((l,r) L.t -> r) -> m =
@@ -143,9 +180,9 @@ let rec expand: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
     | W.[] -> f []
 
 
-let int x = Hole(S Int,x)
-let str x = Hole(S String,x)
-let show x = Hole(A,x)
+let int x = Hole(Modal.default, S Int, x)
+let str x = Hole(Modal.default, S String, x)
+let show x = Hole(Modal.default, A, x)
 
 let _0 = Z
 let _1 = S Z

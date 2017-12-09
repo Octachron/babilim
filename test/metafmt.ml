@@ -8,7 +8,7 @@ module Metafmt = struct
   open M
 
   let f ppf =
-    print ppf
+    kprint (fun _ -> ()) ppf
       [
         Text "Behold α";
         show _2;
@@ -68,8 +68,10 @@ module Dyn = struct
 
   let spec: _ format6 = "%d %s %a"
   let x =
-    "Behold α:%2$a\n\
-     A text with a variable %0$d that appears %0$d %1$s"
+    "@[<v 2>@,\
+     Behold @{<greek>α@}:%2$a@;\
+     @[A text with a variable %0$d that appears %0$d %1$s@]@;\
+     @]"
 
 
   let parse spec x = Parser.metafmt Lexer.main (Lexing.from_string x)
@@ -86,16 +88,15 @@ module Dyn = struct
 
   let xprintf x = Tmap.xfprintf m Format.std_formatter x
   let () =
-    Format.printf "Dynamic metafmt:\n";
+    Format.printf "@.@[<v>Dynamic metafmt:";
     xprintf spec
       2
       "times"
       Format.pp_print_string "to β";
-    Format.printf "@.";
-    Format.printf "Dynamic metafmt 2:\n";
+    Format.printf "@,@[<v 2>Dynamic metafmt 2:@,";
     xprintf spec'
       1 1. "isn'it?";
-    Format.printf "@."
+    Format.printf "@]@]@."
 
 end
 

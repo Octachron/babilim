@@ -18,7 +18,7 @@ module Cfmt = struct
   let nil = Dyn Internal.End_of_format
   exception Not_implemented of string
   open Internal
-  let scons s (Dyn l) = match s with
+  let scons (_m, s) (Dyn l) = match s with
     | "d" -> Dyn( Int(Int_d, No_padding,No_precision,l) )
     | "i" -> Dyn( Int(Int_i, No_padding,No_precision,l) )
     | "x" -> Dyn( Int(Int_x, No_padding,No_precision,l) )
@@ -62,6 +62,27 @@ module Cfmt = struct
       Dyn (Char_literal(t.[0],l))
     else
       Dyn (String_literal(t,l))
+
+  let fcons f (Dyn l) =
+    Dyn (Formatting_lit(f, l))
+
+  let box_cons kind indent (Dyn l) =
+    let box = Format.sprintf "<%s %d>"
+        (Metafmt.Formatting_box.to_string kind) indent in
+    Dyn (Formatting_gen(
+        Open_box(
+          Format(String_literal(box,End_of_format),
+                 "@["^box)),
+        l))
+
+
+  let tag_cons s (Dyn l) =
+    let tag = Format.sprintf "<%s>" s in
+    Dyn (Formatting_gen(
+        Open_tag(
+          Format(String_literal(tag,End_of_format),
+                 "@{"^tag)),
+        l))
 
 end
 
@@ -108,38 +129,49 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
     (Dyn r: (finl,finr,d,mid) u) =
   match atom with
   | Text s -> Dyn { r with fmt = Text s :: r.fmt }
-  | Hole(W.S x as arg,n) ->
+  | Open_box b -> Dyn { r with fmt = Open_box b :: r.fmt }
+  | Open_tag x -> Dyn { r with fmt = Open_tag x :: r.fmt }
+  | Close_box -> Dyn { r with fmt = Close_box :: r.fmt }
+  | Close_tag -> Dyn { r with fmt = Close_tag :: r.fmt }
+  | Fullstop -> Dyn { r with fmt = Fullstop :: r.fmt }
+  | Newline -> Dyn { r with fmt = Newline :: r.fmt }
+  | Break b -> Dyn { r with fmt = Break b :: r.fmt }
+
+
+  | Hole(modal, (W.S x as arg),n) ->
     begin match compat arg n r.spec with
       | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(S x, n ) :: r.fmt }
+      | Some n -> Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
     end
-  | Hole(W.A as arg,n) ->
+  | Hole(modal, (W.A as arg),n) ->
     begin
       match compat arg n r.spec with
       | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(W.A, n ) :: r.fmt }
+      | Some n -> Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
     end
-  | Hole(W.T as arg,n) ->
-    match compat arg n r.spec with
+  | Hole(modal, (W.T as arg),n) ->
+    begin match compat arg n r.spec with
     | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(W.T, n ) :: r.fmt }
+    | Some n -> Dyn {r with fmt = Hole(modal, W.T, n ) :: r.fmt }
+    end
 
-let hcons (type d m) ((W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
+
+let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
   match arg with
   | W.S x ->
     begin match compat arg n r.spec with
       | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(S x, n ) :: r.fmt }
+      | Some n -> Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
     end
   | W.A ->
     begin match compat arg n r.spec with
     | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(W.A, n ) :: r.fmt }
+    | Some n -> Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
     end
   | W.T ->
     begin match compat arg n r.spec with
     | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(W.T, n ) :: r.fmt }
+    | Some n -> Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
     end
 
 
@@ -190,7 +222,14 @@ let gen_w (type d m) ppf (x: (d,m) arg) =
 
 let gen_elt ppf = function
   | Text s -> ff ppf "Text %S" s
-  | Hole(x,n) -> ff ppf "Hole(%a,%a)" gen_w (W x) gen_pos (I n)
+  | Hole(m,x,n) -> ff ppf "Hole(Modal.default, %a,%a)" gen_w (W x) gen_pos (I n)
+  | Break r -> ff ppf "Break{space=%d; indent=%d}" r.space r.indent
+  | Open_box r -> ff ppf "Open_tag{indent=%d; kind=H}" r.indent
+  | Close_tag -> ff ppf "Close_tag"
+  | Close_box -> ff ppf "Close_box"
+  | Open_tag s -> ff ppf "Open_tag %s" s
+  | Newline -> ff ppf "Newline"
+  | Fullstop -> ff ppf "Fullstop"
 
 let rec gen_list ppf (Dyn r) =
   match r.fmt with

@@ -1,7 +1,7 @@
 
 module Internal = CamlinternalFormatBasics
 
-exception Dynamic_type_error
+exception Dynamic_type_error of string
 open Metafmt
 
 module Cfmt = struct
@@ -103,23 +103,29 @@ type ('d,'mid) arg = W : <x:'x; fl:_; l:_; mid:'mid; driver:'d > W.arg ->
 let rec compat: type x x2 src dest a b c d e dr fl fr mid.
   <x:x; l:d; fl:e; driver:dr; mid:mid> W.arg -> (x2,src) index ->
   (dest * a , fl * fr, dr, mid) W.l
-  -> (x,dest) index option
+  -> (x,dest) index
   =
   let open W in
   fun arg index spec -> match arg, index, spec with
-   | _ , _, W.[] -> None
+    | _ , _, W.[] ->
+      raise
+        (Dynamic_type_error "Mismatched position and number of arguments")
    | W.S x, Z, W.S y :: _ ->
      begin match W.(x === y) with
-       | None -> None
-       | Some Eq -> Some Z
+       | None ->
+         raise (Dynamic_type_error "Incompatible element type")
+       | Some Eq -> Z
      end
-   | W.A, Z, W.A :: _ -> Some Z
-   | _, S n, _ :: q ->
-     begin match compat arg n q with
-       | Some n -> Some(S n)
-       | None -> None
-     end
-   | _ -> None
+   | W.A, Z, W.A :: _ -> Z
+   | W.T, Z, W.T :: _ -> Z
+   | _, S n, _ :: q -> S (compat arg n q)
+   | W.A, Z, W.S _ :: _  -> raise (Dynamic_type_error "Expexted %a got %simple")
+   | W.T, Z, W.S _ :: _ -> raise (Dynamic_type_error "Expexted %t got %simple")
+   | W.S _, Z, W.T :: _  -> raise (Dynamic_type_error "Expexted %simple got %t")
+   | W.S _, Z, W.A :: _ -> raise (Dynamic_type_error "Expexted %simple got %a")
+   | W.T, Z, W.A :: _ -> raise (Dynamic_type_error "Expecte %t got %a")
+   | W.A, Z, W.T :: _ -> raise (Dynamic_type_error "Expecte %t got %a")
+
 
 let nil (Internal.Format (core,_) as fmt) =
   let W.H spec = Conv.typer core in
@@ -139,44 +145,31 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
 
 
   | Hole(modal, (W.S x as arg),n) ->
-    begin match compat arg n r.spec with
-      | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
   | Hole(modal, (W.A as arg),n) ->
-    begin
-      match compat arg n r.spec with
-      | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
   | Hole(modal, (W.T as arg),n) ->
-    begin match compat arg n r.spec with
-    | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(modal, W.T, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
 
 
 let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
   match arg with
   | W.S x ->
-    begin match compat arg n r.spec with
-      | None -> raise Dynamic_type_error
-      | Some n -> Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
   | W.A ->
-    begin match compat arg n r.spec with
-    | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
   | W.T ->
-    begin match compat arg n r.spec with
-    | None -> raise Dynamic_type_error
-    | Some n -> Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
-    end
+    let n =  compat arg n r.spec in
+    Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
 
 
 let rec integer n =
-  if n <= 0 then I Z else
+  if n <= 1 then I Z else
     let I n' = integer(n-1) in I (S n')
 
 

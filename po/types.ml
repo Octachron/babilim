@@ -73,8 +73,8 @@ let entry ppf (entry:entry) =
   f "@[<v>";
   List.iter (f "# %s@,") entry.comments.translator;
   List.iter (f"#. %s@,") entry.comments.programmer;
-  f "#: %s:%d@," entry.location.file entry.location.line;
   List.iter (f "#, %s@,") entry.flags;
+  f "#: %s:%d@," entry.location.file entry.location.line;
   List.iter (f "msgctxt %a@," text) entry.context;
   Option.( entry.previous >> msg ~pre:"#| " ppf );
   msg ppf entry.msg;

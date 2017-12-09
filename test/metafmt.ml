@@ -69,8 +69,8 @@ module Dyn = struct
   let spec: _ format6 = "%d %s %a"
   let x =
     "@[<v 2>@,\
-     Behold @{<greek>α@}:%2$a@;\
-     @[A text with a variable %0$d that appears %0$d %1$s@]@;\
+     Behold @{<greek>α@}:%3$a@;\
+     @[A text with a variable %1$d that appears %1$d %2$s@]@;\
      @]"
 
 

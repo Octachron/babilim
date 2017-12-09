@@ -95,7 +95,8 @@ module Implementation = struct
   let from_map tmap =
     let kfprintf k ppf fmt =
       try xkfprintf tmap ?num:None ?ctx:None k ppf fmt  with
-      | Not_found -> default.kfprintf k ppf fmt
+      | Not_found ->
+        default.kfprintf k ppf fmt
     in
     let knfprintf k ppf num fmts fmtpl =
       let CamlinternalFormatBasics.(Format(_,ctx)) = fmts in

@@ -22,7 +22,7 @@
 %%
 
 metafmt:
-  | l=metalist EOF { l 0 }
+  | l=metalist EOF { l 1 }
 
 fmt:
   | l = slist EOF { l }

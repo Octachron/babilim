@@ -24,15 +24,15 @@ let key = ['a' - 'z' 'A' - 'Z' '_']+
 
 rule main = parse
   | newline { main lexbuf }
-  | "# " (line as text) newline { TCOMMENT text }
-  | "#." (line as text) newline { PCOMMENT text }
-  | "#," (line as text) newline { FLAG text }
-  | "#:" (line as text) ":" (num as n) newline
+  | "# " space (line as text) space newline { TCOMMENT text }
+  | "#." space (line as text) space newline { PCOMMENT text }
+  | "#," space (line as text) space newline { FLAG text }
+  | "#:" space (line as text) ":" (num as n) space newline
     { LOC { file=text; line=int_of_string n } }
-  | space (key as key) space "\"" (line as q) "\"" newline
+  | space (key as key) space "\"" (line as q) "\"" space newline
     { make key q }
-  | space "msgstr[" (num as n) "]" space "\"" (line as q) "\"" newline
+  | space "msgstr[" (num as n) "]" space "\"" (line as q) "\"" space newline
     { STRN (int_of_string n,q) }
-  | space* "\"" (line as l) "\"" newline {MORESTR l}
+  | space "\"" (line as l) "\"" space newline {MORESTR l}
   | "#|" space (key as key) space "\"" (line as l) "\"" { pmake key l }
   | eof { EOF }

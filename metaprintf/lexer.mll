@@ -34,16 +34,16 @@ rule main = parse
   (integer_modifier? letter as l)
   { INDEXED(lexmodal ~m ~pa ~pr, l, int_of_string n) }
   | "%"  (modifier? as m) (padding? as pa) (precision? as pr)
-  (integer_modifier? letter+ as l)
+  (integer_modifier? letter as l)
   { SIMPLE (lexmodal ~m ~pa ~pr,l) }
   | "%%" { PERCENT }
-  | "@@" { AT }
+  | "@@" |"%@" | "@" { AT }
   | "@ " as s { BREAK(s,1,0) }
   | "@," as s { BREAK(s,0,0) }
   | "@;"("<" space (num as x) space (num as y) space ">")? as s { semicolon s x y }
   | "@." { FULLSTOP }
   | "@\\n" { FORCED_NEWLINE }
-  | "@[" ("<"space (letter+as kind) space (num as indent)? space ">")?
+  | "@[" ("<"space (letter+as kind)? space (num as indent)? space ">")?
   { OPEN_BOX(box_kind kind, int indent) }
   | "@{" ("<" space (letter+ as label) space ">") { OPEN_TAG label }
   | "@}" { CLOSE_TAG }

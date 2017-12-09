@@ -40,13 +40,13 @@ let make_msg info src =
     Ty.Singular { id = src; translation = src }
 
 
-let make info loc comment msg =
+let make format info loc comment msg =
   {
     Ty.comments = { programmer = comment; translator = [] };
     location =
       (let s = loc.Location.loc_start in
        Lexing.{ file = s.pos_fname; line = s.pos_lnum });
-    flags = [];
+    flags = if format then ["c-format"] else [];
     context = info.context;
     previous = None;
     msg
@@ -79,17 +79,19 @@ let attributes attrs =
     | _ -> None ) attrs
 
 
-type printf = S of int | P of int | No
+type printf = S of bool * int | P of bool * int | No
 
 let is_printf f = match f.pexp_desc with
   | Pexp_ident { txt=L.(Ldot(Lident "I18n", f)); _ } ->
     begin match f with
-      | "printf" | "sprintf" | "s" -> S 0
-      | "kfprintf" -> S 2
-      | "fprintf" -> S 1
-      | "fnprintf" -> P 2
-      | "snprintf" | "sn" -> P 1
-      | "knprintf" -> P 3
+      | "printf" | "sprintf" -> S(true,0)
+      | "s" -> S (false, 0)
+      | "kfprintf" -> S(true,2)
+      | "fprintf" -> S(true,1)
+      | "fnprintf" -> P(true,2)
+      | "snprintf" -> P(true,1)
+      | "sn" -> P(false,1)
+      | "knprintf" -> P(true,3)
       | _ -> No
     end
   | _ -> No
@@ -120,21 +122,22 @@ let register entry =
   m := Ty.add entry !m
 (*  Format.fprintf ppf "%a" Ty.Pp.entry entry *)
 
-let make_expr info e = make info_default (e.pexp_loc) (exdocs e.pexp_attributes)
+let make_expr format info e =
+  make format info_default (e.pexp_loc) (exdocs e.pexp_attributes)
 
 let apply e =
   match e.pexp_desc with
   | Pexp_apply (f, l) ->
     begin match is_printf f with
     | No -> ()
-    | S n -> List.nth_opt l n >>| snd >>
-      str (fun s -> register @@ make_expr info_default e
+    | S (format, n) -> List.nth_opt l n >>| snd >>
+      str (fun s -> register @@ make_expr format info_default e
             @@ make_msg info_default [s])
-    | P n ->
+    | P (format,n) ->
       begin match List.nth_opt l n,List.nth_opt l (n+1) with
         | Some (_,x), Some (_,y) ->
           str (fun id -> str (fun plural ->
-              register @@ make_expr info_default e @@
+              register @@ make_expr format info_default e @@
               Ty.Plural {id = [id]; plural = [plural];
                          translations = [0, [id]; 1, [plural]] }
             ) y
@@ -165,7 +168,7 @@ let expr iter e =
         @@ expr_payload i18n_key (const metadata) e.pexp_attributes in
       if (List.exists i18n_key e.pexp_attributes || !status) then
         e |> strf (fun () -> super.expr iter e)
-          (fun s -> register @@ make_expr info e @@ make_msg info [s])
+          (fun s -> register @@ make_expr true info e @@ make_msg info [s])
       else
         super.expr iter e
     ) ()

@@ -28,11 +28,13 @@ file:
 
 entry:
   | tc=list(TCOMMENT) pc=list(PCOMMENT) flgs=list(FLAG)
-    r=LOC context=context msg=msg {
+    r=LOC context=context
+    flgs2=list(FLAG)
+    msg=msg {
   {
     comments={programmer=pc;translator=tc};
     location = r;
-    flags = flgs;
+    flags = flgs @ flgs2 ;
     context;
     previous=None;
     msg;

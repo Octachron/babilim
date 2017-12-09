@@ -1,4 +1,4 @@
-let dir = Configuration.share
+let dir = Configuration.share ^ "/babilim"
 module T = Metaprintf.Tmap
 module I18n = struct
   let implementation = ref T.Implementation.default

@@ -1,0 +1,16 @@
+opam-version: "2.0"
+maintainer: "octachron, <octa@polychoron.fr>"
+authors: "octachron, <octa@polychoron.fr>"
+homepage: "https://www.github.com/Octachron/babilim"
+dev-repo: "git+https://www.github.com/Octachron/babilim.git"
+bug-reports: "https://www.github.com/Octachron/babilim/issues"
+
+version: "0.1"
+build: [
+  ["./configure" "--sharedir" "%{share}%"]
+  ["jbuilder" "build" "-p" name "-j" jobs]
+]
+depends: [
+  "jbuilder" {build}
+]
+license: "GPL-3"

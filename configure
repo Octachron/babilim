@@ -1,0 +1,14 @@
+#!/bin/sh
+
+share() {
+   echo "let share=\"$1\"" > babilim/configuration.ml
+}
+
+while [ -n "$1" ]; do
+case $1 in
+  --sharedir)
+  shift 1
+  share $1
+esac
+shift 1
+done

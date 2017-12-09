@@ -1,4 +1,4 @@
-let dir = ""
+let dir = Configuration.share
 module T = Metaprintf.Tmap
 module I18n = struct
   let implementation = ref T.Implementation.default

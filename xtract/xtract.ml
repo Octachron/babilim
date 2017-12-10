@@ -30,8 +30,35 @@ let metadata e =
   | Pexp_record (fields,x) -> List.fold_left label (start x) fields
   | _ -> info_default
 
+let default x y = match y with
+  | None -> x
+  | Some y -> y
+
+type 'a return = {return: 'r. 'a -> 'r  } [@@unboxed]
+let with_return (type a) f =
+  let exception Return of a in
+  try f { return = (fun x -> raise (Return x)) } with
+  | Return x -> x
+
+let may_return f = with_return (fun r -> f r; None)
+
+let expr_payload filter f attrs =
+  let elt {return} attr =
+    if filter attr then
+      match snd attr with
+      | PStr [ { pstr_desc = Pstr_eval (e,_); _}  ] ->
+        return (f e)
+      | _ -> () in
+  may_return (fun return -> List.iter (elt return) attrs)
+
+let const f x = Some(f x)
+
+
 let all_metadata =
-  List.fold_left (fun info e -> merge info (metadata e)) info_default
+  let xtract e =
+    default info_default
+    @@ expr_payload i18n_key (const metadata) e.pexp_attributes in
+  List.fold_left (fun info e -> merge info (xtract e)) info_default
 
 
 open Po.Option
@@ -56,24 +83,6 @@ let make ?(context=[]) ?(format=true) loc comment msg =
     msg
   }
 
-type 'a return = {return: 'r. 'a -> 'r  } [@@unboxed]
-let with_return (type a) f =
-  let exception Return of a in
-  try f { return = (fun x -> raise (Return x)) } with
-  | Return x -> x
-
-let may_return f = with_return (fun r -> f r; None)
-
-let expr_payload filter f attrs =
-  let elt {return} attr =
-    if filter attr then
-      match snd attr with
-      | PStr [ { pstr_desc = Pstr_eval (e,_); _}  ] ->
-        return (f e)
-      | _ -> () in
-  may_return (fun return -> List.iter (elt return) attrs)
-
-let const f x = Some(f x)
 
 let attributes attrs =
   expr_payload i18n_key (
@@ -139,12 +148,12 @@ let apply e =
   match e.pexp_desc with
   | Pexp_apply (f, l) ->
     begin match is_printf f with
-    | No -> ()
+    | No -> false
     | S (format, n) -> List.nth_opt l n >>| snd >>
       (fun x ->
          x |> str (fun s -> register @@ make_expr format [e;x]
                @@ make_msg [s])
-      )
+      ); true
     | P (format,n) ->
       begin match List.nth_opt l n,List.nth_opt l (n+1) with
         | Some (_,x), Some (_,y) ->
@@ -153,11 +162,12 @@ let apply e =
               Ty.Plural {id = [id]; plural = [plural];
                          translations = [0, [id]; 1, [plural]] }
             ) y
-            ) x
-        | _ -> ()
+            ) x;
+          true
+        | _ -> false
       end
     end
-  | _ -> ()
+  | _ -> false
 
 
 let with_attrs attrs k =
@@ -169,13 +179,11 @@ let with_attrs attrs k =
 
 let super = Iter.default_iterator
 
-let default x y = match y with
-  | None -> x
-  | Some y -> y
 
 let expr iter e =
   with_attrs e.pexp_attributes (fun () ->
-      apply e;
+      if apply e then ()
+      else
       let info = default info_default
         @@ expr_payload i18n_key (const metadata) e.pexp_attributes in
       if (List.exists i18n_key e.pexp_attributes || !status) then

@@ -2,7 +2,9 @@
 {
 open Parser
 
-let u = Scanf.unescaped
+let u x =
+try Scanf.unescaped x with
+| _ -> Format.eprintf "Unescaping failed on %s@." x; x
 
 let make key s =
   let s = u s in
@@ -29,9 +31,9 @@ let key = ['a' - 'z' 'A' - 'Z' '_']+
 
 rule main = parse
   | newline { main lexbuf }
-  | "# " space (line as text) space newline { TCOMMENT (u text) }
-  | "#." space (line as text) space newline { PCOMMENT (u text) }
-  | "#," space (line as text) space newline { FLAG (u text) }
+  | "# " space (line as text) space newline { TCOMMENT (text) }
+  | "#." space (line as text) space newline { PCOMMENT (text) }
+  | "#," space (line as text) space newline { FLAG (text) }
   | "#:" space (line as text) ":" (num as n) space newline
     { LOC { file=text; line=int_of_string n } }
   | space (key as key) space "\"" (line as q) "\"" space newline

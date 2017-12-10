@@ -63,7 +63,11 @@ let add _ (entry:Po.Types.entry) map =
            Po.Types.Pp.entry entry; raise e
 
 let transform file =
-  let data = Po.Parse.file file in
+  let data = try
+      Po.Parse.file file
+    with  exn ->
+      Format.eprintf "Po file parsing failure@."; raise exn
+  in
   let map = Po.Types.Map.fold add data Mf.Tmap.empty in
   let output = match !output with
     | None -> Filename.chop_extension file ^ ".bo"

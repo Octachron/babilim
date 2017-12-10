@@ -107,6 +107,7 @@ type ('a,'driver,'mid) atom =
   | Open_tag: string -> _ atom
   | Close_box: _ atom
   | Close_tag: _ atom
+  | Flush: _ atom
   | Fullstop: _ atom
   | Newline: _ atom
 
@@ -153,9 +154,9 @@ let rec kprint: type l r. (formatter -> r) ->
     | Close_tag :: q -> Format.pp_close_tag ppf (); kprint k ppf q args
     | Break {space;indent} :: q -> Format.pp_print_break ppf space indent;
       kprint k ppf q args
-    | Fullstop :: q -> Format.pp_print_flush ppf (); kprint k ppf q args
+    | Fullstop :: q -> Format.fprintf ppf "@."; kprint k ppf q args
     | Newline :: q -> Format.pp_force_newline ppf (); kprint k ppf q args
-
+    | Flush :: q -> Format.fprintf ppf "%!"; kprint k ppf q args
 
 let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
   -> ((l,r) L.t -> r) -> m =

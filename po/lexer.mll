@@ -34,5 +34,5 @@ rule main = parse
   | space "msgstr[" (num as n) "]" space "\"" (line as q) "\"" space newline
     { STRN (int_of_string n,q) }
   | space "\"" (line as l) "\"" space newline {MORESTR l}
-  | "#|" space (key as key) space "\"" (line as l) "\"" { pmake key l }
+  | ("#|"|"#~") space (key as key) space "\"" (line as l) "\"" { pmake key l }
   | eof { EOF }

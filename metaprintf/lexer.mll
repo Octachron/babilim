@@ -37,6 +37,7 @@ rule main = parse
   (integer_modifier? letter as l)
   { SIMPLE (lexmodal ~m ~pa ~pr,l) }
   | "%%" { PERCENT }
+  | "%!" | "@?" { FLUSH }
   | "@@" |"%@" | "@" { AT }
   | "@ " as s { BREAK(s,1,0) }
   | "@," as s { BREAK(s,0,0) }

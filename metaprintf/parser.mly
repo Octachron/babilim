@@ -2,6 +2,7 @@
 %token<Metafmt.Modal.t * string> SIMPLE
 %token<Metafmt.Modal.t * string * int> INDEXED
 %token AT
+%token FLUSH
 %token PERCENT
 %token EOF
 %token<string * int * int> BREAK
@@ -38,6 +39,7 @@ slist:
 | { Cfmt.nil }
 | x=SIMPLE r=slist { Cfmt.scons x r }
 | t=text_elt r=slist { Cfmt.tcons t r }
+| FLUSH r=slist { let Cfmt.Dyn r = r in Cfmt.Dyn(C.Flush r) }
 | f=formatting_elt  r=slist { Cfmt.fcons f r }
 | b=OPEN_BOX r = slist
   {
@@ -52,7 +54,6 @@ formatting_elt:
 | FORCED_NEWLINE { C.Force_newline }
 | CLOSE_BOX { C.Close_box }
 | CLOSE_TAG { C.Close_tag }
-
 indexed:
 | x=INDEXED { let m, l, n = x in
   m, arg l, integer n
@@ -67,6 +68,7 @@ textlike:
 | CLOSE_BOX { A Close_box }
 | CLOSE_TAG { A Close_tag }
 | b= BREAK { let (_,x,y) = b in A (Break{space=x;indent=y}) }
+| FLUSH { A Flush }
 
 text_elt:
   | AT { "@@" }

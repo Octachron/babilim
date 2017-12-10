@@ -142,6 +142,7 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
   | Fullstop -> Dyn { r with fmt = Fullstop :: r.fmt }
   | Newline -> Dyn { r with fmt = Newline :: r.fmt }
   | Break b -> Dyn { r with fmt = Break b :: r.fmt }
+  | Flush -> Dyn { r with fmt = Flush :: r.fmt }
 
 
   | Hole(modal, (W.S x as arg),n) ->
@@ -153,7 +154,6 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
   | Hole(modal, (W.T as arg),n) ->
     let n =  compat arg n r.spec in
     Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
-
 
 let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
   match arg with
@@ -223,6 +223,7 @@ let gen_elt ppf = function
   | Open_tag s -> ff ppf "Open_tag %s" s
   | Newline -> ff ppf "Newline"
   | Fullstop -> ff ppf "Fullstop"
+  | Flush -> ff ppf "Flush"
 
 let rec gen_list ppf (Dyn r) =
   match r.fmt with

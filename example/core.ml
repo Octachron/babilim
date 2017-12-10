@@ -28,6 +28,6 @@ let () = Arg.parse ["-lang", Arg.String set_map, "Set the translation map used"]
 let () =
   I18n.kfprintf ignore Format.std_formatter "This is the message %d over %d" 1 2;
   let s = I18n.s
-      "This message with [@@attribute] should not be interpreted as a format" in
+      "This message with \"[@@attribute]\" should not be interpreted as a format" in
   Format.printf "@.%s" s;
   Format.printf "@."

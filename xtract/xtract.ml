@@ -13,6 +13,7 @@ let status = ref false
 
 type info = { plural: bool; context: string list }
 let info_default = { plural = false; context = [] }
+let merge x y = { plural = x.plural || y.plural; context = x.context @ y.context }
 
 let metadata e =
   let label r (l,x) = match (l.Location.txt,x) with
@@ -29,25 +30,28 @@ let metadata e =
   | Pexp_record (fields,x) -> List.fold_left label (start x) fields
   | _ -> info_default
 
+let all_metadata =
+  List.fold_left (fun info e -> merge info (metadata e)) info_default
+
 
 open Po.Option
 module Ty = Po.Types
 
-let make_msg info src =
-  if info.plural = true then
+let make_msg ?(plural=false) src =
+  if plural then
     Ty.Plural { id = src; plural = src; translations = [0,src] }
   else
     Ty.Singular { id = src; translation = src }
 
 
-let make format info loc comment msg =
+let make ?(context=[]) ?(format=true) loc comment msg =
   {
     Ty.comments = { programmer = comment; translator = [] };
     location =
       (let s = loc.Location.loc_start in
        Lexing.{ file = s.pos_fname; line = s.pos_lnum });
     flags = if format then ["c-format"] else [];
-    context = info.context;
+    context;
     previous = None;
     msg
   }
@@ -98,7 +102,7 @@ let is_printf f = match f.pexp_desc with
 
 
 let exdoc  = function
-  | { Location.txt = "ocaml.doc"|"doc"; _ },
+  | { Location.txt = "ocaml.doc"|"doc"|"i18n.doc"; _ },
     PStr [
       { pstr_desc = Pstr_eval ({
             pexp_desc = Pexp_constant Pconst_string (s,_); _ },_)
@@ -106,7 +110,10 @@ let exdoc  = function
     ] -> [s]
   | _ -> []
 
-let exdocs = List.fold_left (fun l x -> exdoc x @ l) []
+let exdocs exs =
+  let from_exp l x =
+    List.fold_left (fun l x -> exdoc x @ l) l x in
+  List.fold_left (fun l x -> from_exp l x.pexp_attributes) [] exs
 
 let strf fail k e = match e.pexp_desc with
   | Pexp_constant Pconst_string (s,_) ->
@@ -116,14 +123,17 @@ let strf fail k e = match e.pexp_desc with
 let str x = strf ignore x
 
 
+let loc e = e.pexp_loc
+
 let m = ref Ty.Map.empty
 
 let register entry =
   m := Ty.add entry !m
 (*  Format.fprintf ppf "%a" Ty.Pp.entry entry *)
 
-let make_expr format info e =
-  make format info_default (e.pexp_loc) (exdocs e.pexp_attributes)
+let make_expr ?(info=info_default) format exs =
+  let info = merge info (all_metadata exs) in
+  make ~context:info.context ~format (loc @@ List.hd exs) (exdocs exs)
 
 let apply e =
   match e.pexp_desc with
@@ -131,13 +141,15 @@ let apply e =
     begin match is_printf f with
     | No -> ()
     | S (format, n) -> List.nth_opt l n >>| snd >>
-      str (fun s -> register @@ make_expr format info_default e
-            @@ make_msg info_default [s])
+      (fun x ->
+         x |> str (fun s -> register @@ make_expr format [e;x]
+               @@ make_msg [s])
+      )
     | P (format,n) ->
       begin match List.nth_opt l n,List.nth_opt l (n+1) with
         | Some (_,x), Some (_,y) ->
           str (fun id -> str (fun plural ->
-              register @@ make_expr format info_default e @@
+              register @@ make_expr format [e;x;y] @@
               Ty.Plural {id = [id]; plural = [plural];
                          translations = [0, [id]; 1, [plural]] }
             ) y
@@ -168,7 +180,8 @@ let expr iter e =
         @@ expr_payload i18n_key (const metadata) e.pexp_attributes in
       if (List.exists i18n_key e.pexp_attributes || !status) then
         e |> strf (fun () -> super.expr iter e)
-          (fun s -> register @@ make_expr true info e @@ make_msg info [s])
+          (fun s -> register @@
+            make_expr ~info true [e] @@ make_msg  [s])
       else
         super.expr iter e
     ) ()
@@ -209,21 +222,10 @@ let rec explore prefix filter file0 =
       (Array.to_list @@ Sys.readdir file)
   else if filter file then [file] else []
 
-(*
-let rec explore ppf prefix filter file =
-  let file =
-    String.concat "/" @@ List.rev_append prefix [file] in
-  if Sys.is_directory file then
-    Array.iter (explore ppf (file::prefix) filter) (Sys.readdir file)
-  else if filter file then
-    parse ppf file
-*)
-
 let ml_file f = match Filename.extension f with
   | ".ml" -> true
   | ".mlt" -> true
   | _ -> false
-
 
 let header =
   Ty.Singular { id = [""]; translation =
@@ -245,7 +247,7 @@ let () =
   let files = ref [] in
   let register_files file = files := explore "" ml_file file :: !files in
   let output = "-pot", Arg.Set_string f, "output pot file" in
-  Arg.parse [output] register_files "ppxtract files";
+  Arg.parse [output] register_files "xtract files";
   let ppf = Format.formatter_of_out_channel (open_out !f) in
   Format.fprintf ppf "@[<v>%a@]@." (Ty.Pp.msg ~pre:"") header;
   List.iter (List.iter parse) !files;

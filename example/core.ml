@@ -29,5 +29,9 @@ let () =
   I18n.kfprintf ignore Format.std_formatter "This is the message %d over %d" 1 2;
   let s = I18n.s
       "This message with \"[@@attribute]\" should not be interpreted as a format" in
-  Format.printf "@.%s" s;
+  let s' =
+    I18n.s ("This message is commented"[@ocaml.doc "I remember"]) in
+  let s'' =
+    I18n.s ("Pole"[@i18n { context = "complex analysis" } ]) in
+      Format.printf "@.%s\n%s\n%s" s s' s'';
   Format.printf "@."

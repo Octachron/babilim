@@ -65,7 +65,7 @@ msgid ""
 "%s belongs to several types: %s\n"
 "The first one was selected. Please disambiguate if this is wrong."
 msgstr ""
-"%s appartient à plusieurs types: %s\n"
+"%s appartient à plusieurs types : %s\n"
 "Le premier a été sélectionné. Explicitez le type si ce choix est erroné."
 
 #: utils/warnings.ml:434
@@ -129,19 +129,19 @@ msgid ""
 "@,@[<hov>This instance of %a is ambiguous:@ it would escape the scope of its "
 "equation@]"
 msgstr ""
-"@,@[<hov>Cette instance de %a est ambiguë :@ elle échapperait à la portée de "
+"@,@[<hov>Cette instance de %a est ambiguë :@ elle échapperait à la portée de "
 "don équation@]"
 
 #: typing/printtyp.ml:1435
 #, c-format
 msgid "@,@[Hint: Did you forget to provide `()' as argument?@]"
-msgstr "@,@[Suggestion: Avez vous oubliez de fournir `()' comme argument ?@]"
+msgstr "@,@[Suggestion : Avez vous oubliez de fournir `()' comme argument ?@]"
 
 #: typing/printtyp.ml:1440
 #, c-format
 msgid "@,@[Hint: Did you forget to wrap the expression using `fun () ->'?@]"
 msgstr ""
-"@,@[Suggestion: Avez-vous oubliez d'enclore cette expression par `fun () -"
+"@,@[Suggestion : Avez-vous oubliez d'enclore cette expression par `fun () -"
 ">' ?@]"
 
 #: typing/printtyp.ml:1492
@@ -228,7 +228,7 @@ msgstr "@[%a@ @[<hv> Le type@ %a@ devrait être un sous-cas de @ %a@]@]"
 #: typing/typeclass.ml:1887
 #, c-format
 msgid "@[%t.@ @[<2>The following %s are undefined :%a@]@]"
-msgstr "@[%t.@ @[<2>Les %s suivants sont indéfinis :%a@]@]"
+msgstr "@[%t.@ @[<2>Les %s suivants sont indéfinis :%a@]@]"
 
 #: typing/typetexp.ml:931
 #, c-format
@@ -244,7 +244,7 @@ msgstr "@[<hov>Certains champ du record ne sont pas définis:%a@]"
 #, c-format
 msgid "@[<hov>The universal type variable '%s cannot be generalized:@ %a.@]"
 msgstr ""
-"@[<hov>La variable de type universel '%s ne peut pas être généralisée:@ %a.@]"
+"@[<hov>La variable de type universel '%s ne peut pas être généralisée :@ %a.@]"
 
 #: typing/typetexp.ml:896
 #, c-format
@@ -263,7 +263,7 @@ msgstr "@[<hv 2>À l'emplacement@ %a@]@ "
 msgid ""
 "@[<hv 2>Class declarations do not match:@ %a@;<1 -2>does not match@ %a@]@ %a"
 msgstr ""
-"@[<hv 2>Les déclarations de classes ne sont assorties:@ %a@;<1 -2>n'est pas "
+"@[<hv 2>Les déclarations de classes ne sont assorties :@ %a@;<1 -2>n'est pas "
 "compatible avec@ %a@]@ %a"
 
 #: typing/includemod.ml:579
@@ -272,7 +272,7 @@ msgid ""
 "@[<hv 2>Class type declarations do not match:@ %a@;<1 -2>does not match@ "
 "%a@]@ %a"
 msgstr ""
-"@[<hv 2>Les déclarations de types de classes ne sont assorties:@ %a@;<1 "
+"@[<hv 2>Les déclarations de types de classes ne sont assorties :@ %a@;<1 "
 "-2>n'est pas compatible avec@ %a@]@ %a"
 
 #: typing/includemod.ml:554
@@ -281,7 +281,7 @@ msgid ""
 "@[<hv 2>Extension declarations do not match:@ %a@;<1 -2>is not included in@ "
 "%a@]"
 msgstr ""
-"@[<hv 2>Les déclarations d'extensions ne sont assorties:@ %a@;<1 -2>n'est "
+"@[<hv 2>Les déclarations d'extensions ne sont assorties :@ %a@;<1 -2>n'est "
 "pas inclu par@ %a@]"
 
 #: typing/includemod.ml:567
@@ -290,21 +290,21 @@ msgid ""
 "@[<hv 2>Module type declarations do not match:@ %a@;<1 -2>does not match@ "
 "%a@]"
 msgstr ""
-"@[<hv 2>Les déclarations de types de modules ne sont assorties:@ %a@;<1 "
+"@[<hv 2>Les déclarations de types de modules ne sont assorties :@ %a@;<1 "
 "-2>n'est pas compatible avec@ %a@]"
 
 #: typing/includemod.ml:561
 #, c-format
 msgid "@[<hv 2>Modules do not match:@ %a@;<1 -2>is not included in@ %a@]"
 msgstr ""
-"@[<hv 2>Les modules ne sont pas assortis:@ %a@;<1 -2>n'est pas inclus dans@ "
+"@[<hv 2>Les modules ne sont pas assortis :@ %a@;<1 -2>n'est pas inclus dans@ "
 "%a@]"
 
 #: typing/includemod.ml:540
 #, c-format
 msgid "@[<hv 2>Values do not match:@ %a@;<1 -2>is not included in@ %a@]"
 msgstr ""
-"@[<hv 2>Les valeurs ne sont pas assorties:@ %a@;<1 -2>n'est pas inclus dans@ "
+"@[<hv 2>Les valeurs ne sont pas assorties :@ %a@;<1 -2>n'est pas inclus dans@ "
 "%a@]"
 
 #: typing/typedecl.ml:2024
@@ -370,7 +370,7 @@ msgid ""
 msgstr ""
 "@[<v>@[À l'intérieur de la contrainte `with' constraint, la nouvelle "
 "définition de %a@ n'est pas compatible avec la définition originelle@ dans "
-"la contrainte de signature :@]@ %a@]"
+"la contrainte de signature :@]@ %a@]"
 
 #: typing/typeclass.ml:1930
 #, c-format
@@ -386,7 +386,7 @@ msgstr ""
 msgid ""
 "@[<v>@[Some type variables are unbound in this type:@;<1 2>%t@]@ @[%a@]@]"
 msgstr ""
-"@[<v>@[Des variables de type ne sont pas lié dans ce type:@;<1 2>%t@]@ "
+"@[<v>@[Des variables de type ne sont pas lié dans ce type :@;<1 2>%t@]@ "
 "@[%a@]@]"
 
 #: typing/typecore.ml:5017
@@ -404,12 +404,12 @@ msgstr "@[<v>Caractères %i-%i:@,"
 #: typing/typemod.ml:1931
 #, c-format
 msgid "@[<v>Signature mismatch:@ %a@]"
-msgstr "@[<v>Incompatibilité de signature:@ %a@]"
+msgstr "@[<v>Incompatibilité de signature :@ %a@]"
 
 #: typing/typedecl.ml:1987
 #, c-format
 msgid "@[<v>The definition of %s contains a cycle:@ %a@]"
-msgstr "@[<v>Cette définition de %s contient un cycle:@ %a@]"
+msgstr "@[<v>Cette définition de %s contient un cycle :@ %a@]"
 
 #: typing/typecore.ml:4994
 #, c-format
@@ -434,21 +434,21 @@ msgstr "@[Impossible de trouver le fichier .cmi pour l'interface@ %a.@]"
 #: debugger/loadprinter.ml:171
 #, c-format
 msgid "@[Error during code loading: %s@]@."
-msgstr "@[Erreur durant le chargement du code: %s@]@."
+msgstr "@[Erreur durant le chargement du code : %s@]@."
 
 #: typing/typecore.ml:5132
 #, c-format
 msgid "@[Exception patterns must be at the top level of a match case.@]"
 msgstr ""
-"@[Les motifs d' exception doivent être placé au premier niveau des cas "
-"observés par match.@]"
+"@[Les motifs d'exception doivent être placé au premier niveau des cas "
+"filtrés par match.@]"
 
 #: typing/typedecl.ml:2155
 #, c-format
 msgid "@[GADT case syntax cannot be used in a 'nonrec' block.@]"
 msgstr ""
 "@[ La syntaxe GADT ne peut pas être utilisée au sein d'un bloc non récursif  "
-"introduit par  'nonrec' .@]"
+"introduit par 'nonrec' .@]"
 
 #: typing/typedecl.ml:2124
 #, c-format
@@ -496,17 +496,17 @@ msgid_plural ""
 "%d-th type parameter was expected to be %a,@ but it is %a.@]"
 msgstr[0] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
-"satisfaite.s@ Le %1$der paramètre de type était supposé être %2$a,@ mais il "
+"correctes@ Le %1$der paramètre de type était supposé être %2$a,@ mais il "
 "est en fait %3$a.@]"
 msgstr[1] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
-"satisfaite.s@ Le %1$d-ème paramètre de type était supposé être %2$a,@ mais "
+"correctes.s@ Le %1$d-ème paramètre de type était supposé être %2$a,@ mais "
 "il est en fait %3$a.@]"
 
 #: typing/typecore.ml:5126
 #, c-format
 msgid "@[Invalid for-loop index: only variables and _ are allowed.@]"
-msgstr "@[Boucle for invalide: seule des variables et _ sont permises.@]"
+msgstr "@[Boucle for invalide : seule des variables et _ sont permises.@]"
 
 #: typing/typemod.ml:1973
 #, c-format
@@ -525,12 +525,12 @@ msgstr "@[Seul les intervalles de caractères sont supportés dans les motifs.@]
 #: typing/typeclass.ml:1972
 #, c-format
 msgid "@[The %a `%s'@ has multiple definitions in this object@]"
-msgstr "@[Le %a `%s'@ a plusieurs définition dans cette objet@]"
+msgstr "@[Le %a `%s'@ a plusieurs définition dans cet objet@]"
 
 #: typing/typeclass.ml:1969
 #, c-format
 msgid "@[The %a `%s'@ has no previous definition@]"
-msgstr "@[Le %a `%s'@ n'a pas de définition précédente @]"
+msgstr "@[Le %a `%s'@ n'a pas de définition préalable @]"
 
 #: typing/typecore.ml:5119
 #, c-format
@@ -545,7 +545,7 @@ msgid ""
 "@[The abbreviation %a@ is used with parameters@ %a@ which are incompatible "
 "with constraints@ %a@]"
 msgstr ""
-"@[L'abréviation %a@ est utilisés avec des paramètres@ %a@ qui ne sont pas "
+"@[L'abréviation %a@ est utilisée avec des paramètres@ %a@ qui ne sont pas "
 "compatibles avec les contraintes@ %a@]"
 
 #: typing/typeclass.ml:1864
@@ -634,7 +634,7 @@ msgstr "@[Le premier type de classe n'a pas de méthode %s@]"
 #: typing/includemod.ml:575
 #, c-format
 msgid "@[The implementation %s@ does not match the interface %s:"
-msgstr "@[L'implémentation %s@ n'est pas compatible avec l'interface %s:"
+msgstr "@[L'implémentation %s@ n'est pas compatible avec l'interface %s :"
 
 #: typing/typeclass.ml:1962
 #, c-format
@@ -703,7 +703,7 @@ msgid ""
 "@.Some occurrences are contravariant@]"
 msgstr ""
 "@[Le type-même de l'objet ne peut pas être coercé@ au type de la classe "
-"actuelle:@ %a.@.Certaines apparitions sont contravariantes@]"
+"actuelle :@ %a.@.Certaines apparitions sont contravariantes@]"
 
 #: typing/typeclass.ml:1947
 #, c-format
@@ -802,7 +802,7 @@ msgid ""
 "would reach it:@ %a@]"
 msgstr ""
 "@[Ce cas de filtrage n'a pu être réfuté.@ Voici un exemple d'une valeur qui "
-"l'atteint:@ %a@]"
+"l'atteint :@ %a@]"
 
 #: typing/typemod.ml:1928
 #, c-format
@@ -818,7 +818,7 @@ msgstr "@[Ce module n'est pas une structure, il a pour type@ %a"
 #, c-format
 msgid "@[This pattern cannot match self: it only matches values of type@ %a@]"
 msgstr ""
-"@[Ce motif ne peut pas aller avec le type de l'objet-même: il n'est "
+"@[Ce motif ne peut pas aller avec le type de l'objet-même : il n'est "
 "compatible qu'avec des valeurs de type@ %a@]"
 
 #: typing/typedecl.ml:2147
@@ -981,7 +981,7 @@ msgstr "Un attribut a été utilisé plus d'une fois dans une expression"
 msgid ""
 "Bad module name: the source file name is not a valid OCaml module     name."
 msgstr ""
-"Nom de module problématique: le nom du  fichier source n'est pas une nom de "
+"Nom de module problématique : le nom du  fichier source n'est pas une nom de "
 "module OCaml valide."
 
 #: typing/typecore.ml:5090
@@ -1033,7 +1033,7 @@ msgstr "Fonctionnalité dépréciée."
 
 #: utils/warnings.ml:614
 msgid "Deprecated: now part of warning 8."
-msgstr "Déprécié: fait désormais parti de l'avertissement 8."
+msgstr "Déprécié : fait désormais parti de l'avertissement 8."
 
 #: utils/warnings.ml:636
 msgid "Disambiguated constructor or label name (compatibility warning)."
@@ -1103,7 +1103,7 @@ msgid ""
 "    if additional constructors are added to one of the variant types\n"
 "    matched."
 msgstr ""
-"Filtrage de motif fragile: le filtrage restera complet même si\n"
+"Filtrage de motif fragile : le filtrage restera complet même si\n"
 "   des constructeurs de type additionnels étaient ajoutés au type\n"
 "    variant filtré."
 
@@ -1122,12 +1122,12 @@ msgstr "Une application de foncteur n'est pas autorisée ici."
 #: typing/typecore.ml:5171
 msgid "Hint: You are probably missing the `rec' keyword on line"
 msgstr ""
-"Suggestion: Vous pouvez probablement ajouté le mot-clef `rec' sur la ligne"
+"Suggestion : Vous pouvez probablement ajouté le mot-clef `rec' sur la ligne"
 
 #: parsing/location.ml:458
 #, c-format
 msgid "I/O error: %s"
-msgstr "Erreur E/S: %s"
+msgstr "Erreur E/S : %s"
 
 #: parsing/builtin_attributes.ml:130
 msgid "Ill-formed list of warnings"
@@ -1169,12 +1169,12 @@ msgstr "Élimination implicite des arguments optionels."
 #: parsing/location.ml:469
 #, c-format
 msgid "In hook %S:"
-msgstr "Dans l'attache %S:"
+msgstr "Dans l'attache %S :"
 
 #: typing/includemod.ml:637
 #, c-format
 msgid "In module %a:@ "
-msgstr "Dans le module%a:@ "
+msgstr "Dans le module %a :@ "
 
 #: typing/ctype.ml:68
 #, c-format
@@ -1195,7 +1195,7 @@ msgid ""
 "    \"let\" nor \"as\", and doesn't start with an underscore (\"_\")\n"
 "    character."
 msgstr ""
-"Variable inutilisée inoffensive: la variable inutilisée est déclarée ni "
+"Variable inutilisée inoffensive : la variable inutilisée est déclarée ni "
 "avec\n"
 "    \"let\"  ni avec \"as\" et ne commence pas par un caractère tiret bas "
 "(\"_\")"
@@ -1215,41 +1215,41 @@ msgstr ""
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context { %s }] bool syntax"
 msgstr ""
-"Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour un "
+"Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour un "
 "booléen"
 
 #: parsing/ast_mapper.ml:766
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context { %s }] list syntax"
 msgstr ""
-"Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
+"Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
 "liste"
 
 #: parsing/ast_mapper.ml:780
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context { %s }] option syntax"
 msgstr ""
-"Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
+"Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
 "option"
 
 #: parsing/ast_mapper.ml:771
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context { %s }] pair syntax"
 msgstr ""
-"Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
+"Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
 "paire"
 
 #: parsing/ast_mapper.ml:746
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context { %s }] string syntax"
 msgstr ""
-"Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
+"Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context { %s }] pour une "
 "chaîne de caractère"
 
 #: parsing/ast_mapper.ml:740
 #, c-format
 msgid "Internal error: invalid [%@%@%@ocaml.ppx.context] syntax"
-msgstr "Erreur interne: syntaxe invalide  [%@%@%@ocaml.ppx.context]"
+msgstr "Erreur interne : syntaxe invalide  [%@%@%@ocaml.ppx.context]"
 
 #: typing/typecore.ml:5147
 #, c-format
@@ -1275,7 +1275,7 @@ msgstr "Il était attendu %a,@ mais il s'agit de %a."
 #: typing/typemod.ml:2013
 #, c-format
 msgid "Its type contains local dependencies:@ %a"
-msgstr "Son type contient des dépendances locales:@ %a"
+msgstr "Son type contient des dépendances locales :@ %a"
 
 #: utils/warnings.ml:592
 msgid "Label omitted in function application."
@@ -1360,7 +1360,7 @@ msgstr "Application partielle"
 
 #: utils/warnings.ml:594
 msgid "Partial match: missing cases in pattern-matching."
-msgstr "Filtrage incomplet: des cas sont manquants dans le filtrage de motif."
+msgstr "Filtrage incomplet : des cas sont manquant dans le filtrage de motif."
 
 #: utils/warnings.ml:590
 msgid ""
@@ -1406,7 +1406,7 @@ msgid ""
 "    with \"let\" or \"as\", and doesn't start with an underscore (\"_\")\n"
 "    character."
 msgstr ""
-"Variable inutilisée suspecte: cette variable inutilisée est déclarée\n"
+"Variable inutilisée suspecte : cette variable inutilisée est déclarée\n"
 "    avec \"let\" ou \"as\", et ne commence pas par un caractère tiret bas "
 "(\"_\")\n"
 "."
@@ -1423,7 +1423,7 @@ msgstr "Marque de début de commentaire suspecte."
 #, c-format
 msgid "Syntax error: '%s' expected, the highlighted '%s' might be unmatched"
 msgstr ""
-"Erreur de syntaxe: '%s' attendu, le '%s' souligné pourrait être désapparié"
+"Erreur de syntaxe : '%s' attendu, le '%s' souligné pourrait être désapparié"
 
 #: typing/typeclass.ml:1828
 #, c-format
@@ -1438,7 +1438,7 @@ msgstr "Le %a %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas déclaré"
 #: typing/typecore.ml:5007
 #, c-format
 msgid "The %s %a@ belongs to one of the following %s types:"
-msgstr "Le %s %a@ appartient à l'un des types de %s suivants:"
+msgstr "Le %s %a@ appartient à l'un des types de %s suivants :"
 
 #: typing/typecore.ml:5004
 #, c-format
@@ -1611,7 +1611,7 @@ msgstr "@[Le constructeur de type @ %a@ n'est pas encore complètement défini@]
 #: typing/typemod.ml:2007
 #, c-format
 msgid "The type of this packed module contains variables:@ %a"
-msgstr "Le type de module empaqueté contient des variables:@ %a"
+msgstr "Le type de module empaqueté contient des variables :@ %a"
 
 #: typing/typeclass.ml:1897
 #, c-format
@@ -1646,7 +1646,7 @@ msgstr "Leurs contraintes diffèrent"
 #: typing/includecore.ml:166
 #, c-format
 msgid "Their internal representations differ:@ %a %a %a"
-msgstr "Leurs représentations internes diffèrent:@ %a %a %a"
+msgstr "Leurs représentations internes diffèrent :@ %a %a %a"
 
 #: typing/includecore.ml:145
 #, c-format
@@ -2123,7 +2123,7 @@ msgid ""
 "all the fields are explicitly listed in this record:\n"
 "the 'with' clause is useless."
 msgstr ""
-"tous les champs sont listés explicitement dans cet enregistrement:\n"
+"tous les champs sont listés explicitement dans cet enregistrement :\n"
 "la clause 'with\" est inutile."
 
 #: utils/warnings.ml:490
@@ -2134,7 +2134,7 @@ msgstr "commentaire de documentation ambigu"
 #, c-format
 msgid "bad source file name: \"%s\" is not a valid module name."
 msgstr ""
-"nom de module problématique: le nom du fichier source \"%s\" n'est pas une "
+"nom de module problématique : le nom du fichier source \"%s\" n'est pas une "
 "nom de module OCaml valide."
 
 # Impossible à traduire
@@ -2675,8 +2675,8 @@ msgid ""
 "Here is an example of a case that is not matched:\n"
 "%s"
 msgstr ""
-"ce filtrage de motif n'est exhaustif.\n"
-"Voici un exemple d'un cas qui n'est pas filtré:\n"
+"ce filtrage de motif n'est pas exhaustif.\n"
+"Voici un exemple d'un cas qui n'est pas filtré :\n"
 "%s"
 
 #: utils/warnings.ml:440
@@ -2687,7 +2687,7 @@ msgid ""
 "They will not be selected if the type becomes unknown."
 msgstr ""
 "cet enregistrement de type %s contient des champ qui ne sont\n"
-"pas visible dans la portée courante: %s\n"
+"pas visible dans la portée courante : %s\n"
 "Ils ne seront pas sélectionnés si le type devient inconnu."
 
 #: utils/warnings.ml:378

@@ -1,8 +1,33 @@
 (jbuild_version 1)
 
+
+; Metaprintf library
 (menhir ((modules (parser))))
-
 (ocamllex (lexer))
+(library (
+  (name metaprintf)
+  (modules (:standard \ babilim configuration))
+))
 
+; Babilim plugin
 
-(library ( (name metaprintf) ) )
+(library (
+  (name babilim)
+  (public_name babilim)
+  (libraries (compiler-libs.common))
+))
+
+(rule (
+  (targets (fr.bo))
+  (deps (../translator/translator.exe ../translations/fr.po))
+  (action (run ../translator/translator.exe
+           -input
+           ../translations/fr.po
+           -output ${@}
+  ))
+))
+
+(install(
+  (section share)
+  (files (fr.bo))
+))

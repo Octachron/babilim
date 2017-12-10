@@ -2676,7 +2676,7 @@ msgid ""
 "%s"
 msgstr ""
 "ce filtrage de motif n'est pas exhaustif.\n"
-"Voici un exemple d'un cas qui n'est pas filtré :\n"
+"Voici un exemple de cas qui n'est pas filtré :\n"
 "%s"
 
 #: utils/warnings.ml:440

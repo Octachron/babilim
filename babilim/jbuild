@@ -1,9 +1,8 @@
 (jbuild_version 1)
 
-(executable (
+(library (
   (name babilim)
   (public_name babilim)
-  (package babilim)
   (libraries (metaprintf compiler-libs.common))
 ))
 

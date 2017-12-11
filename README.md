@@ -21,7 +21,7 @@ ocamlc -plugin $(ocamlfind query babilim)/babilim.cma -x-lang fr ${available tra
 
 # Available translations:
 
-  * [fr] (translations/fr.po)
+  * [fr](translations/fr.po)
 
 More translations are more than welcome, see the [template file](translations/ocaml.pot)
 

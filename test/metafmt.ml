@@ -8,7 +8,7 @@ module Metafmt = struct
   open M
 
   let f ppf =
-    kprint (fun _ -> ()) ppf
+    kfprintf (fun _ -> ()) ppf
       [
         Text "Behold α";
         show _2;

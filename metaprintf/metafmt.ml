@@ -1,12 +1,13 @@
 
-type 'a eq = Eq: (int * int) eq
-type empty = (int * char) eq
+type empty = (int, char) Witness.eq
 
 
 module L = struct
   type ('a,'res) t =
     | []: ('res, 'res) t
     | (::): 'a * ('list,'res) t  -> ('a -> 'list, 'res) t
+
+  type 'a fix = ('a,empty) t
 end
 
 type ('x,'list) index =
@@ -38,14 +39,13 @@ let rec apply: type a b. a -> (a,b) L.t -> b = fun f l ->
   | L.[a] -> f a
   | L.(a :: q) -> apply (f a) q
 
-let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> (src,unit) L.t
+let rec indexed_apply: type a src b. a -> (a,src,b) Meta.t -> src L.fix
   -> b =
   fun f indices src ->
   match indices with
   | Meta.[] -> f
   | Meta.[n] -> f (nth n src)
   | Meta.(n :: q) -> indexed_apply (f (nth n src)) q src
-
 
 module W = Witness
 
@@ -135,28 +135,28 @@ let print_hole (type x l fl) ppf modal
   | W.T -> (x ppf:unit)
   | W.(S w) -> print_elt ppf modal w x
 
-let rec kprint: type l r. (formatter -> r) ->
+let rec kfprintf: type l r. (formatter -> r) ->
   formatter -> (l,formatter,unit) t -> (l,r) L.t
   -> r  =
   fun k ppf x args ->
     match x with
     | [] -> k ppf
     | Text s :: q ->
-      pp_print_string ppf s; kprint k ppf q args
+      pp_print_string ppf s; kfprintf k ppf q args
     | Hole(modal,w,n) :: q ->
-      print_hole ppf modal w (nth n args); kprint k ppf q args
+      print_hole ppf modal w (nth n args); kfprintf k ppf q args
     | Open_box {kind;indent} :: q ->
       Format.fprintf ppf "@[<%s%d>" (Formatting_box.to_string kind) indent;
-      kprint k ppf q args
-    | Open_tag s :: q -> Format.pp_open_tag ppf s; kprint k ppf q args
+      kfprintf k ppf q args
+    | Open_tag s :: q -> Format.pp_open_tag ppf s; kfprintf k ppf q args
     | Close_box :: q ->
-      Format.pp_close_box ppf (); kprint k ppf q args
-    | Close_tag :: q -> Format.pp_close_tag ppf (); kprint k ppf q args
+      Format.pp_close_box ppf (); kfprintf k ppf q args
+    | Close_tag :: q -> Format.pp_close_tag ppf (); kfprintf k ppf q args
     | Break {space;indent} :: q -> Format.pp_print_break ppf space indent;
-      kprint k ppf q args
-    | Fullstop :: q -> Format.fprintf ppf "@."; kprint k ppf q args
-    | Newline :: q -> Format.pp_force_newline ppf (); kprint k ppf q args
-    | Flush :: q -> Format.fprintf ppf "%!"; kprint k ppf q args
+      kfprintf k ppf q args
+    | Fullstop :: q -> Format.fprintf ppf "@."; kfprintf k ppf q args
+    | Newline :: q -> Format.pp_force_newline ppf (); kfprintf k ppf q args
+    | Flush :: q -> Format.fprintf ppf "%!"; kfprintf k ppf q args
 
 let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
   -> ((l,r) L.t -> r) -> m =
@@ -169,8 +169,8 @@ let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
       fun t -> expand_full q (fun l -> f L.(t :: l))
     | W.[] -> f []
 
-let rec expand: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
-  -> ((l,unit) L.t -> unit) -> l =
+let rec expand: type f l m r mid. (l * m, r * r, f, mid ) W.l
+  -> ((l,r) L.t -> r) -> l =
   fun spec f -> match spec with
     | W.(S x :: q)  ->
       fun n -> expand q (fun l -> f L.(n :: l) )
@@ -182,6 +182,7 @@ let rec expand: type l m. (l * m, unit * unit, Format.formatter, unit ) W.l
 
 
 let int x = Hole(Modal.default, S Int, x)
+let float x = Hole(Modal.default, S Float, x)
 let str x = Hole(Modal.default, S String, x)
 let show x = Hole(Modal.default, A, x)
 
@@ -202,26 +203,20 @@ module Box = struct
 
   let unsafe (b:('f,'driver,'mid) b): u = {u = Obj.magic b}
 
-  let kprintf (type x y r)
+  let kfprintf (type x y r)
       (k:Format.formatter -> r)
       (W.H spec:(x, r, r, Format.formatter,unit) W.h)
       { u = Box(spec',metafmt) }:
     Format.formatter -> x =
     match W.leq spec spec' with
-    | Some W.Eq -> fun ppf -> expand_full spec @@ kprint k ppf metafmt
+    | Some W.Eq -> fun ppf -> expand_full spec @@ kfprintf k ppf metafmt
     | None -> raise Metafmt_type_error
 
 
-  let fprintf spec = kprintf (fun _ -> ()) spec
+  let fprintf spec = kfprintf (fun _ -> ()) spec
 
   let sprintf spec u =
     let b = Buffer.create 10 in
-    kprintf (fun _ -> Buffer.contents b) spec u (Format.formatter_of_buffer b)
-(*
-  let sprintf (type x y)
-      (W.H spec:(x, string, string, unit,string) W.h)
-      { u = Box(spec',metafmt) }: x =
-    match W.leq spec spec' with
-    | Some W.Eq -> expand_full spec @@ sprint (Buffer.create 20) metafmt
-    | None -> raise Metafmt_type_error*)
+    kfprintf (fun _ -> Buffer.contents b) spec u (Format.formatter_of_buffer b)
+
 end

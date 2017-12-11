@@ -34,7 +34,7 @@ let xkfprintf m k ppf ?num ?(ctx="") id =
   let dynkey = { id = dynamic id; ctx; num } in
   let box = M.find dynkey m in
   let expected_spec = Conv.typer (fmt id) in
-  Metafmt.Box.kprintf k expected_spec box ppf
+  Metafmt.Box.kfprintf k expected_spec box ppf
 
 let xsprintf m ?num ?(ctx="") id =
   let dynkey = { id = dynamic id; ctx; num } in

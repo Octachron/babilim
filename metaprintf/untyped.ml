@@ -3,6 +3,7 @@ module Internal = CamlinternalFormatBasics
 
 exception Dynamic_type_error of string
 open Metafmt
+module W = Witness
 
 module Cfmt = struct
 

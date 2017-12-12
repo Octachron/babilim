@@ -29,6 +29,7 @@ end
 
 let m = Tmap.empty
 
+(*
 module Witness = struct
 open W
 let box =
@@ -40,6 +41,27 @@ let box =
 
 let () =
   unbox (H [S Int;A]) box Format.std_formatter 6 Format.pp_print_string "Hi"
+
+end
+*)
+
+module Box =struct
+  open Metafmt
+  let spec = W.[S Int; A]
+  let box =
+    M.Box.{ u = Box (spec,
+                     [ Text "Box test [i:";
+                       Hole(M.Modal.default, W.(S Int) , M.Z) ;
+                       Text" show:";
+                       Hole(M.Modal.default, W.A, M.(S Z))
+                     ; Text "]\n"
+                     ]
+                  )
+    }
+
+  let () =
+    M.Box.kfprintf ignore (W.H spec) box Format.std_formatter 5
+      Format.pp_print_string "an α"
 
 end
 

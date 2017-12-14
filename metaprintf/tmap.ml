@@ -1,5 +1,4 @@
 
-
 module Inner=CamlinternalFormatBasics
 module U = Untyped.Cfmt
 
@@ -47,7 +46,7 @@ let add ?num ?(ctx="") (Untyped.Dyn { spec; ref; fmt }) m =
 
 module Store = struct
   let magic = "Babilim.Translation.Store"
-  type nonrec t = { lang:string; translations: t }
+  type nonrec t = { lang:string; plural:Math_expr.any; translations: t }
   let write (map:t) s =
     let ch = open_out_bin s in
     output_string ch magic;
@@ -92,13 +91,14 @@ module Implementation = struct
 
     }
 
-  let from_map tmap =
+  let from_map expr tmap =
     let kfprintf k ppf fmt =
       try xkfprintf tmap ?num:None ?ctx:None k ppf fmt  with
       | Not_found ->
         default.kfprintf k ppf fmt
     in
     let knfprintf k ppf num fmts fmtpl =
+      let num = Math_expr.eval_int num expr in
       let CamlinternalFormatBasics.(Format(_,ctx)) = fmts in
       try xkfprintf tmap ~num ~ctx k ppf fmtpl with
       | Not_found -> default.knfprintf k ppf num fmts fmtpl
@@ -109,5 +109,5 @@ module Implementation = struct
   let from_store f =
     match Store.read @@ f ^ ".bo" with
     | None -> None
-    | Some m -> Some (from_map m.Store.translations)
+    | Some m -> Some (from_map m.Store.plural m.Store.translations)
 end

@@ -35,11 +35,12 @@ rule main = parse
   | "#." space (line as text) space newline { PCOMMENT (text) }
   | "#," space (line as text) space newline { FLAG (text) }
   | "#:" space (line as text) ":" (num as n) space newline
-    { LOC { file=text; line=int_of_string n } }
+    {  LOC { file=text; line=int_of_string n } }
   | space (key as key) space "\"" (line as q) "\"" space newline
-    { make key q }
+    {make key q }
   | space "msgstr[" (num as n) "]" space "\"" (line as q) "\"" space newline
     { STRN (int_of_string n,u q) }
-  | space "\"" (line as l) "\"" space newline {MORESTR (u l)}
-  | ("#|"|"#~") space (key as key) space "\"" (line as l) "\"" { pmake key l }
+  | space "\"" (line as l) "\"" space newline { MORESTR (u l)}
+  | "#|" space (key as key) space "\"" (line as l) "\"" newline { pmake key l }
+  | "#~" line newline { main lexbuf }
   | eof { EOF }

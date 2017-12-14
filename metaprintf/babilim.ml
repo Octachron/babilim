@@ -2,11 +2,9 @@ let dir = Configuration.share ^ "/babilim/"
 module T = Tmap
 
 let set_map f =
-  match T.Store.read @@ dir ^ f ^ ".bo" with
+  match T.Implementation.from_store (dir ^ f) with
   | None -> ()
-  | Some m ->
-    let map = m.T.Store.translations in
-    let T.Implementation.{kfprintf; knfprintf } = T.Implementation.from_map map in
+  | Some T.Implementation.{kfprintf; knfprintf } ->
       I18n.hook := { I18n.kfprintf; I18n.knfprintf }
 
 let () =

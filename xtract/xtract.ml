@@ -71,6 +71,7 @@ let make_msg ?(plural=false) src =
     Ty.Singular { id = src; translation = src }
 
 
+
 let make ?(context=[]) ?(format=true) loc comment msg =
   {
     Ty.comments = { programmer = comment; translator = [] };
@@ -116,7 +117,7 @@ let exdoc  = function
       { pstr_desc = Pstr_eval ({
             pexp_desc = Pexp_constant Pconst_string (s,_); _ },_)
       }
-    ] -> [s]
+    ] -> String.split_on_char '\n' s
   | _ -> []
 
 let exdocs exs =

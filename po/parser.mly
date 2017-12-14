@@ -16,7 +16,7 @@
 
 %{ open Types %}
 
-%start <Types.map> file
+%start <Types.po> file
 
 %%
 
@@ -24,7 +24,9 @@ file2:
   | ID MORESTR MORESTR EOF { of_list [] }
 
 file:
-  | header=msg r=list(entry) EOF { of_list r }
+  | header=msg r=list(entry) EOF {
+  make header (of_list r)
+  }
 
 entry:
   | tc=list(TCOMMENT) pc=list(PCOMMENT) flgs=list(FLAG)

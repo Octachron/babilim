@@ -68,11 +68,12 @@ let transform file =
     with  exn ->
       Format.eprintf "Po file parsing failure@."; raise exn
   in
-  let map = Po.Types.Map.fold add data Mf.Tmap.empty in
+  let map = Po.Types.Map.fold add data.map Mf.Tmap.empty in
   let output = match !output with
     | None -> Filename.chop_extension file ^ ".bo"
     | Some x -> x in
-  Store.write { lang="en"; fmt = map } output
+  Mf.Tmap.Store.write
+    { lang=data.lang; plural = data.plural; translations = map } output
 
 let () =
   Arg.parse args ignore "translator -input file";

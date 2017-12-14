@@ -4,4 +4,8 @@
 (menhir((modules (parser))))
 (ocamllex (lexer) )
 
-(library ((name po)))
+(menhir((modules (math))))
+(ocamllex (math_lex) )
+
+
+(library ((name po) (libraries (metaprintf))))

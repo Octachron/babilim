@@ -966,7 +966,7 @@ msgstr "Ambiguous or-pattern variables under guard"
 
 
 #. %s is a list of comma separated variable name in
-#.                       variables %s
+#.                        variables %s
 #, c-format
 #: utils/warnings.ml:579
 msgid "Ambiguous or-pattern variables under guard;\nvariable %s may match different arguments. (See manual section 9.5)"
@@ -1352,6 +1352,11 @@ msgstr "None of the patterns in this 'match' expression match values."
 #: utils/warnings.ml:701
 msgid "Nonoptional label applied as optional."
 msgstr "Nonoptional label applied as optional."
+
+
+#: driver/pparse.ml:158
+msgid "OCaml and preprocessor have incompatible versions"
+msgstr "OCaml and preprocessor have incompatible versions"
 
 
 #, c-format
@@ -3083,3 +3088,5 @@ msgstr "with label %s"
 #: typing/typecore.ml:4976
 msgid "without label"
 msgstr "without label"
+
+

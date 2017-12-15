@@ -13,7 +13,7 @@ module Cfmt = struct
       ('fmter,'mid,'fin) t
 
   type u =
-    { u: 'fmter 'mid 'fin.  ('fmter,'mid,'fin) t }
+    { u: 'fmter 'mid 'fin.  ('fmter,'mid,'fin) t } [@@unboxed]
   let unsafe (d:(_,_,_) t) = { u = Obj.magic d }
 
   let nil = Dyn Internal.End_of_format
@@ -87,14 +87,15 @@ module Cfmt = struct
 
 end
 
-type ('finl, 'finr, 'fmter, 'mid ) u = Dyn: {
+type ('finl, 'finr, 'fmter, 'mid ) dyn = Dyn: {
     spec:('a * 'm , 'finl * 'finr, 'fmter, 'mid) W.l;
     ref: ('m,'fmter,'mid,'d,'e,'finr) format6;
     fmt:('a,'fmter, 'mid) t}  ->
     ('finl, 'finr, 'fmter, 'mid )
-    u
+      dyn
+
 type ('driver,'mid) atom = A: ('a,'driver,'mid) Metafmt.atom ->
-  ('driver, 'mid) atom
+  ('driver, 'mid) atom [@@unboxed]
 
 
 type nat = I: ('x,'src) index -> nat [@@unboxed]
@@ -133,7 +134,7 @@ let nil (Internal.Format (core,_) as fmt) =
   Dyn {spec;ref=fmt; fmt=[]}
 
 let cons (type finl finr d mid) (A atom: (d,mid) atom)
-    (Dyn r: (finl,finr,d,mid) u) =
+    (Dyn r: (finl,finr,d,mid) dyn) =
   match atom with
   | Text s -> Dyn { r with fmt = Text s :: r.fmt }
   | Open_box b -> Dyn { r with fmt = Open_box b :: r.fmt }
@@ -146,27 +147,27 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
   | Flush -> Dyn { r with fmt = Flush :: r.fmt }
 
 
-  | Hole(modal, (W.S x as arg),n) ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
-  | Hole(modal, (W.A as arg),n) ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
-  | Hole(modal, (W.T as arg),n) ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
+  | Hole{modal; arg=(W.S x as arg); pos } ->
+    let pos =  compat arg pos r.spec in
+    Dyn {r with fmt = Hole{ modal; arg=S x; pos} :: r.fmt }
+  | Hole{modal; arg= (W.A as arg); pos } ->
+    let pos =  compat arg pos r.spec in
+    Dyn {r with fmt = Hole{modal;arg=W.A; pos } :: r.fmt }
+  | Hole{modal; arg= (W.T as arg); pos } ->
+    let pos =  compat arg pos r.spec in
+    Dyn {r with fmt = Hole{modal; arg = W.T; pos} :: r.fmt }
 
-let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) u) =
+let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) dyn) =
   match arg with
   | W.S x ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,S x, n ) :: r.fmt }
+    let pos =  compat arg n r.spec in
+    Dyn {r with fmt = Hole{modal;arg=S x; pos} :: r.fmt }
   | W.A ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,W.A, n ) :: r.fmt }
+    let pos =  compat arg n r.spec in
+    Dyn {r with fmt = Hole{modal;arg=W.A; pos } :: r.fmt }
   | W.T ->
-    let n =  compat arg n r.spec in
-    Dyn {r with fmt = Hole(modal,W.T, n ) :: r.fmt }
+    let pos =  compat arg n r.spec in
+    Dyn {r with fmt = Hole{modal; arg = W.T; pos } :: r.fmt }
 
 
 let rec integer n =
@@ -193,49 +194,51 @@ let arg = function
   | "t" -> W T
   | s -> unsupported s
 
-let ff = Format.fprintf
+
+module Gen = struct
 
 
-let rec gen_pos ppf = function
-  | I Z -> ff ppf "Z"
-  | I S n -> ff ppf "(S %a)" gen_pos (I n)
+  let ff = Format.fprintf
 
-let gen_w (type d m) ppf (x: (d,m) arg) =
-  Format.pp_print_string ppf @@
-  match x with
-  | W W.A -> "A"
-  | W W.(S Int) -> "S Int"
-  | W W.(S Float) -> "S Float"
-  | W W.T -> "S Theta"
-  | W W.(S Int32) -> "S Int32"
-  | W W.(S Int64) -> "S Int64"
-  | W W.(S Nativeint) -> "S Nativeint"
-  | W W.(S Char) -> "S Char"
-  | W W.(S Bool) -> "S Bool"
-  | W W.(S String) -> "S String"
+  let rec gen_pos ppf = function
+    | I Z -> ff ppf "Z"
+    | I S n -> ff ppf "(S %a)" gen_pos (I n)
 
-let gen_elt ppf = function
-  | Text s -> ff ppf "Text %S" s
-  | Hole(m,x,n) -> ff ppf "Hole(Modal.default, %a,%a)" gen_w (W x) gen_pos (I n)
-  | Break r -> ff ppf "Break{space=%d; indent=%d}" r.space r.indent
-  | Open_box r -> ff ppf "Open_tag{indent=%d; kind=H}" r.indent
-  | Close_tag -> ff ppf "Close_tag"
-  | Close_box -> ff ppf "Close_box"
-  | Open_tag s -> ff ppf "Open_tag %s" s
-  | Newline -> ff ppf "Newline"
-  | Fullstop -> ff ppf "Fullstop"
-  | Flush -> ff ppf "Flush"
+  let gen_w (type d m) ppf (x: (d,m) arg) =
+    Format.pp_print_string ppf @@
+    match x with
+    | W W.A -> "A"
+    | W W.(S Int) -> "S Int"
+    | W W.(S Float) -> "S Float"
+    | W W.T -> "S Theta"
+    | W W.(S Int32) -> "S Int32"
+    | W W.(S Int64) -> "S Int64"
+    | W W.(S Nativeint) -> "S Nativeint"
+    | W W.(S Char) -> "S Char"
+    | W W.(S Bool) -> "S Bool"
+    | W W.(S String) -> "S String"
 
-let rec gen_list ppf (Dyn r) =
-  match r.fmt with
-  | [] -> ()
-  | [a] -> gen_elt ppf a
-  | a :: (_ :: _ as q) ->
-    ff ppf "%a; %a" gen_elt a gen_list (Dyn { r with fmt = q })
+  let gen_elt ppf = function
+    | Text s -> ff ppf "Text %S" s
+    | Hole{modal; arg; pos } ->
+      ff ppf "Hole(Modal.default, %a,%a)" gen_w (W arg) gen_pos (I pos)
+    | Break r -> ff ppf "Break{space=%d; indent=%d}" r.space r.indent
+    | Open_box r -> ff ppf "Open_tag{indent=%d; kind=H}" r.indent
+    | Close_tag -> ff ppf "Close_tag"
+    | Close_box -> ff ppf "Close_box"
+    | Open_tag s -> ff ppf "Open_tag %s" s
+    | Newline -> ff ppf "Newline"
+    | Fullstop -> ff ppf "Fullstop"
+    | Flush -> ff ppf "Flush"
 
-let gen ppf =
-  ff ppf "Metaprintf.(Metafmt.[%a])" gen_list
+  let rec gen_list ppf (Dyn r) =
+    match r.fmt with
+    | [] -> ()
+    | [a] -> gen_elt ppf a
+    | a :: (_ :: _ as q) ->
+      ff ppf "%a; %a" gen_elt a gen_list (Dyn { r with fmt = q })
 
-(*
-let meta_add (Dyn {fmt;ref;spec}) m =
-  *)
+  let gen ppf =
+    ff ppf "Metaprintf.(Metafmt.[%a])" gen_list
+
+end

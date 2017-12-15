@@ -48,12 +48,13 @@ end
 module Box =struct
   open Metafmt
   let spec = W.[S Int; A]
+  let modal = M.Modal.default
   let box =
     M.Box.{ u = Box (spec,
                      [ Text "Box test [i:";
-                       Hole(M.Modal.default, W.(S Int) , M.Z) ;
+                       Hole { modal; arg = W.(S Int) ; pos = M.Z};
                        Text" show:";
-                       Hole(M.Modal.default, W.A, M.(S Z))
+                       Hole { modal; arg = W.A ; pos = M.(S Z)}
                      ; Text "]\n"
                      ]
                   )
@@ -121,9 +122,3 @@ module Dyn = struct
     Format.printf "@]@]@."
 
 end
-
-module Generator = struct
- let gen =
-    Format.printf "Generated code:\n%a\n"
-      Untyped.gen Dyn.y
- end

@@ -99,9 +99,10 @@ end
 type ('a,'driver,'mid) atom =
   | Text: string -> _ atom
   | Hole:
-        Modal.t
-      * <x:'x; fl:_; l:_;driver:'driver; mid:'mid > W.arg
-      * ('x,'src) index -> ('src,'driver,'mid) atom
+      { modal: Modal.t;
+        arg: <x:'x; fl:_; l:_;driver:'driver; mid:'mid > Witness.arg;
+        pos: ('x,'src) index
+      } -> ('src,'driver,'mid) atom
   | Break: { space:int; indent: int } -> _ atom
   | Open_box: { kind:Formatting_box.t; indent:int} -> _ atom
   | Open_tag: string -> _ atom
@@ -143,8 +144,8 @@ let rec kfprintf: type l r. (formatter -> r) ->
     | [] -> k ppf
     | Text s :: q ->
       pp_print_string ppf s; kfprintf k ppf q args
-    | Hole(modal,w,n) :: q ->
-      print_hole ppf modal w (nth n args); kfprintf k ppf q args
+    | Hole{modal; arg; pos} :: q ->
+      print_hole ppf modal arg (nth pos args); kfprintf k ppf q args
     | Open_box {kind;indent} :: q ->
       Format.fprintf ppf "@[<%s%d>" (Formatting_box.to_string kind) indent;
       kfprintf k ppf q args
@@ -181,10 +182,10 @@ let rec expand: type f l m r mid. (l * m, r * r, f, mid ) W.l
     | W.[] -> f []
 
 
-let int x = Hole(Modal.default, S Int, x)
-let float x = Hole(Modal.default, S Float, x)
-let str x = Hole(Modal.default, S String, x)
-let show x = Hole(Modal.default, A, x)
+let int pos = Hole{ modal=Modal.default; arg=S Int; pos }
+let float pos =  Hole{ modal=Modal.default; arg=S Float; pos }
+let str pos = Hole{ modal=Modal.default; arg=S String; pos }
+let show pos =  Hole{ modal=Modal.default; arg=A; pos }
 
 let _0 = Z
 let _1 = S Z

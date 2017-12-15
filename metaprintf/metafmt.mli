@@ -86,9 +86,10 @@ end
 type ('a,'driver,'mid) atom =
   | Text: string -> _ atom
   | Hole:
-        Modal.t
-      * <x:'x; fl:_; l:_;driver:'driver; mid:'mid > Witness.arg
-      * ('x,'src) index -> ('src,'driver,'mid) atom
+      { modal: Modal.t;
+        arg: <x:'x; fl:_; l:_;driver:'driver; mid:'mid > Witness.arg;
+            pos: ('x,'src) index
+      } -> ('src,'driver,'mid) atom
   | Break: { space:int; indent: int } -> _ atom
   | Open_box: { kind:Formatting_box.t; indent:int} -> _ atom
   | Open_tag: string -> _ atom

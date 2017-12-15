@@ -13,7 +13,7 @@
 %token CLOSE_BOX
 %token CLOSE_TAG
 
-%start <('a,'b,'c,'d,'e,'f) format6 -> ('fl, 'f, 'b, 'c) Untyped.u> metafmt
+%start <('a,'b,'c,'d,'e,'f) format6 -> ('fl, 'f, 'b, 'c) Untyped.dyn> metafmt
 %start <('a,'b,'c) Untyped.Cfmt.t> fmt
 
 %{ open Untyped

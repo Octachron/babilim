@@ -16,11 +16,10 @@ end
 
 
 let set_map f =
-  match T.Store.read @@ f ^ ".bo" with
+  match T.Implementation.from_store f with
   | None -> ()
-  | Some m ->
-    let map = m.T.Store.translations in
-    I18n.implementation := T.Implementation.from_map map
+  | Some t ->
+    I18n.implementation := t
 
 let () = Arg.parse ["-lang", Arg.String set_map, "Set the translation map used"]
     ignore "core -lang name"

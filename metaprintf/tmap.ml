@@ -9,6 +9,7 @@ module M =  Map.Make(struct type t = dynkey let compare = compare end)
 module W = Witness
 
 type t = Metafmt.Box.u M.t
+type tmap = t
 let empty: t = M.empty
 
 let fmt (Inner.Format(c,_)) = c
@@ -64,7 +65,7 @@ end
 
 module Implementation = struct
 
-  type implementation =
+  type t =
   {
 
 

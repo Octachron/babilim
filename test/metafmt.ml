@@ -89,11 +89,12 @@ let () =
 
 module Dyn = struct
 
-  let spec: _ format6 = "%d %s %a"
+  let spec: _ format6 = "%d %s %a %s"
   let x =
     "@[<v 2>@,\
      Behold @{<greek>α@}:%3$a@;\
-     @[A text with a variable %1$d that appears %1$d %2$s@]@;\
+     @[A text with a variable %1$i that appears %1$#x %2$s@]@;\
+     Compare %4$s and %4$S@;\
      @]"
 
 
@@ -115,7 +116,8 @@ module Dyn = struct
     xprintf spec
       2
       "times"
-      Format.pp_print_string "to β";
+      Format.pp_print_string "to β"
+      {e|"espaped"|e};
     Format.printf "@,@[<v 2>Dynamic metafmt 2:@,";
     xprintf spec'
       1 1. "isn'it?";

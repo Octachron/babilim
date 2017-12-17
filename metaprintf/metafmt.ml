@@ -71,17 +71,21 @@ let modifier = function
   | "#" -> Some Hash
   | _ -> None
 
+
+exception Unsupported of string
+let unsupported x = raise (Unsupported x)
+
 let ext = function
   | "" -> None
-  | "*" -> Some Star
-  | x -> Some (Lit (int_of_string x))
+  | "*" -> unsupported "* padding or precision"
+  | x -> try Some (Lit (int_of_string x)) with _ -> None
 
 
-let lexmodal ~m ~pa ~pr =
+let lexmodal ~m ~pa ~pr l =
   {modifier=modifier m ;
    padding=ext pa;
    precision=ext pr;
-   variant =  None
+   variant = Some l
   }
 
 end
@@ -117,17 +121,174 @@ type ('a,'driver,'mid) t =
   | []: _ t
   | (::): ('a,'driver,'mid) atom * ('a,'driver,'mid) t -> ('a,'driver,'mid) t
 
+
+module I = CamlinternalFormatBasics
 open Format
 
+
+let print_int f ppf modal n =
+  let open Modal in
+  let padding =
+    match modal.padding with
+    | None -> I.No_padding
+    | Some (Lit k) -> I.Lit_padding (Right,k)
+    | _ -> assert false  in
+  let precision = match modal.precision with
+    | None -> I.No_precision
+    | Some(Lit k) -> I.Lit_precision k
+    | _ -> assert false in
+  let variant =
+    let open I in
+    match modal.modifier with
+    | None -> begin
+        match modal.variant with
+        | None -> Int_d
+        | Some x -> begin
+            match x with
+            | "i" -> Int_i
+            | "o" -> Int_o
+            | "x" -> Int_x
+            | "X" -> Int_X
+            | "u" -> Int_u
+            | "d" | _ -> Int_d
+          end
+      end
+    | Some m ->
+      begin match modal.variant with
+        | None -> begin match m with
+            | Space -> Int_sd
+            | Plus -> Int_pd
+            | _ -> Int_d
+          end
+        | Some s ->
+          match m, s with
+          | Space, "i" -> Int_si
+          | Plus, "i" -> Int_pi
+          | Space, "d" -> Int_sd
+          | Plus, "d" -> Int_pd
+          | Hash, "x" -> Int_Cx
+          | Hash, "X" -> Int_CX
+          | Hash, "o" -> Int_Co
+          | _ -> Int_d
+      end
+  in
+  Format.fprintf ppf I.(Format(f variant padding precision,"")) n
+
+
+let print_float ppf modal n =
+  let open Modal in
+  let padding =
+    match modal.padding with
+    | None -> I.No_padding
+    | Some (Lit k) -> I.Lit_padding (Right,k)
+    | _ -> assert false  in
+  let precision = match modal.precision with
+    | None -> I.No_precision
+    | Some(Lit k) -> I.Lit_precision k
+    | _ -> assert false in
+  let variant =
+    let open I in
+    match modal.modifier with
+    | None -> begin
+        match modal.variant with
+        | None -> Float_f
+        | Some x -> begin
+            match x with
+            | "e" -> Float_e
+            | "f" -> Float_f
+            | "g" -> Float_g
+            | "h" -> Float_h
+            | "E" -> Float_E
+            | "F" -> Float_F
+            | "G" -> Float_G
+            | "H" -> Float_H
+            | _ -> Float_f
+          end
+      end
+    | Some m ->
+      begin match modal.variant with
+        | None -> begin match m with
+            | Space -> Float_sf
+            | Plus -> Float_pf
+            | _ -> Float_f
+          end
+        | Some s ->
+          match m, s with
+          | Space, "e" -> Float_se
+          | Space, "f" -> Float_sf
+          | Space, "g" -> Float_sg
+          | Space, "h" -> Float_sh
+          | Space, "E" -> Float_sE
+          | Space, "G" -> Float_sG
+          | Space, "H" -> Float_sH
+          | Plus, "e" -> Float_pe
+          | Plus, "f" -> Float_pf
+          | Plus, "g" -> Float_pg
+          | Plus, "h" -> Float_ph
+          | Plus, "E" -> Float_pE
+          | Plus, "G" -> Float_pG
+          | Plus, "H" -> Float_pH
+          | _ -> Float_f
+      end
+  in
+  Format.fprintf ppf I.(Format(Float(variant,padding,precision,End_of_format),"")) n
+
+let int v pa pr = I.(Int(v,pa,pr,End_of_format))
+let int32 v pa pr = I.(Int32(v,pa,pr,End_of_format))
+let int64 v pa pr = I.(Int64(v,pa,pr,End_of_format))
+let nativeint v pa pr = I.(Nativeint(v,pa,pr,End_of_format))
+
+
+
+let print_string ppf modal n =
+  let open Modal in
+  let padding =
+    match modal.padding with
+    | None -> I.No_padding
+    | Some (Lit k) -> I.Lit_padding (Right,k)
+    | _ -> assert false  in
+  let variant =
+    let open I in
+    match modal.variant with
+    | Some "S" -> Caml_string(padding,End_of_format)
+    | None | Some "s" | Some _ -> String(padding,End_of_format) in
+  Format.fprintf ppf I.(Format(variant,"")) n
+
+
+
+let print_bool ppf modal n =
+  let open Modal in
+  let padding =
+    match modal.padding with
+    | None -> I.No_padding
+    | Some (Lit k) -> I.Lit_padding (Right,k)
+    | _ -> assert false  in
+  let variant =
+    let open I in
+    match modal.variant with
+    | Some "B" -> Bool(padding,End_of_format)
+    | None | Some "b" | Some _ -> Bool(padding,End_of_format) in
+  Format.fprintf ppf I.(Format(variant,"")) n
+
+let print_char ppf modal n =
+  let open Modal in
+  let variant =
+    let open I in
+    match modal.variant with
+    | Some "C" -> Caml_char(End_of_format)
+    | None | Some "c" | Some _ -> Char(End_of_format) in
+  Format.fprintf ppf I.(Format(variant,"")) n
+
+
 let print_elt (type x) ppf modal (w: x W.s) (x:x) = match w with
-  | W.Int -> pp_print_int ppf x
-  | W.Char -> pp_print_char ppf x
+  | W.Int -> print_int int ppf modal x
+  | W.Char -> print_char ppf modal x
   | W.Bool -> pp_print_bool ppf x
-  | W.Int32 -> Format.fprintf ppf "%ld" x
-  | W.Int64 -> Format.fprintf ppf "%Ld" x
-  | W.Nativeint -> Format.fprintf ppf "%nd" x
-  | W.Float -> pp_print_float ppf x
-  | W.String -> pp_print_string ppf x
+  | W.Int32 -> print_int int32 ppf modal x
+  | W.Int64 -> print_int int64 ppf modal x
+  | W.Nativeint -> print_int nativeint ppf modal x
+  | W.Float -> print_float ppf modal x
+  | W.String -> print_string ppf modal x
 
 let print_hole (type x l fl) ppf modal
     (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:unit > W.arg) (x:x) =

@@ -32,10 +32,10 @@ let space = " "*
 rule main = parse
   | "%" (num as n) "$" (modifier? as m) (padding? as pa) (precision? as pr)
   (integer_modifier? letter as l)
-  { INDEXED(lexmodal ~m ~pa ~pr, l, int_of_string n) }
+  { INDEXED(lexmodal ~m ~pa ~pr l, l, int_of_string n) }
   | "%"  (modifier? as m) (padding? as pa) (precision? as pr)
   (integer_modifier? letter as l)
-  { SIMPLE (lexmodal ~m ~pa ~pr,l) }
+  { SIMPLE (lexmodal ~m ~pa ~pr l,l) }
   | "%%" { PERCENT }
   | "%!" | "@?" { FLUSH }
   | "@@" |"%@" | "@" { AT }

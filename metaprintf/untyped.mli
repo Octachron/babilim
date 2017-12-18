@@ -91,5 +91,5 @@ val hcons: Metafmt.Modal.t * ('a,'b) arg * nat ->
 val integer: int -> nat
 (** [integer n] computes the dynamically typed index [n] *)
 
-val arg: string -> ('a,'b) arg
+val arg: Metafmt.Modal.t -> string -> ('a,'b) arg
 (** [arg s] computes the dynamically typed arg *)

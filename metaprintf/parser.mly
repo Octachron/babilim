@@ -32,7 +32,7 @@ metalist:
 | { fun n -> nil }
 | x=indexed l=metalist { (fun n fmt -> hcons x (l (n+1) fmt)) }
 | x = SIMPLE l = metalist { let m, x = x in
-  fun n fmt -> hcons (m, arg x, integer n) (l (n+1) fmt) }
+  fun n fmt -> hcons (m, arg m x, integer n) (l (n+1) fmt) }
 | t=textlike l=metalist { (fun n fmt -> cons t (l n fmt)) }
 
 slist:
@@ -56,7 +56,7 @@ formatting_elt:
 | CLOSE_TAG { C.Close_tag }
 indexed:
 | x=INDEXED { let m, l, n = x in
-  m, arg l, integer n
+  m, arg m l, integer n
   }
 
 textlike:

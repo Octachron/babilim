@@ -23,17 +23,17 @@ let lexmodal = Metafmt.Modal.lexmodal
 let num = ['0'-'9']+
 let letter = ['a'- 'z' 'A' - 'Z']
 let padding = num | "*"
-let precision = "." (num|"*")
+let precision = (num|"*")
 let modifier = ['+' ' ' '#']
 let integer_modifier = ['l' 'L' 'n']
 let std = [^ '%' '@']
 let space = " "*
 
 rule main = parse
-  | "%" (num as n) "$" (modifier? as m) (padding? as pa) (precision? as pr)
+  | "%" (num as n) "$" (modifier? as m) (padding? as pa) ("." (precision as pr))?
   (integer_modifier? letter as l)
   { INDEXED(lexmodal ~m ~pa ~pr l, l, int_of_string n) }
-  | "%"  (modifier? as m) (padding? as pa) (precision? as pr)
+  | "%"  (modifier? as m) (padding? as pa) ("." (precision? as pr))?
   (integer_modifier? letter as l)
   { SIMPLE (lexmodal ~m ~pa ~pr l,l) }
   | "%%" { PERCENT }

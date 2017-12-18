@@ -3,19 +3,22 @@ module W = Witness
 
 open CamlinternalFormatBasics
 
-let padding (type a b c d e) (y:(a,b) padding)
-  : (a , b, c, d, e ) W.h  =
-  match y with
-    | No_padding -> H []
-    | Lit_padding _ -> H []
-    | Arg_padding _ -> H [S Int]
+let grouped (type a b c x d f otr dr mid)
+    (pa:(a,b) padding) (pr:(b,x -> d) precision)
+    (x: x Witness.s) (W.H l:(d,f,otr,dr,mid) W.h ): (a,f,otr,dr,mid) W.h
+  =  match pa, pr with
+  | Arg_padding _, Arg_precision  -> W.(H (Int2_param x :: l))
+  | Arg_padding _ , Lit_precision _ -> W.(H(Int_param x :: l))
+  | Arg_padding _ , No_precision -> W.(H(Int_param x :: l))
+  | Lit_padding _ , Arg_precision  -> W.(H(Int_param x :: l))
+  | No_padding, Arg_precision -> W.(H(Int_param x :: l))
+  | Lit_padding _ , Lit_precision _ -> W.(H(S x :: l))
+  | No_padding, Lit_precision _ -> W.(H(S x :: l))
+  | No_padding, No_precision  -> W.(H(S x :: l))
+  | Lit_padding _ , No_precision -> W.(H(S x :: l))
 
-let pr (type a b c d e) (y:(a,b) precision)
-  : (a, b, c,d, e) W.h  =
-  match y with
-    | No_precision -> H []
-    | Lit_precision _ -> H []
-    | Arg_precision -> H [S Int]
+
+let padded pa x l = grouped pa No_precision x l
 
 exception Unsupported of string
 let unsupported s = raise (Unsupported s)
@@ -25,14 +28,14 @@ let rec typer : type a b c d e f g. (a,b,c,d,e,f) fmt -> (a,f,g,b,c) W.h =
   fun fmt -> match fmt with
     | Char f -> Char <::> f
     | Caml_char f -> Char <::> f
-    | String (p,f) -> (padding p) @ (String <::> f)
-    | Caml_string (p,f) -> (padding p) @ (String <::> f)
-    | Int (k,pa,pre,f) -> padding pa @ pr pre @ (Int <::> f)
-    | Int32 (k,pa,pre,f) -> padding pa @ pr pre @ (Int32 <::> f)
-    | Int64 (k,pa,pre,f) -> padding pa @ pr pre @ (Int64 <::> f)
-    | Nativeint (k,pa,pre,f) -> padding pa @ pr pre @ (Nativeint <::> f)
-    | Bool (pa,f) -> padding pa @ (Bool <::> f)
-    | Float(_,pa,pre,f) -> padding pa @ pr pre @ (Float <::> f)
+    | String (p,f) -> padded p String (typer f)
+    | Caml_string (p,f) -> padded p String (typer f)
+    | Int (k,pa,pre,f) -> grouped pa pre Int (typer f)
+    | Int32 (k,pa,pre,f) -> grouped pa pre Int32 (typer f)
+    | Int64 (k,pa,pre,f) -> grouped pa pre Int64 (typer f)
+    | Nativeint (k,pa,pre,f) -> grouped pa pre Nativeint (typer f)
+    | Bool (pa,f) -> padded pa Bool (typer f)
+    | Float(_,pa,pre,f) -> grouped pa pre Float (typer f)
 
     | Flush f -> typer f
     | String_literal (_,f) -> typer f

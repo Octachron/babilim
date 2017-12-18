@@ -46,6 +46,14 @@ val (===): 'x s -> 'y s -> ('x,'y) eq option
 
 type _ arg =
   | S:  'x s -> ('x, _ ) exs arg
+  | Int_param : 'y s ->
+    <x:int * 'y ; l:'l; fl:int -> 'y -> 'l;
+     driver:'driver; mid:'c
+    > arg
+  | Int2_param : 'y s ->
+    <x: int * int * 'y; l:'l; fl:int -> int -> 'y -> 'l;
+     driver:'driver; mid:'c
+    > arg
   | A:  _ alpha arg
   | T: _ theta arg (**)
 (** Generic argument type for witness list *)

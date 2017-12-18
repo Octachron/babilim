@@ -70,7 +70,7 @@ module Modal: sig
   val modifier: string -> modifier option
   val ext: string -> ext option
 
-  val lexmodal: m:string -> pa:string -> pr:string -> string -> t
+  val lexmodal: m:string -> pa:string -> pr:string option -> string -> t
 end
 
 module Formatting_box: sig

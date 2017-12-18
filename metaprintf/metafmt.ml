@@ -77,14 +77,14 @@ let unsupported x = raise (Unsupported x)
 
 let ext = function
   | "" -> None
-  | "*" -> unsupported "* padding or precision"
+  | "*" -> Some Star
   | x -> try Some (Lit (int_of_string x)) with _ -> None
 
 
 let lexmodal ~m ~pa ~pr l =
   {modifier=modifier m ;
    padding=ext pa;
-   precision=ext pr;
+   precision=(match pr with None -> None | Some pr -> ext pr);
    variant = Some l
   }
 
@@ -126,17 +126,21 @@ module I = CamlinternalFormatBasics
 open Format
 
 
-let print_int f ppf modal n =
+let print_int (params: _ list) f ppf modal n =
   let open Modal in
-  let padding =
-    match modal.padding with
-    | None -> I.No_padding
-    | Some (Lit k) -> I.Lit_padding (Right,k)
-    | _ -> assert false  in
-  let precision = match modal.precision with
-    | None -> I.No_precision
-    | Some(Lit k) -> I.Lit_precision k
-    | _ -> assert false in
+  let padding, params =
+    match modal.padding, params with
+    | None, _ -> I.No_padding, params
+    | Some (Lit k), _ -> I.Lit_padding (Right,k), params
+    | Some Star, a :: q ->
+      I.Lit_padding(Right,a), q
+    | Some Star, [] -> assert false
+  in
+  let precision = match modal.precision, params with
+    | None, _ -> I.No_precision
+    | Some(Lit k), _ -> I.Lit_precision k
+    | Some Star, a :: _ -> I.Lit_precision a
+    | Some Star, [] -> assert false in
   let variant =
     let open I in
     match modal.modifier with
@@ -175,17 +179,19 @@ let print_int f ppf modal n =
   Format.fprintf ppf I.(Format(f variant padding precision,"")) n
 
 
-let print_float ppf modal n =
+let print_float (params: _ list) ppf modal n =
   let open Modal in
-  let padding =
-    match modal.padding with
-    | None -> I.No_padding
-    | Some (Lit k) -> I.Lit_padding (Right,k)
-    | _ -> assert false  in
-  let precision = match modal.precision with
-    | None -> I.No_precision
-    | Some(Lit k) -> I.Lit_precision k
-    | _ -> assert false in
+  let padding, params =
+    match modal.padding, params with
+    | None, _ -> I.No_padding, params
+    | Some (Lit k), _ -> I.Lit_padding (Right,k), params
+    | Some Star, k :: q -> I.Lit_padding (Right,k), q
+    | Some Star, [] -> assert false  in
+  let precision = match modal.precision, params with
+    | None, _ -> I.No_precision
+    | Some(Lit k), _ -> I.Lit_precision k
+    | Some Star, k :: _ -> I.Lit_precision k
+    | Some Star, [] -> assert false in
   let variant =
     let open I in
     match modal.modifier with
@@ -240,13 +246,14 @@ let nativeint v pa pr = I.(Nativeint(v,pa,pr,End_of_format))
 
 
 
-let print_string ppf modal n =
+let print_string (params:_ list) ppf modal n =
   let open Modal in
   let padding =
-    match modal.padding with
-    | None -> I.No_padding
-    | Some (Lit k) -> I.Lit_padding (Right,k)
-    | _ -> assert false  in
+    match modal.padding, params with
+    | None, _ -> I.No_padding
+    | Some (Lit k), _ -> I.Lit_padding (Right,k)
+    | Some Star, k :: _ -> I.Lit_padding (Right,k)
+    | Some Star, [] -> assert false  in
   let variant =
     let open I in
     match modal.variant with
@@ -256,13 +263,14 @@ let print_string ppf modal n =
 
 
 
-let print_bool ppf modal n =
+let print_bool (params:int list) ppf modal n =
   let open Modal in
   let padding =
-    match modal.padding with
-    | None -> I.No_padding
-    | Some (Lit k) -> I.Lit_padding (Right,k)
-    | _ -> assert false  in
+    match modal.padding, params with
+    | None, _ -> I.No_padding
+    | Some (Lit k), _ -> I.Lit_padding (Right,k)
+    | Some Star, k :: _ -> I.Lit_padding (Right,k)
+    | Some Star, [] -> assert false in
   let variant =
     let open I in
     match modal.variant with
@@ -280,15 +288,16 @@ let print_char ppf modal n =
   Format.fprintf ppf I.(Format(variant,"")) n
 
 
-let print_elt (type x) ppf modal (w: x W.s) (x:x) = match w with
-  | W.Int -> print_int int ppf modal x
+let print_elt  (type x) ?(params=([]:_ list))
+    ppf modal (w: x W.s) (x:x) = match w with
+  | W.Int -> print_int params int ppf modal x
   | W.Char -> print_char ppf modal x
-  | W.Bool -> pp_print_bool ppf x
-  | W.Int32 -> print_int int32 ppf modal x
-  | W.Int64 -> print_int int64 ppf modal x
-  | W.Nativeint -> print_int nativeint ppf modal x
-  | W.Float -> print_float ppf modal x
-  | W.String -> print_string ppf modal x
+  | W.Bool -> print_bool params ppf modal x
+  | W.Int32 -> print_int params int32 ppf modal x
+  | W.Int64 -> print_int params int64 ppf modal x
+  | W.Nativeint -> print_int params nativeint ppf modal x
+  | W.Float -> print_float params ppf modal x
+  | W.String -> print_string params ppf modal x
 
 let print_hole (type x l fl) ppf modal
     (w:<x:x; l:l; fl:fl; driver:Format.formatter; mid:unit > W.arg) (x:x) =
@@ -296,6 +305,10 @@ let print_hole (type x l fl) ppf modal
   | W.A -> let W.Show(f,x) = x in (f ppf x:unit)
   | W.T -> (x ppf:unit)
   | W.(S w) -> print_elt ppf modal w x
+  | W.(Int_param w) -> print_elt ~params:[fst x] ppf modal w (snd x)
+  | W.(Int2_param w) ->
+    let pa,pr,x = x in
+    print_elt ~params:[pa;pr] ppf modal w x
 
 let rec kfprintf: type l r. (formatter -> r) ->
   formatter -> (l,formatter,unit) t -> (l,r) L.t
@@ -329,16 +342,24 @@ let rec expand_full: type l m r r f mid. (l * m, r * r, f, mid ) W.l
       fun show x -> expand_full q (fun l -> f L.(W.Show(show,x) :: l))
     | W.(T :: q) ->
       fun t -> expand_full q (fun l -> f L.(t :: l))
+    | W.(Int_param x :: q) ->
+      fun n x -> expand_full q (fun l -> f L.((n,x) :: l) )
+    | W.(Int2_param x :: q) ->
+      fun n m x -> expand_full q (fun l -> f L.((n,m,x) :: l) )
     | W.[] -> f []
 
 let rec expand: type f l m r mid. (l * m, r * r, f, mid ) W.l
   -> ((l,r) L.t -> r) -> l =
   fun spec f -> match spec with
-    | W.(S x :: q)  ->
+    | W.(S _ :: q)  ->
       fun n -> expand q (fun l -> f L.(n :: l) )
     | W.(A :: q) ->
       fun x -> expand q (fun l -> f L.(x :: l))
     | W.(T :: q)  ->
+      fun t -> expand q (fun l -> f L.(t :: l) )
+    | W.(Int_param _ :: q)  ->
+      fun t -> expand q (fun l -> f L.(t :: l) )
+    | W.(Int2_param _ :: q)  ->
       fun t -> expand q (fun l -> f L.(t :: l) )
     | W.[] -> f []
 

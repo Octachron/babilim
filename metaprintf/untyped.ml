@@ -102,6 +102,14 @@ type nat = I: ('x,'src) index -> nat [@@unboxed]
 type ('d,'mid) arg = W : <x:'x; fl:_; l:_; mid:'mid; driver:'d > W.arg ->
   ('d,'mid) arg [@@unboxed]
 
+
+let error s = raise (Dynamic_type_error s)
+
+let (%=%) (type a b) (x:a W.s) (y:b W.s): (a,b) W.eq =
+  match W.( x === y ) with
+  | None -> error "Incompatible element types"
+  | Some W.Eq -> W.Eq
+
 let rec compat: type x x2 src dest a b c d e dr fl fr mid.
   <x:x; l:d; fl:e; driver:dr; mid:mid> W.arg -> (x2,src) index ->
   (dest * a , fl * fr, dr, mid) W.l
@@ -109,24 +117,50 @@ let rec compat: type x x2 src dest a b c d e dr fl fr mid.
   =
   let open W in
   fun arg index spec -> match arg, index, spec with
-    | _ , _, W.[] ->
-      raise
-        (Dynamic_type_error "Mismatched position and number of arguments")
-   | W.S x, Z, W.S y :: _ ->
-     begin match W.(x === y) with
-       | None ->
-         raise (Dynamic_type_error "Incompatible element type")
-       | Some Eq -> Z
-     end
+    | _ , _, W.[] -> error "Mismatched position and number of arguments"
+    | W.S x, Z, W.S y :: _ -> (match x %=% y with Eq -> Z)
+   | W.Int_param x, Z, W.Int_param y :: _ -> (match x %=% y with Eq -> Z)
+   | W.Int2_param x, Z, W.Int2_param y :: _ -> (match x %=% y with Eq -> Z)
    | W.A, Z, W.A :: _ -> Z
    | W.T, Z, W.T :: _ -> Z
    | _, S n, _ :: q -> S (compat arg n q)
-   | W.A, Z, W.S _ :: _  -> raise (Dynamic_type_error "Expexted %a got %simple")
-   | W.T, Z, W.S _ :: _ -> raise (Dynamic_type_error "Expexted %t got %simple")
-   | W.S _, Z, W.T :: _  -> raise (Dynamic_type_error "Expexted %simple got %t")
-   | W.S _, Z, W.A :: _ -> raise (Dynamic_type_error "Expexted %simple got %a")
-   | W.T, Z, W.A :: _ -> raise (Dynamic_type_error "Expecte %t got %a")
-   | W.A, Z, W.T :: _ -> raise (Dynamic_type_error "Expecte %t got %a")
+
+   (* Error messages *)
+   | W.A, Z, W.S _ :: _  -> error "Expexted %a got %simple"
+   | W.T, Z, W.S _ :: _ -> error "Expexted %t got %simple"
+   | W.S _, Z, W.T :: _  -> error "Expexted %simple got %t"
+   | W.S _, Z, W.A :: _ -> error "Expexted %simple got %a"
+   | W.T, Z, W.A :: _ -> error "Expected %t got %a"
+   | W.A, Z, W.T :: _ -> error "Expected %a got %t"
+
+   | W.Int_param _, Z, W.S _ :: _ -> error "Expected int parameter %* got %simple"
+   | W.Int_param _, Z, W.A :: _ -> error "Expected int parameter %* got %a"
+   | W.Int_param _, Z, W.T :: _ -> error "Expected int parameter %* got %t"
+   | W.Int_param _, Z, W.Int2_param _ :: _ ->
+     error "Expected int parameter %*, got %*.* int parameter"
+
+   | W.Int2_param _, Z, W.S _ :: _ ->
+     error "Expected 2 int parameters %*.* got %simple"
+   | W.Int2_param _, Z, W.A :: _ ->
+     error "Expected 2 int parameters %*.* got %a"
+   | W.Int2_param _, Z, W.T :: _ ->
+     error "Expected 2 int parameters %*.* got %t"
+   | W.Int2_param _, Z, W.Int_param _ :: _ ->
+     error "Expected 2 int parameters %*.*, got %* single int parameter"
+
+   | W.S _, Z, W.Int_param _ :: _  ->
+     error "Expected %simple, got int parameter %*"
+   | W.A, Z, W.Int_param _ :: _  ->
+     error "Expected %a, got int parameter %*"
+   | W.T, Z, W.Int_param _ :: _  ->
+     error "Expected %t, got int parameter %*"
+   | W.S _, Z, W.Int2_param _ :: _  ->
+     error "Expected %simple, got 2 int parameters %*.*"
+   | W.A, Z, W.Int2_param _ :: _  ->
+     error "Expected %simple, got 2 int parameters %*.*"
+   | W.T, Z, W.Int2_param _ :: _  ->
+     error "Expected %simple, got 2 int parameters %*.*"
+
 
 
 let nil (Internal.Format (core,_) as fmt) =
@@ -150,6 +184,15 @@ let cons (type finl finr d mid) (A atom: (d,mid) atom)
   | Hole{modal; arg=(W.S x as arg); pos } ->
     let pos =  compat arg pos r.spec in
     Dyn {r with fmt = Hole{ modal; arg=S x; pos} :: r.fmt }
+
+  | Hole{modal; arg=(W.Int_param x as arg); pos } ->
+    let pos =  compat arg pos r.spec in
+    Dyn {r with fmt = Hole{ modal; arg=W.Int_param x; pos} :: r.fmt }
+
+  | Hole{modal; arg=(W.Int2_param x as arg); pos } ->
+    let pos =  compat arg pos r.spec in
+    Dyn {r with fmt = Hole{ modal; arg=W.Int2_param x; pos} :: r.fmt }
+
   | Hole{modal; arg= (W.A as arg); pos } ->
     let pos =  compat arg pos r.spec in
     Dyn {r with fmt = Hole{modal;arg=W.A; pos } :: r.fmt }
@@ -162,6 +205,15 @@ let hcons (type d m) (modal,(W arg:(d,m) arg), I n) (Dyn r: ('finl,'finr,d,m) dy
   | W.S x ->
     let pos =  compat arg n r.spec in
     Dyn {r with fmt = Hole{modal;arg=S x; pos} :: r.fmt }
+
+  | W.Int_param x ->
+    let pos =  compat arg n r.spec in
+    Dyn {r with fmt = Hole{modal;arg=Int_param x; pos} :: r.fmt }
+
+  | W.Int2_param x ->
+    let pos =  compat arg n r.spec in
+    Dyn {r with fmt = Hole{modal;arg=Int2_param x; pos} :: r.fmt }
+
   | W.A ->
     let pos =  compat arg n r.spec in
     Dyn {r with fmt = Hole{modal;arg=W.A; pos } :: r.fmt }
@@ -178,17 +230,24 @@ let rec integer n =
 exception Unsupported of string
 let unsupported s= raise (Unsupported s)
 
-let arg = function
-  | "d" | "i" |"x" | "o" |"X" | "O" -> W (S Int)
-  | "f" | "e" | "g" -> W (S Float)
-  | "b" | "B" -> W (S Bool)
-  | "s" | "S" -> W (S String)
-  | "ld" | "li" | "lx" | "lo" | "lX" | "lO" ->
-    W (S Int32)
-  | "Ld" | "Li" | "Lx" | "Lo" | "LX" | "LO" ->
-    W (S Int64)
-  | "nd" | "ni" | "nx" | "no" | "nX" | "nO" ->
-    W (S Nativeint)
+
+let is_star x = x = Some Modal.Star
+let promote (type x) (modal:Modal.t)  (x: x W.s) =
+  match is_star modal.padding, is_star modal.precision with
+  | true,true -> W(Int2_param x)
+  | false, true | true, false -> W(Int_param x)
+  | false, false -> W(S x)
+
+let arg modal =
+  let promote x = promote modal x in
+  function
+  | "d" | "i" |"x" | "o" |"X" | "O" -> promote Int
+  | "f" | "e" | "g" -> promote Float
+  | "b" | "B" -> promote Bool
+  | "s" | "S" -> promote String
+  | "ld" | "li" | "lx" | "lo" | "lX" | "lO" -> promote Int32
+  | "Ld" | "Li" | "Lx" | "Lo" | "LX" | "LO" -> promote Int64
+  | "nd" | "ni" | "nx" | "no" | "nX" | "nO" -> promote Nativeint
   | "c" | "C" -> W (S Char)
   | "a" -> W A
   | "t" -> W T
@@ -204,19 +263,24 @@ module Gen = struct
     | I Z -> ff ppf "Z"
     | I S n -> ff ppf "(S %a)" gen_pos (I n)
 
-  let gen_w (type d m) ppf (x: (d,m) arg) =
-    Format.pp_print_string ppf @@
+  let gen_s ppf (type x) (x:x W.s) = match x with
+    | W.Int -> ff ppf "Int"
+    | W.Float -> ff ppf "Float"
+    | W.Int32 -> ff ppf "Int32"
+    | W.Int64 -> ff ppf "Int64"
+    | W.Nativeint -> ff ppf "Nativeint"
+    | W.Char -> ff ppf "Char"
+    | W.Bool -> ff ppf "Bool"
+    | W.String -> ff ppf "String"
+
+
+  let rec gen_w (type d m) ppf (x: (d,m) arg) =
     match x with
-    | W W.A -> "A"
-    | W W.(S Int) -> "S Int"
-    | W W.(S Float) -> "S Float"
-    | W W.T -> "S Theta"
-    | W W.(S Int32) -> "S Int32"
-    | W W.(S Int64) -> "S Int64"
-    | W W.(S Nativeint) -> "S Nativeint"
-    | W W.(S Char) -> "S Char"
-    | W W.(S Bool) -> "S Bool"
-    | W W.(S String) -> "S String"
+    | W W.A -> ff ppf "A"
+    | W W.T -> ff ppf "T"
+    | W W.(S x) -> ff ppf "S %a" gen_s x
+    | W W.(Int_param x) -> ff ppf "Int_param %a" gen_s x
+    | W W.(Int2_param x) -> ff ppf "Int2_param %a" gen_s x
 
   let gen_elt ppf = function
     | Text s -> ff ppf "Text %S" s

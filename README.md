@@ -1,7 +1,7 @@
 Babilim is a prototype for localization plugins for the OCaml compiler.
 
 This plugin currently requires a patch to the OCaml compiler to work.
-This patch is available at https://github.com/Octachron/ocaml/tree/i18n%2Brevert .
+This patch is available at https://github.com/Octachron/ocaml/tree/i18n .
 
 Once this patched compiler installed, babilim can be installed with
 `opam pin add babilim https://github.com/Octachron/babilim.git`.

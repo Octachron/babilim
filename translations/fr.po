@@ -10,12 +10,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.4\n"
 
 #: utils/warnings.ml:736
 #, c-format
 msgid "  %c Alias for warning %i.\n"
-msgstr " %c Alias pour l'avertissement %i.\n"
+msgstr "  %c Alias pour l'avertissement %i.\n"
 
 #: utils/warnings.ml:738
 #, c-format
@@ -26,7 +25,7 @@ msgstr "  %c avertissements %s.\n"
 #: utils/warnings.ml:729
 #, c-format
 msgid "  A all warnings@."
-msgstr " A tous les avertissements@."
+msgstr "   A tous les avertissements@."
 
 #: parsing/location.ml:256
 msgid "\", line "
@@ -93,30 +92,30 @@ msgstr "...@ "
 #, c-format
 msgid ".@.@[<hov2>In case %s of@ %a@;<1 -2> the variable %a is unbound@]"
 msgstr ""
-".@.@[<hov2>Dans le cas %s of@ %a@;<1 -2>la variable %a n'est pas définie@]"
+".@.@[<hov2>Dans le cas %s of@ %a@;<1 -2>la variable %a n'est pas liée@]"
 
 #: typing/typedecl.ml:1971
 #, c-format
 msgid ".@.@[<hov2>In case `%s of@ %a@;<1 -2> the variable %a is unbound@]"
 msgstr ""
-".@.@[<hov2>Dans le cas `%s of@ %a@;<1 -2>la variable %a n'est pas définie@]"
+".@.@[<hov2>Dans le cas `%s of@ %a@;<1 -2>la variable %a n'est pas liée@]"
 
 #: typing/typedecl.ml:1948
 #, c-format
 msgid ".@.@[<hov2>In field %s:@ %a@;<1 -2>the variable %a is unbound@]"
 msgstr ""
-".@.@[<hov2>Dans le champ %s :@ %a@;<1 -2>la variable %a n'est pas définie@]"
+".@.@[<hov2>Dans le champ %s :@ %a@;<1 -2>la variable %a n'est pas liée@]"
 
 #: typing/typedecl.ml:1957
 #, c-format
 msgid ".@.@[<hov2>In method %s:@ %a@;<1 -2> the variable %a is unbound@]"
 msgstr ""
-".@.@[<hov2> Dans la méthode %s :@ %a@;<1 -2>la variable %a n'est pas défini@]"
+".@.@[<hov2> Dans la méthode %s :@ %a@;<1 -2>la variable %a n'est pas liée@]"
 
 #: typing/typedecl.ml:1940
 #, c-format
 msgid ".@.@[<hov2>In type@ %a@;<1 -2>the variable %a is unbound@]"
-msgstr ".@.@[<hov2>Dans le type@ %a@;<1 -2>la variable %a n'est pas défini@]"
+msgstr ".@.@[<hov2>Dans le type@ %a@;<1 -2>la variable %a n'est pas liée@]"
 
 #: typing/typecore.ml:5086
 #, c-format
@@ -178,7 +177,7 @@ msgstr ""
 #, c-format
 msgid "@,@[The %s object type has an abstract row, it cannot be closed@]"
 msgstr ""
-"@,@[Ce type d'objet %s a un type colonne abstraite, il ne peut pas être "
+"@,@[Ce type d'objet %s a un type de rangée abstraite, il ne peut pas être "
 "fermé@]"
 
 #: typing/printtyp.ml:1484
@@ -412,7 +411,7 @@ msgstr ""
 msgid ""
 "@[<v>@[Some type variables are unbound in this type:@;<1 2>%t@]@ @[%a@]@]"
 msgstr ""
-"@[<v>@[Des variables de type ne sont pas lié dans ce type :@;<1 2>%t@]@ "
+"@[<v>@[Des variables de type ne sont pas liées dans ce type :@;<1 2>%t@]@ "
 "@[%a@]@]"
 
 #: typing/typecore.ml:5050
@@ -440,7 +439,7 @@ msgstr "@[@[<2>%a @ %a@]@ "
 #: typing/typedecl.ml:2173
 #, c-format
 msgid "@[A type cannot be boxed and unboxed at the same time.@]"
-msgstr "@[Un type ne peut pas être simultanément empaqueté et non empaqueté.@]"
+msgstr "@[Un type ne peut pas être simultanément empaqueté et dépaqueté.@]"
 
 #: typing/typedecl.ml:2074
 #, c-format
@@ -531,7 +530,7 @@ msgid_plural ""
 "%d-th type parameter was expected to be %a,@ but it is %a.@]"
 msgstr[0] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
-"correctes@ Le %1$der paramètre de type était supposé être %2$a,@ mais il est "
+"correctes@ Le premier paramètre de type était supposé être %2$a,@ mais il est "
 "en fait %3$a.@]"
 msgstr[1] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
@@ -945,12 +944,12 @@ msgstr ""
 #: debugger/loadprinter.ml:174
 #, c-format
 msgid "@[Unbound identifier %a@]@."
-msgstr "@[Identifiant non défini %a@]@."
+msgstr "@[Identifiant non lié %a@]@."
 
 #: typing/typecore.ml:5203
 #, c-format
 msgid "@[Unbound value %a.@ %a %i.@]"
-msgstr "@[Valeur non-définie %a.@ %a %i.@]"
+msgstr "@[Valeur non-liée %a.@ %a %i.@]"
 
 #: typing/typetexp.ml:930
 #, c-format
@@ -1113,8 +1112,8 @@ msgid ""
 "this constructor's arguments. They are only for information\n"
 "and may change in future versions. (See manual section 8.5)"
 msgstr ""
-"Nul ne devrait dépendre sur la valeur précise\n"
-"des arguments de ce constructeur. Ils ne sont là qu'à titre d'information\n"
+"Nul ne devrait dépendre de la valeur précise\n"
+"des arguments de ce constructeur. Ils ne sont là qu'à titre informatif\n"
 "et pourrait changer dans de futur versions. (Voir le manuel, section 8.5)"
 
 #: utils/warnings.ml:701
@@ -1679,7 +1678,7 @@ msgstr "La variable d'instance %s@ a pour type"
 #, c-format
 msgid "The instance variable %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
 msgstr ""
-"La variable d'instance %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas déclaré"
+"La variable d'instance %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas liée"
 
 #: typing/includeclass.ml:79
 #, c-format
@@ -1689,7 +1688,7 @@ msgstr "La méthode %s@ a pour type"
 #: typing/typeclass.ml:1922
 #, c-format
 msgid "The method %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
-msgstr "La méthode %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas déclaré"
+msgstr "La méthode %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas liée"
 
 #: typing/typetexp.ml:999
 #, c-format
@@ -2166,32 +2165,32 @@ msgstr "Type sans principalité."
 #: typing/typetexp.ml:963
 #, c-format
 msgid "Unbound class %a"
-msgstr "Classe non-déclarée %a"
+msgstr "Classe non-liée %a"
 
 #: typing/typetexp.ml:969
 #, c-format
 msgid "Unbound class type %a"
-msgstr "Type de classe non déclarée %a"
+msgstr "Type de classe non lié %a"
 
 #: typing/typetexp.ml:957
 #, c-format
 msgid "Unbound constructor %a"
-msgstr "Constructeur non-déclaré %a"
+msgstr "Constructeur non-lié %a"
 
 #: typing/typeclass.ml:1914
 #, c-format
 msgid "Unbound instance variable %s"
-msgstr "Variable d'instance non-déclarée %s"
+msgstr "Variable d'instance non-liée %s"
 
 #: typing/typetexp.ml:954
 #, c-format
 msgid "Unbound module %a"
-msgstr "Module non-déclaré %a"
+msgstr "Module non-lié %a"
 
 #: typing/typetexp.ml:966
 #, c-format
 msgid "Unbound module type %a"
-msgstr "Module de type non-déclaré %a"
+msgstr "Type de module non-lié %a"
 
 #: typing/typetexp.ml:960
 #, c-format

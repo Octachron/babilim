@@ -66,7 +66,8 @@ msgid ""
 "The first one was selected. Please disambiguate if this is wrong."
 msgstr ""
 "%s appartient à plusieurs types : %s\n"
-"Le premier a été sélectionné. Explicitez le type si ce choix est erroné."
+"Le premier a été sélectionné. Veuillez expliciter le type si ce choix est "
+"erroné."
 
 #: utils/warnings.ml:467
 #, c-format
@@ -159,18 +160,18 @@ msgid ""
 "equation@]"
 msgstr ""
 "@,@[<hov>Cette instance de %a est ambiguë :@ elle échapperait à la portée de "
-"don équation@]"
+"son équation@]"
 
 #: typing/printtyp.ml:1435
 #, c-format
 msgid "@,@[Hint: Did you forget to provide `()' as argument?@]"
-msgstr "@,@[Suggestion : Avez vous oubliez de fournir `()' comme argument ?@]"
+msgstr "@,@[Suggestion : Avez-vous oublié de fournir `()' comme argument ?@]"
 
 #: typing/printtyp.ml:1440
 #, c-format
 msgid "@,@[Hint: Did you forget to wrap the expression using `fun () ->'?@]"
 msgstr ""
-"@,@[Suggestion : Avez-vous oubliez d'enclore cette expression par `fun () -"
+"@,@[Suggestion : Avez-vous oublié d'enclore cette expression par `fun () -"
 ">' ?@]"
 
 #: typing/printtyp.ml:1492
@@ -216,7 +217,7 @@ msgstr ""
 #: typing/printtyp.ml:1444
 #, c-format
 msgid "@,Self type cannot escape its class"
-msgstr "@,Le type réfléchi,Self, ne peut pas s'échapper en dehors de sa classe"
+msgstr "@,Le type réfléchi, Self, ne peut pas s'échapper en dehors de sa classe"
 
 #: typing/printtyp.ml:1459
 #, c-format
@@ -257,12 +258,12 @@ msgstr "@[%t.@ @[<2>Les %s suivants sont indéfinis :%a@]@]"
 #: typing/typetexp.ml:948
 #, c-format
 msgid "@[<hov>Method '%s' has type %a,@ which should be %a@]"
-msgstr "@[<hov> La méthode '%s' a pour type %a,@ lequel devrait être  %a@]"
+msgstr "@[<hov> La méthode '%s' a pour type %a,@ lequel devrait être %a@]"
 
 #: typing/typecore.ml:4990
 #, c-format
 msgid "@[<hov>Some record fields are undefined:%a@]"
-msgstr "@[<hov>Certains champ du record ne sont pas définis:%a@]"
+msgstr "@[<hov>Certains champs du record ne sont pas définis : %a@]"
 
 #: typing/typetexp.ml:937
 #, c-format
@@ -288,8 +289,8 @@ msgstr "@[<hv 2>À l'emplacement@ %a@]@ "
 msgid ""
 "@[<hv 2>Class declarations do not match:@ %a@;<1 -2>does not match@ %a@]@ %a"
 msgstr ""
-"@[<hv 2>Les déclarations de classes ne sont assorties :@ %a@;<1 -2>n'est pas "
-"compatible avec@ %a@]@ %a"
+"@[<hv 2>Les déclarations de classes ne sont pas assorties :@ %a@;<1 -2>n'est "
+"pas compatible avec@ %a@]@ %a"
 
 #: typing/includemod.ml:578
 #, c-format
@@ -297,7 +298,7 @@ msgid ""
 "@[<hv 2>Class type declarations do not match:@ %a@;<1 -2>does not match@ "
 "%a@]@ %a"
 msgstr ""
-"@[<hv 2>Les déclarations de types de classes ne sont assorties :@ %a@;<1 "
+"@[<hv 2>Les déclarations de types de classes ne sont pas assorties :@ %a@;<1 "
 "-2>n'est pas compatible avec@ %a@]@ %a"
 
 #: typing/includemod.ml:553
@@ -306,8 +307,8 @@ msgid ""
 "@[<hv 2>Extension declarations do not match:@ %a@;<1 -2>is not included in@ "
 "%a@]"
 msgstr ""
-"@[<hv 2>Les déclarations d'extensions ne sont assorties :@ %a@;<1 -2>n'est "
-"pas inclu par@ %a@]"
+"@[<hv 2>Les déclarations d'extensions ne sont pas assorties :@ %a@;<1 -2>"
+"n'est pas inclus dans@ %a@]"
 
 #: typing/includemod.ml:566
 #, c-format
@@ -315,7 +316,7 @@ msgid ""
 "@[<hv 2>Module type declarations do not match:@ %a@;<1 -2>does not match@ "
 "%a@]"
 msgstr ""
-"@[<hv 2>Les déclarations de types de modules ne sont assorties :@ %a@;<1 "
+"@[<hv 2>Les déclarations de types de modules ne sont pas assorties :@ %a@;<1 "
 "-2>n'est pas compatible avec@ %a@]"
 
 #: typing/includemod.ml:560
@@ -352,7 +353,7 @@ msgid ""
 "@[<v>@[<2>The function applied to this argument has type@ %a@]@.This "
 "argument cannot be applied %a@]"
 msgstr ""
-"@[<v>@[<2>La fonction appliquée à cette argument a pour type@ %a@]@.Cette "
+"@[<v>@[<2>La fonction appliquée à cet argument a pour type@ %a@]@.Cet "
 "argument ne peut pas être appliqué %a@]"
 
 #: typing/typecore.ml:4970
@@ -393,9 +394,9 @@ msgid ""
 "@[<v>@[In this `with' constraint, the new definition of %a@ does not match "
 "its original definition@ in the constrained signature:@]@ %a@]"
 msgstr ""
-"@[<v>@[À l'intérieur de la contrainte `with' constraint, la nouvelle "
-"définition de %a@ n'est pas compatible avec la définition originelle@ dans "
-"la contrainte de signature :@]@ %a@]"
+"@[<v>@[À l'intérieur de la contrainte `with', la nouvelle définition de %a@"
+" n'est pas compatible avec la définition originelle@ dans la contrainte de "
+"signature :@]@ %a@]"
 
 #: typing/typeclass.ml:1942
 #, c-format
@@ -403,7 +404,7 @@ msgid ""
 "@[<v>@[Self type should not occur in the non-generic type@;<1 2>%a@]@,It "
 "would escape the scope of its class@]"
 msgstr ""
-"@[<v>@[Le type réfléchi, Self, ne devrait pas apparaître dans le  type non-"
+"@[<v>@[Le type réfléchi, Self, ne devrait pas apparaître dans le type non-"
 "générique @;<1 2>%a@]@,Il s'échapperait de la portée de sa classe@]"
 
 #: typing/typeclass.ml:1937
@@ -434,7 +435,7 @@ msgstr "@[<v>Cette définition de %s contient un cycle :@ %a@]"
 #: typing/typecore.ml:5005
 #, c-format
 msgid "@[@[<2>%a@ %a@]@ "
-msgstr "@[@[<2>%a @ %a@]@ "
+msgstr "@[@[<2>%a@ %a@]@ "
 
 #: typing/typedecl.ml:2173
 #, c-format
@@ -452,8 +453,8 @@ msgid ""
 "@[Constraints are not satisfied in this type.@ @[<hv>Type@ %a@ should be an "
 "instance of@ %a@]@]"
 msgstr ""
-"@[Les contraintes ne sont pas vérifiées dans ce type.@ @[<hv> Le type@ %a@ "
-"devrait être un sous-cas de @ %a@]@]"
+"@[Les contraintes ne sont pas vérifiées dans ce type.@ @[<hv>Le type@ %a@ "
+"devrait être un sous-cas de@ %a@]@]"
 
 #: typing/typemod.ml:1993
 #, c-format
@@ -469,7 +470,7 @@ msgstr "@[Erreur durant le chargement du code : %s@]@."
 #, c-format
 msgid "@[Exception patterns must be at the top level of a match case.@]"
 msgstr ""
-"@[Les motifs d'exception doivent être placé au premier niveau des cas "
+"@[Les motifs d'exception doivent être placés au premier niveau des cas "
 "filtrés par match.@]"
 
 #: typing/typedecl.ml:2175
@@ -482,7 +483,7 @@ msgstr ""
 #: typing/typetexp.ml:974
 #, c-format
 msgid "@[Ill-typed functor application %a(%a)@]"
-msgstr "Application de foncteur mal-typée %a(%a)@]"
+msgstr "@[Application de foncteur mal-typée %a(%a)@]"
 
 #: typing/typedecl.ml:2144
 #, c-format
@@ -500,7 +501,7 @@ msgid ""
 "parameters.@]"
 msgstr ""
 "@[Dans cette définition, une variable de type n'a pas pu être déduite@ à "
-"partir des types en paramètres..@]"
+"partir des types en paramètres.@]"
 
 #: typing/typedecl.ml:2126
 #, c-format
@@ -509,7 +510,7 @@ msgid ""
 "from the type parameters.@ %t@]"
 msgstr ""
 "@[Dans cette définition, une variable de type a une variance qui@ ne peut "
-"pas être déduite à partir des types en paramètres..@ %t@]"
+"pas être déduite à partir des types en paramètres.@ %t@]"
 
 #: typing/typedecl.ml:2117
 #, c-format
@@ -518,7 +519,7 @@ msgid ""
 "by its occurrence in type parameters.@ %t@]"
 msgstr ""
 "@[Dans cette définition, une variable de type a une variance qui@ n'est pas "
-"reflété par ses apparitions parmi les paramètres de type.@ %t@]"
+"reflétée par ses apparitions parmi les paramètres de type.@ %t@]"
 
 #: typing/typedecl.ml:2130
 #, c-format
@@ -530,11 +531,11 @@ msgid_plural ""
 "%d-th type parameter was expected to be %a,@ but it is %a.@]"
 msgstr[0] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
-"correctes@ Le premier paramètre de type était supposé être %2$a,@ mais il est "
-"en fait %3$a.@]"
+"correctes.@ Le premier paramètre de type était supposé être %2$a,@ mais il "
+"est en fait %3$a.@]"
 msgstr[1] ""
 "@[Dans cette définition, les variances attendues des paramètres ne sont pas "
-"correctes.s@ Le %1$d-ème paramètre de type était supposé être %2$a,@ mais il "
+"correctes.@ Le %1$d-ème paramètre de type était supposé être %2$a,@ mais il "
 "est en fait %3$a.@]"
 
 #: typing/typecore.ml:5161
@@ -554,7 +555,8 @@ msgstr ""
 #: typing/typecore.ml:5159
 #, c-format
 msgid "@[Only character intervals are supported in patterns.@]"
-msgstr "@[Seul les intervalles de caractères sont supportés dans les motifs.@]"
+msgstr "@[Seuls les intervalles de caractères sont supportés dans les motifs."
+"@]"
 
 #: typing/typecore.ml:5154
 #, c-format
@@ -592,7 +594,7 @@ msgstr ""
 #: typing/typeclass.ml:1865
 #, c-format
 msgid "@[The class type@ %a@ is not yet completely defined@]"
-msgstr "@[Le type de classe @ %a@ n'est pas encore complètement défini@]"
+msgstr "@[Le type de classe@ %a@ n'est pas encore complètement défini@]"
 
 #: typing/includeclass.ml:65
 #, c-format
@@ -603,7 +605,7 @@ msgstr ""
 #: typing/typeclass.ml:1862
 #, c-format
 msgid "@[The class@ %a@ is not yet completely defined@]"
-msgstr "@[La classe @ %a@ n'est pas encore complètement définie@]"
+msgstr "@[La classe@ %a@ n'est pas encore complètement définie@]"
 
 #: typing/typedecl.ml:2092
 #, c-format
@@ -611,8 +613,8 @@ msgid ""
 "@[The constructor %a extends type %s whose declarations dos not match the "
 "declaration of type %s@]"
 msgstr ""
-"@[Le constructeur %a étend le type %s dont la déclaration n'es pas assorti à "
-"celle du type %s@]"
+"@[Le constructeur %a étend le type %s dont la déclaration n'est pas assortie "
+"à celle du type %s@]"
 
 #: typing/typecore.ml:4931
 #, c-format
@@ -634,8 +636,8 @@ msgid ""
 "@[The debugger does not contain the code for@ %a.@ Please load an "
 "implementation of %s first.@]@."
 msgstr ""
-"@[Le dévermineur ne contient pas le code pour@ %a.@ Chargez d'abord une "
-"implémentation de %s s'il-vous-plaît.@]@."
+"@[Le dévermineur ne contient pas le code pour@ %a.@ Veuillez charger d'abord "
+"une implémentation de %s.@]@."
 
 #: typing/typecore.ml:4996
 #, c-format
@@ -661,8 +663,8 @@ msgid ""
 "@[The functor %a is generative,@ it@ cannot@ be@ applied@ in@ type@ "
 "expressions@]"
 msgstr ""
-"@[Le foncteur %a est génératif,@ il@ ne@ peut@ être@ appliquée@ dans@ une@ "
-"expression@ de@ type@]"
+"@[Le foncteur %a est génératif,@ il@ ne@ peut@ être@ appliqué@ dans@ des@ "
+"expressions@ de@ type@]"
 
 #: typing/includemod.ml:574
 #, c-format
@@ -672,19 +674,19 @@ msgstr "@[L'implémentation %s@ n'est pas compatible avec l'interface %s :"
 #: typing/typeclass.ml:1997
 #, c-format
 msgid "@[The instance variable `%s'@ has multiple definitions in this object@]"
-msgstr "@[La variable d'instance `%s'@ a plusieurs définition dans cet objet@]"
+msgstr "@[La variable d'instance `%s'@ a plusieurs définitions dans cet objet"
+"@]"
 
 #: typing/typeclass.ml:1984
 #, c-format
 msgid "@[The instance variable `%s'@ has no previous definition@]"
-msgstr "@[La variable d'instance `%s'@ n'a pas de définition préalable @]"
+msgstr "@[La variable d'instance `%s'@ n'a pas de définition préalable@]"
 
 #: typing/typeclass.ml:1974
 #, c-format
 msgid "@[The instance variable is %a;@ it cannot be redefined as %a@]"
 msgstr ""
-"@[La variable d'instance variable est %a;@ elle ne peut être redéfinie comme "
-"%a@]"
+"@[La variable d'instance est %a;@ elle ne peut pas être redéfinie comme %a@]"
 
 #: typing/typemod.ml:1988
 #, c-format
@@ -693,22 +695,22 @@ msgid ""
 "be provided.@]"
 msgstr ""
 "@[L' interface %a@ déclare des valeurs et non pas uniquement des types.@ Une "
-"implementation doit être fournie.@]"
+"implémentation doit être fournie.@]"
 
 #: typing/typeclass.ml:1993
 #, c-format
 msgid "@[The method `%s'@ has multiple definitions in this object@]"
-msgstr "@[La méthode `%s'@ a plusieurs définition dans cet objet@]"
+msgstr "@[La méthode `%s'@ a plusieurs définitions dans cet objet@]"
 
 #: typing/typeclass.ml:1987
 #, c-format
 msgid "@[The method `%s'@ has no previous definition@]"
-msgstr "@[La méthode `%s'@ n'a pas de définition préalable @]"
+msgstr "@[La méthode `%s'@ n'a pas de définition préalable@]"
 
 #: typing/typetexp.ml:990
 #, c-format
 msgid "@[The module %a is a functor, it cannot have any components@]"
-msgstr "@[Le module %a est un foncteur, il ne peut pas avoir de composants @]"
+msgstr "@[Le module %a est un foncteur, il ne peut pas avoir de composants@]"
 
 #: typing/typetexp.ml:984
 #, c-format
@@ -718,12 +720,12 @@ msgstr "@[Le module %a est une structure, il ne peut pas être appliqué@]"
 #: typing/typetexp.ml:987
 #, c-format
 msgid "@[The module %a is abstract, it cannot be applied@]"
-msgstr "@[Le module %a est abstrait, il ne peut être appliqué@]"
+msgstr "@[Le module %a est abstrait, il ne peut pas être appliqué@]"
 
 #: typing/typetexp.ml:993
 #, c-format
 msgid "@[The module %a is abstract, it cannot have any components@]"
-msgstr "@[Le module %a est abstrait, il ne peut pas avoir de composants @]"
+msgstr "@[Le module %a est abstrait, il ne peut pas avoir de composants@]"
 
 #: typing/includeclass.ml:82
 #, c-format
@@ -775,7 +777,7 @@ msgid ""
 "@[The type of %a does not match %a's parameter@\n"
 "%a@]"
 msgstr ""
-"@[Le type %a@ n'est pas compatible avec le type du paramètre %a@\n"
+"@[Le type de %a@ n'est pas compatible avec le type du paramètre %a@\n"
 "%a@]"
 
 #: typing/typeclass.ml:1953
@@ -794,7 +796,7 @@ msgid ""
 "in constraints@]"
 msgstr ""
 "@[Le type de cette classe,@ %a,@ contient des types conjonctif non "
-"effaçables dans ses constraintes@]"
+"effaçables dans ses contraintes@]"
 
 #: typing/typeclass.ml:1948
 #, c-format
@@ -826,7 +828,7 @@ msgstr ""
 #: typing/includeclass.ml:94
 #, c-format
 msgid "@[The virtual %s %s cannot be hidden@]"
-msgstr "@[La %s virtuelle %s ne peut être caché@]"
+msgstr "@[La %s virtuelle %s ne peut être cachée@]"
 
 #: typing/includeclass.ml:85
 #, c-format
@@ -860,7 +862,7 @@ msgstr "@[Cette expression crée des types frais.@ %s@]"
 msgid ""
 "@[This form is not allowed as the type of the inlined record could escape.@]"
 msgstr ""
-"@[Cette forme n'est pas autorisé car elle permettrait au type enregistrement "
+"@[Cette forme n'est pas autorisée car elle permettrait au type enregistrement "
 "incorporé de s'échapper.@]"
 
 #: typing/typemod.ml:1932
@@ -870,7 +872,7 @@ msgid ""
 "result type.@  Please bind the argument to a module identifier.@]"
 msgstr ""
 "@[Ce foncteur a pour type@ %a@ Le paramètre ne peut être éliminé au sein du "
-"type résultant.@ Liez cette argument à un identifiant de module.@]"
+"type résultant.@ Veuillez lier cet argument à un identifiant de module.@]"
 
 #: typing/typeclass.ml:1978
 #, c-format
@@ -900,13 +902,13 @@ msgstr "@[Ce module n'est pas une structure, il a pour type@ %a"
 #, c-format
 msgid "@[This pattern cannot match self: it only matches values of type@ %a@]"
 msgstr ""
-"@[Ce motif ne peut pas aller avec le type de l'objet-même : il n'est "
+"@[Ce motif ne peut pas filtrer le type de l'objet-même : il n'est "
 "compatible qu'avec des valeurs de type@ %a@]"
 
 #: typing/typedecl.ml:2167
 #, c-format
 msgid "@[This type cannot be unboxed because@ %a.@]"
-msgstr "@[Ce type ne peut pas être dépaqueté parce que@ %a@]"
+msgstr "@[Ce type ne peut pas être dépaqueté parce que@ %a.@]"
 
 #: typing/typedecl.ml:2169
 #, c-format
@@ -949,20 +951,20 @@ msgstr "@[Identifiant non lié %a@]@."
 #: typing/typecore.ml:5203
 #, c-format
 msgid "@[Unbound value %a.@ %a %i.@]"
-msgstr "@[Valeur non-liée %a.@ %a %i.@]"
+msgstr "@[Valeur non liée %a.@ %a %i.@]"
 
 #: typing/typetexp.ml:930
 #, c-format
 msgid ""
 "@[Variant tags `%s@ and `%s have the same hash value.@ Change one of them.@]"
 msgstr ""
-"@[Les noms des variant `%s@ et `%s partagent la même valeur de hash.@ "
+"@[Les noms des variants `%s@ et `%s partagent la même valeur de hash.@ "
 "Changez l'un d'entre eux.@]"
 
 #: typing/typeclass.ml:1982
 #, c-format
 msgid "@[`%s'@ has no previous definition@]"
-msgstr "@[ `%s'@ n'a pas de définition préalable @]"
+msgstr "@[`%s'@ n'a pas de définition préalable@]"
 
 #: typing/includeclass.ml:55
 #, c-format
@@ -1032,7 +1034,7 @@ msgstr "Déclaration concrète"
 #: typing/typetexp.ml:891
 #, c-format
 msgid "Already bound type parameter '%s"
-msgstr "Le paramètre de type %s était déjà lié"
+msgstr "Le paramètre de type '%s était déjà lié"
 
 #: utils/warnings.ml:702
 msgid "Ambiguous constructor or label name."
@@ -1054,11 +1056,11 @@ msgid_plural ""
 "variables %s may match different arguments. (See manual section 9.5)"
 msgstr[0] ""
 "Motif avec alternative ambigu en présence d'une garde\n"
-"%s pourrait être apparié avec des arguments différents (Voir la section 9.5 "
+"%s pourrait être apparié avec des arguments différents. (Voir la section 9.5 "
 "du manuel)"
 msgstr[1] ""
 "Motif avec alternative ambigu en présence d'une garde\n"
-"%s pourrait être apparié avec des arguments différents (Voir la section 9.5 "
+"%s pourrait être apparié avec des arguments différents. (Voir la section 9.5 "
 "du manuel)"
 
 #: utils/warnings.ml:720
@@ -1077,7 +1079,7 @@ msgstr "Un attribut a été utilisé plus d'une fois dans une expression"
 msgid ""
 "Bad module name: the source file name is not a valid OCaml module     name."
 msgstr ""
-"Nom de module problématique : le nom du  fichier source n'est pas une nom de "
+"Nom de module problématique : le nom du fichier source n'est pas un nom de "
 "module OCaml valide."
 
 #: typing/typecore.ml:5123
@@ -1088,7 +1090,7 @@ msgstr "Affecter le champ %a du type privé %a est impossible"
 #: typing/typecore.ml:5121
 #, c-format
 msgid "Cannot create values of the private type %a"
-msgstr "Créer une valeur du type privé %a est impossible"
+msgstr "Créer des valeurs du type privé %a est impossible"
 
 #: utils/warnings.ml:576
 #, c-format
@@ -1098,7 +1100,7 @@ msgstr "Impossible d'inliner: %a"
 #: typing/typecore.ml:5061
 #, c-format
 msgid "Cannot instantiate the virtual class %a"
-msgstr "La classe virtuelle %a ne peut être instancier"
+msgstr "La classe virtuelle %a ne peut être instanciée"
 
 #: parsing/location.ml:148
 #, c-format
@@ -1112,9 +1114,9 @@ msgid ""
 "this constructor's arguments. They are only for information\n"
 "and may change in future versions. (See manual section 8.5)"
 msgstr ""
-"Nul ne devrait dépendre de la valeur précise\n"
+"Nul code ne devrait dépendre de la valeur précise\n"
 "des arguments de ce constructeur. Ils ne sont là qu'à titre informatif\n"
-"et pourrait changer dans de futur versions. (Voir le manuel, section 8.5)"
+"et pourraient changer dans de futures versions. (Voir le manuel, section 8.5)"
 
 #: utils/warnings.ml:701
 msgid "Constructor or label name used out of scope."
@@ -1130,7 +1132,7 @@ msgstr "Fonctionnalité dépréciée."
 
 #: utils/warnings.ml:681
 msgid "Deprecated: now part of warning 8."
-msgstr "Déprécié : fait désormais parti de l'avertissement 8."
+msgstr "Déprécié : fait désormais partie de l'avertissement 8."
 
 #: utils/warnings.ml:703
 msgid "Disambiguated constructor or label name (compatibility warning)."
@@ -1143,14 +1145,15 @@ msgid ""
 "Don't know how to unbox this type. Only float, int32, int64 and nativeint "
 "can be unboxed"
 msgstr ""
-"Je ne sais pas comment dépaqueté ce type. Seul les float, int32, int64 et "
+"Je ne sais pas comment dépaqueter ce type. Seuls les float, int32, int64 et "
 "nativeint peuvent être dépaquetés"
 
 #: typing/typedecl.ml:2155
 #, c-format
 msgid "Don't know how to untag this type. Only int can be untagged"
 msgstr ""
-"Je ne sais pas comment démarqué ce type. Seul les entiers peuvent démarqués"
+"Je ne sais pas comment démarquer ce type. Seuls les entiers peuvent être "
+"démarqués"
 
 #: parsing/location.ml:303
 msgid "Error"
@@ -1158,7 +1161,7 @@ msgstr "Erreur"
 
 #: utils/warnings.ml:707
 msgid "Error in environment variable."
-msgstr "Erreur dans une variable d'environement."
+msgstr "Erreur dans une variable d'environnement."
 
 #: typing/includemod.ml:538
 msgid "Expected declaration"
@@ -1251,7 +1254,7 @@ msgstr "Référence illégale à un module récursif"
 
 #: utils/warnings.ml:709
 msgid "Implicit elimination of optional arguments."
-msgstr "Élimination implicite des arguments optionels."
+msgstr "Élimination implicite des arguments optionnels."
 
 #: parsing/location.ml:480
 #, c-format
@@ -1269,8 +1272,8 @@ msgid ""
 "In this program,@ variant constructors@ `%s and `%s@ have the same hash "
 "value.@ Change one of them."
 msgstr ""
-"Dans ce programme,@ les constructeurs de variant `%s et `%s partagent la "
-"même valeur de hash. Changes l'un d'entre eux."
+"Dans ce programme,@ les constructeurs de variant `%s et `%s@ partagent la "
+"même valeur de hash.@ Changez l'un d'entre eux."
 
 #: parsing/syntaxerr.ml:54
 #, c-format
@@ -1290,7 +1293,7 @@ msgstr ""
 "Variable inutilisée inoffensive : la variable inutilisée est déclarée ni "
 "avec\n"
 "    \"let\"  ni avec \"as\" et ne commence pas par un caractère tiret bas "
-"(\"_\")"
+"(\"_\")."
 
 #: utils/warnings.ml:668
 msgid "Instance variable overridden."
@@ -1371,11 +1374,11 @@ msgstr "Son type contient des dépendances locales :@ %a"
 
 #: utils/warnings.ml:659
 msgid "Label omitted in function application."
-msgstr "Étiquette omise lors d'une application de function."
+msgstr "Étiquette omise lors d'une application de fonction."
 
 #: parsing/ast_invariants.ml:25
 msgid "Let with no bindings."
-msgstr "\"Let\" sans déclaration."
+msgstr "\"Let\" sans déclarations."
 
 #: utils/warnings.ml:660
 msgid "Method overridden."
@@ -1387,7 +1390,7 @@ msgstr "Fichier cmx manquant"
 
 #: utils/warnings.ml:662
 msgid "Missing fields in a record pattern."
-msgstr "Champ manquant dans un motif d'enregistrement."
+msgstr "Champs manquants dans un motif d'enregistrement."
 
 #: typing/includemod.ml:596
 #, c-format
@@ -1416,13 +1419,13 @@ msgstr "Cette phrase ne retourne jamais."
 #, c-format
 msgid "None of the patterns in this 'match' expression match values."
 msgstr ""
-"Aucun des motifs dans cette expression 'match' est compatible avec une "
+"Aucun des motifs dans cette expression 'match' n'est compatible avec une "
 "valeur."
 
 #: utils/warnings.ml:704
 msgid "Nonoptional label applied as optional."
 msgstr ""
-"Un argument nommé non-optionnel a été appliqué comme si l'était optionnel."
+"Un argument nommé non-optionnel a été appliqué comme s'il était optionnel."
 
 #: driver/pparse.ml:158
 msgid "OCaml and preprocessor have incompatible versions"
@@ -1431,7 +1434,7 @@ msgstr "OCaml et le préprocesseur ont des versions incompatibles"
 #: typing/typecore.ml:5194
 #, c-format
 msgid "Only variables are allowed as left-hand side of `let rec'"
-msgstr "Seules des variables sont autorisés à gauche d'un `let rec'"
+msgstr "Seules des variables sont autorisées à gauche d'un `let rec'"
 
 #: utils/warnings.ml:705
 msgid "Open statement shadows an already defined identifier."
@@ -1440,7 +1443,7 @@ msgstr "Une déclaration d'ouverture dissimule un identifiant déjà défini."
 #: utils/warnings.ml:706
 msgid "Open statement shadows an already defined label or constructor."
 msgstr ""
-"Une déclaration d'ouverture dissimule une étiquette ou une constructeur."
+"Une déclaration d'ouverture dissimule une étiquette ou un constructeur."
 
 #: asmcomp/closure.ml:894
 msgid "Over-application"
@@ -1452,7 +1455,7 @@ msgstr "Application partielle"
 
 #: utils/warnings.ml:661
 msgid "Partial match: missing cases in pattern-matching."
-msgstr "Filtrage incomplet : des cas sont manquant dans le filtrage de motif."
+msgstr "Filtrage incomplet : des cas sont manquants dans le filtrage de motif."
 
 #: utils/warnings.ml:657
 msgid ""
@@ -1460,7 +1463,7 @@ msgid ""
 "    type and is ignored."
 msgstr ""
 "Application partielle de fonction: expression dont le résultat a un type "
-"fonctionel et est ignoré."
+"fonctionnel et est ignoré."
 
 #: utils/warnings.ml:677
 msgid "Preprocessor warning."
@@ -1472,7 +1475,7 @@ msgstr "Méthode privée rendue publique implicitement."
 
 #: parsing/ast_invariants.ml:21
 msgid "Records cannot be empty."
-msgstr "Un enregistrement ne peut être vide."
+msgstr "Les enregistrements ne peuvent être vides."
 
 #: typing/typecore.ml:5147
 #, c-format
@@ -1486,7 +1489,7 @@ msgstr "Les modules récursifs requièrent un type de module explicite."
 
 #: utils/warnings.ml:666
 msgid "Redundant case in a pattern matching (unused match case)."
-msgstr "Cas redondant dans le filtrage de motif (cas inutilisé)"
+msgstr "Cas redondant dans le filtrage de motif (cas inutilisé)."
 
 #: utils/warnings.ml:667
 msgid "Redundant sub-pattern in a pattern-matching."
@@ -1563,7 +1566,7 @@ msgid ""
 "primitive, it should not occur deeply into its type"
 msgstr ""
 "L'attribut %s devrait être attaché à un argument direct ou au résultat de la "
-"primitive, et ne devrait pas apparaître loin à l'intérieur du type"
+"primitive, et ne devrait pas apparaître loin à l'intérieur de son type"
 
 #: typing/typeclass.ml:1825
 #, c-format
@@ -1583,7 +1586,7 @@ msgstr "Le constructeur %a@ appartient à l'un des types de variants suivants :
 #: typing/typecore.ml:5018
 #, c-format
 msgid "The constructor %a@ belongs to the variant type"
-msgstr "Le constructeur %a@ n'appartient pas au type variant"
+msgstr "Le constructeur %a@ appartient au type variant"
 
 #: typing/typedecl.ml:2088
 #, c-format
@@ -1593,7 +1596,7 @@ msgstr "Le constructeur %a@ a pour type"
 #: typing/typecore.ml:5010
 #, c-format
 msgid "The constructor %s does not belong to type %a@]"
-msgstr "Le constructeur %s n'appartient pas au type de variant %a@]"
+msgstr "Le constructeur %s n'appartient pas au type %a@]"
 
 #: typing/typedecl.ml:2140
 #, c-format
@@ -1656,7 +1659,7 @@ msgid ""
 "The instance variable %a@ cannot be accessed from the definition of another "
 "instance variable"
 msgstr ""
-"La variable d'instance %a] ne peut être accédée dans la définition d'une "
+"La variable d'instance %a@ ne peut être accédée dans la définition d'une "
 "autre variable d'instance"
 
 #: typing/typecore.ml:5068
@@ -1688,7 +1691,7 @@ msgstr "La méthode %s@ a pour type"
 #: typing/typeclass.ml:1922
 #, c-format
 msgid "The method %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
-msgstr "La méthode %s@ a pour type @;<1 2>%a@ où@ %a@ n'est pas liée"
+msgstr "La méthode %s@ a pour type@;<1 2>%a@ où@ %a@ n'est pas liée"
 
 #: typing/typetexp.ml:999
 #, c-format
@@ -1758,12 +1761,12 @@ msgstr "Les contraintes de types ne sont pas consistantes.@."
 #: typing/typetexp.ml:883
 #, c-format
 msgid "The type constructor@ %a@ is not yet completely defined"
-msgstr "@[Le constructeur de type @ %a@ n'est pas encore complètement défini@]"
+msgstr "Le constructeur de type@ %a@ n'est pas encore complètement défini"
 
 #: typing/typemod.ml:2005
 #, c-format
 msgid "The type of this packed module contains variables:@ %a"
-msgstr "Le type de module empaqueté contient des variables :@ %a"
+msgstr "Le type de ce module empaqueté contient des variables :@ %a"
 
 #: typing/typeclass.ml:1903
 #, c-format
@@ -1802,7 +1805,7 @@ msgid ""
 "float representation"
 msgstr ""
 "Leurs représentations internes diffèrent :@ la première déclaration utilise "
-"une représentation de flottants dépaqueté"
+"une représentation de flottants dépaquetée"
 
 #: typing/includecore.ml:218
 #, c-format
@@ -1883,7 +1886,7 @@ msgid ""
 "unboxed float representation"
 msgstr ""
 "Leurs représentations internes diffèrent :@ cette définition étendue utilise "
-"une représentation de flottans dépaquetée"
+"une représentation de flottants dépaquetée"
 
 #: typing/includecore.ml:214
 #, c-format
@@ -1925,7 +1928,7 @@ msgid ""
 "This `let module' expression has type@ %a.@ In this type, the locally bound "
 "module name %s escapes its scope"
 msgstr ""
-"Cette expression \"let module\" a pour type @ %a.@ Dans ce type, le nom de "
+"Cette expression \"let module\" a pour type@ %a.@ Dans ce type, le nom de "
 "module local %s échappe de sa portée"
 
 #: typing/typetexp.ml:904
@@ -1941,7 +1944,7 @@ msgstr "Cet argument ne peut être appliqué avec l'étiquette %s"
 #: typing/typeclass.ml:1847
 #, c-format
 msgid "This argument cannot be applied without label"
-msgstr "Cet argument ne peut être appliqué sans étiquettes"
+msgstr "Cet argument ne peut être appliqué sans étiquette"
 
 #: typing/typeclass.ml:1842
 #, c-format
@@ -1969,7 +1972,7 @@ msgstr "Ce constructeur n'est pas un constructeur d'extension."
 #, c-format
 msgid "This expression cannot be coerced to type@;<1 2>%a;@ it has type"
 msgstr ""
-"Cette expression ne peut être coercer au type@;<1 2>%a;@ elle a pour type"
+"Cette expression ne peut être coercée au type@;<1 2>%a;@ elle a pour type"
 
 #: typing/typecore.ml:5058
 #, c-format
@@ -1984,7 +1987,7 @@ msgstr "Cette expression a pour type"
 #: typing/typemod.ml:2001
 #, c-format
 msgid "This expression is not a packed module. It has type@ %a"
-msgstr "Cette expression est un module empaqueté. Il a pour type@ %a"
+msgstr "Cette expression n'est pas un module empaqueté. Elle a pour type@ %a"
 
 #: typing/typecore.ml:5142
 #, c-format
@@ -2015,7 +2018,7 @@ msgid ""
 "calls.@ This is only allowed when the real type is known."
 msgstr ""
 "Cette fonction est appliquée à trop d'arguments@ dans un ordre différent des "
-"autres appels.@ Ce n'est autorisé que le lorsque le véritable type est connu."
+"autres appels.@ Ce n'est autorisé que lorsque le véritable type est connu."
 
 #: typing/typemod.ml:2016
 #, c-format
@@ -2030,7 +2033,7 @@ msgstr "Ceci est un alias pour le module %a, qui est manquant"
 #: typing/typecore.ml:5197
 #, c-format
 msgid "This kind of expression is not allowed as right-hand side of `let rec'"
-msgstr "Cette sorte d'expression n'est autorisé à droite d'un `let rec'"
+msgstr "Cette sorte d'expression n'est pas autorisée à droite d'un `let rec'"
 
 #: typing/typecore.ml:5200
 #, c-format
@@ -2079,7 +2082,7 @@ msgstr ""
 
 #: typing/typecore.ml:2979
 msgid "This record expression is expected to have type"
-msgstr "Cet expression d'enregistrement est supposé avoir pour type"
+msgstr "Cette expression d'enregistrement est supposée avoir pour type"
 
 #: typing/typecore.ml:1295
 msgid "This record pattern is expected to have type"
@@ -2106,7 +2109,7 @@ msgstr "Mais le type de l'expression attendue était"
 
 #: typing/typecore.ml:1159
 msgid "This variant pattern is expected to have type"
-msgstr "Cet motif de vaoir est supposé avoir pour type"
+msgstr "Ce motif de variant est supposé avoir pour type"
 
 #: typing/typedecl.ml:2150
 #, c-format
@@ -2147,16 +2150,16 @@ msgstr "Contrainte de type dans une déclaration de type GADT"
 #: utils/warnings.ml:607
 msgid "Type constraints do not apply to GADT cases of variant types."
 msgstr ""
-"Les contraintes de type ne s'appliquent pas aux sous-cas GADT des type "
+"Les contraintes de type ne s'appliquent pas aux sous-cas GADT des types "
 "variants."
 
 #: parsing/ast_invariants.ml:26
 msgid "Type declarations cannot be empty."
-msgstr "Une déclaration de type ne peut être vide."
+msgstr "Les déclarations de type ne peuvent être vides."
 
 #: typing/includemod.ml:546
 msgid "Type declarations do not match"
-msgstr "Les déclarations de type ne sont pas compatible"
+msgstr "Les déclarations de type ne sont pas compatibles"
 
 #: utils/warnings.ml:674
 msgid "Type without principality."
@@ -2165,7 +2168,7 @@ msgstr "Type sans principalité."
 #: typing/typetexp.ml:963
 #, c-format
 msgid "Unbound class %a"
-msgstr "Classe non-liée %a"
+msgstr "Classe non liée %a"
 
 #: typing/typetexp.ml:969
 #, c-format
@@ -2175,51 +2178,51 @@ msgstr "Type de classe non lié %a"
 #: typing/typetexp.ml:957
 #, c-format
 msgid "Unbound constructor %a"
-msgstr "Constructeur non-lié %a"
+msgstr "Constructeur non lié %a"
 
 #: typing/typeclass.ml:1914
 #, c-format
 msgid "Unbound instance variable %s"
-msgstr "Variable d'instance non-liée %s"
+msgstr "Variable d'instance non liée %s"
 
 #: typing/typetexp.ml:954
 #, c-format
 msgid "Unbound module %a"
-msgstr "Module non-lié %a"
+msgstr "Module non lié %a"
 
 #: typing/typetexp.ml:966
 #, c-format
 msgid "Unbound module type %a"
-msgstr "Type de module non-lié %a"
+msgstr "Type de module non lié %a"
 
 #: typing/typetexp.ml:960
 #, c-format
 msgid "Unbound record field %a"
-msgstr "Champ d'enregistrement non-lié %a"
+msgstr "Champ d'enregistrement non lié %a"
 
 #: typing/typetexp.ml:897
 #, c-format
 msgid "Unbound row variable in #%a"
-msgstr "Variable de rangée non-liée dans #%a"
+msgstr "Variable de rangée non liée dans #%a"
 
 #: typing/typetexp.ml:880
 #, c-format
 msgid "Unbound type constructor %a"
-msgstr "Constructeur de type non-lié %a"
+msgstr "Constructeur de type non lié %a"
 
 #: typing/typetexp.ml:878
 #, c-format
 msgid "Unbound type parameter %s@."
-msgstr "Paramètre de type non-lié %s@."
+msgstr "Paramètre de type non lié %s@."
 
 #: typing/typetexp.ml:951
 #, c-format
 msgid "Unbound value %a"
-msgstr "Valeur non-liée %a"
+msgstr "Valeur non liée %a"
 
 #: utils/warnings.ml:722
 msgid "Unboxable type in primitive declaration"
-msgstr "Type non-empaquetable dans une déclaration de primitice"
+msgstr "Type non-empaquetable dans une déclaration de primitive"
 
 #: utils/warnings.ml:672
 msgid "Undeclared virtual method."
@@ -2247,7 +2250,7 @@ msgstr "Type existentiel inattendu"
 #: parsing/builtin_attributes.ml:61
 #, c-format
 msgid "Uninterpreted extension '%s'."
-msgstr "Extension non interprétée %s."
+msgstr "Extension non interprétée '%s'."
 
 #: asmcomp/closure.ml:909
 msgid "Unknown function"
@@ -2262,7 +2265,7 @@ msgstr "Modificateur inconnu '%c' pour la constante %s%c"
 msgid "Unreachable case in a pattern-matching (based on type information)."
 msgstr ""
 "Cas inatteignable dans un filtrage de motif (basé sur les informations de "
-"type)"
+"type)."
 
 #: utils/warnings.ml:697
 msgid "Unused ancestor variable."
@@ -2278,7 +2281,7 @@ msgstr "Constructeur d'extension inutilisé."
 
 #: utils/warnings.ml:696
 msgid "Unused for-loop index."
-msgstr "Indice de boucle for ."
+msgstr "Indice de boucle for inutilisé."
 
 #: utils/warnings.ml:675
 msgid "Unused function argument."
@@ -2333,7 +2336,7 @@ msgstr "Avertissement"
 
 #: utils/warnings.ml:712
 msgid "Warning on non-tail calls if @tailcall present."
-msgstr "Avertissement sur les appels non-tail call si @tailcall est présent."
+msgstr "Avertissement sur les appels non-tail si @tailcall est présent."
 
 #: utils/warnings.ml:688
 msgid "Wildcard pattern given as argument to a constant constructor."
@@ -2350,14 +2353,14 @@ msgstr ""
 #: middle_end/inline_and_simplify.ml:794
 msgid "[@inlined] attributes may not be used on partial applications"
 msgstr ""
-"L'attribut [@inlined] pourrait ne pas être utilisé dans les applications "
-"partielles"
+"Les attributs [@inlined] pourraient ne pas être utilisés dans les "
+"applications partielles"
 
 #: middle_end/inline_and_simplify.ml:806
 msgid "[@specialised] attributes may not be used on partial applications"
 msgstr ""
-"L'attribut [@specialised] pourrait ne pas être utilisé dans les applications "
-"partielles"
+"Les attributs [@specialised] pourraient ne pas être utilisés dans les "
+"applications partielles"
 
 #: middle_end/middle_end.ml:188
 msgid ""
@@ -2370,8 +2373,8 @@ msgstr ""
 #: middle_end/inline_and_simplify.ml:798
 msgid "[@unroll] attributes may not be used on partial applications"
 msgstr ""
-"L'attribut [@unroll] pourrait ne pas être utilisé dans les applications "
-"partielles"
+"Les attributs [@unroll] pourraient ne pas être utilisés dans les applications"
+" partielles"
 
 #: utils/warnings.ml:398
 msgid ""
@@ -2389,7 +2392,7 @@ msgstr "commentaire de documentation ambigu"
 #, c-format
 msgid "bad source file name: \"%s\" is not a valid module name."
 msgstr ""
-"nom de module problématique : le nom du fichier source \"%s\" n'est pas une "
+"nom de module problématique : le nom du fichier source \"%s\" n'est pas un "
 "nom de module OCaml valide."
 
 #: parsing/syntaxerr.ml:60
@@ -2401,20 +2404,20 @@ msgstr "invariant brisé dans le parsetree: %a"
 #, c-format
 msgid "but a constructor was expected belonging to the variant type"
 msgstr ""
-"mais un constructeur était attendu, qui aurait du appartenir au type de "
+"mais un constructeur était attendu, qui aurait dû appartenir au type de "
 "variant"
 
 #: typing/typecore.ml:5043
 #, c-format
 msgid "but a field was expected belonging to the record type"
 msgstr ""
-"mais un champ était attendu, qui aurait du appartenir au type enregistrement"
+"mais un champ était attendu, qui aurait dû appartenir au type enregistrement"
 
 #: typing/typecore.ml:4943
 #, c-format
 msgid "but a pattern was expected which matches values of type"
 msgstr ""
-"mais un motif était attendu, celui-ci aurait du être compatible avec des "
+"mais un motif était attendu, celui-ci aurait dû être compatible avec des "
 "valeurs de type"
 
 #: typing/typeclass.ml:1969
@@ -2435,7 +2438,7 @@ msgstr "mais le type attendu était"
 #: typing/typecore.ml:5084
 #, c-format
 msgid "but is here used with type"
-msgstr "mais le type utilisé est"
+msgstr "mais le type utilisé ici est"
 
 #: typing/typecore.ml:4939
 #, c-format
@@ -2482,7 +2485,7 @@ msgstr "argument échangé"
 
 #: typing/typecore.ml:4308
 msgid "commuting this argument"
-msgstr "échanger cette argument"
+msgstr "échanger cet argument"
 
 #: utils/warnings.ml:431
 #, c-format
@@ -2500,7 +2503,7 @@ msgid ""
 "Its type is exported as a private type."
 msgstr ""
 "le constructeur %s n'est jamais utilisé pour construire des valeurs.\n"
-"Son type exporté comme un type privé."
+"Son type est exporté comme un type privé."
 
 #: typing/typedecl.ml:2109
 msgid "contravariant"
@@ -2557,14 +2560,14 @@ msgstr "barre oblique inversée illégale dans une chaîne de caractère."
 #: utils/warnings.ml:540
 #, c-format
 msgid "illegal environment variable %s : %s"
-msgstr "variable d'environnement  illégale %s : %s"
+msgstr "variable d'environnement illégale %s : %s"
 
 #: utils/warnings.ml:542
 #, c-format
 msgid ""
 "illegal payload for attribute '%s'.\n"
 "%s"
-msgstr "charge illégal pour l'attribut '%s'. %s"
+msgstr "charge illégale pour l'attribut '%s'. %s"
 
 #: typing/typeclass.ml:1973
 msgid "immutable"
@@ -2574,8 +2577,8 @@ msgstr "immutable"
 #, c-format
 msgid "implicit elimination of optional argument %s"
 msgid_plural "implicit elimination of optional arguments %s"
-msgstr[0] "élimination de l'argument optionnel %s"
-msgstr[1] "élimination des arguments optionnels %s"
+msgstr[0] "élimination implicite de l'argument optionnel %s"
+msgstr[1] "élimination implicite des arguments optionnels %s"
 
 #: typing/typedecl.ml:2110
 msgid "injective"
@@ -2614,7 +2617,7 @@ msgstr "n'est pas compatible avec le type"
 
 #: typing/includemod.ml:548
 msgid "is not included in"
-msgstr "n'est pas inclu dans"
+msgstr "n'est pas inclus dans"
 
 #: typing/typedecl.ml:404
 msgid "it has more than one constructor"
@@ -2622,7 +2625,7 @@ msgstr "il a plus qu'un constructeur"
 
 #: typing/typedecl.ml:411
 msgid "it has more than one field"
-msgstr "il a plus qu'un cham"
+msgstr "il a plus qu'un champ"
 
 #: typing/typedecl.ml:387
 msgid "it is abstract"
@@ -2689,7 +2692,7 @@ msgstr "l'attribut \"%S\" ne peut apparaître dans ce contexte"
 #: utils/warnings.ml:572
 #, c-format
 msgid "the %S attribute is used more than once on this expression"
-msgstr "l'attribut %S a été utilisé plus d'une fois dans une expression"
+msgstr "l'attribut %S a été utilisé plus d'une fois dans cette expression"
 
 #: utils/warnings.ml:414
 #, c-format
@@ -2707,7 +2710,7 @@ msgid ""
 "the following instance variables are overridden by the class %s\n"
 "The behaviour changed in ocaml 3.10 (previous behaviour was hiding.)"
 msgstr ""
-"les variables d'instances suivant sont réécrites par la classe %s\n"
+"les variables d'instance suivantes sont réécrites par la classe %s\n"
 "Ce comportement a changé depuis OCaml 3.10 (le comportement précédent était "
 "de cacher ces variables)"
 
@@ -2720,7 +2723,7 @@ msgid ""
 msgstr ""
 "les étiquettes suivantes ne sont pas liées dans ce motif d'enregistrement:\n"
 "%s\n"
-"Liez explicitement ces étiquettes or ajouter '; _' à ce motif."
+"Liez explicitement ces étiquettes ou bien ajoutez '; _' à ce motif."
 
 #: utils/warnings.ml:354
 #, c-format
@@ -2742,9 +2745,9 @@ msgid ""
 "the instance variable %s is overridden.\n"
 "The behaviour changed in ocaml 3.10 (previous behaviour was hiding.)"
 msgstr ""
-"la variables d'instance %s a été réécrite.\n"
+"la variable d'instance %s a été réécrite.\n"
 "Ce comportement a changé depuis OCaml 3.10 (le comportement précédent était "
-"de cacher ces variables)"
+"de cacher ces variables.)"
 
 #: utils/warnings.ml:416
 #, c-format
@@ -2759,7 +2762,7 @@ msgstr "l'étiquette %s n'est pas optionnelle."
 #: utils/warnings.ml:352
 #, c-format
 msgid "the method %s is overridden."
-msgstr "la méthode %s n'est pas réécrite."
+msgstr "la méthode %s est réécrite."
 
 #: typing/includecore.ml:241
 #, c-format
@@ -2774,7 +2777,7 @@ msgstr "le type n'est pas un type immédiat"
 #: utils/warnings.ml:389
 #, c-format
 msgid "the virtual method %s is not declared."
-msgstr "la méthode virtuelle %s n'est pas déclaré."
+msgstr "la méthode virtuelle %s n'est pas déclarée."
 
 #: utils/warnings.ml:485
 #, c-format
@@ -2784,8 +2787,8 @@ msgid ""
 msgstr ""
 "ces étiquettes de champs appartiennent à plusieurs types: %s\n"
 ".\n"
-"Le premier a été sélectionné. Ajoutez une annotation de type si ce choix est "
-"erroné."
+"Le premier a été sélectionné. Veuillez ajouter une annotation de type si ce "
+"choix est erroné."
 
 #: utils/warnings.ml:322
 msgid ""
@@ -2798,7 +2801,7 @@ msgstr ""
 
 #: utils/warnings.ml:393
 msgid "this argument will not be used by the function."
-msgstr "cet argument n'est pas utilisé par la fonction."
+msgstr "cet argument ne sera pas utilisé par la fonction."
 
 #: typing/typecore.ml:2721
 msgid "this coercion to format6"
@@ -2814,7 +2817,7 @@ msgid ""
 "maybe some arguments are missing."
 msgstr ""
 "cette application de fonction est partielle,\n"
-"certains arguments sont peut-être manquant."
+"certains arguments sont peut-être manquants."
 
 #: typing/typecore.ml:3238
 msgid "this ground coercion"
@@ -2849,29 +2852,30 @@ msgstr "ce déballage de module"
 msgid ""
 "this open statement shadows the class identifier %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule l'identifiant de classe %s (qui est "
+"cette ouverture de module dissimule l'identifiant de classe %s (qui est "
 "utilisé plus tard)"
 
 #: utils/warnings.ml:535
 #, c-format
 msgid "this open statement shadows the constructor %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule le constructeur %s (qui est utilisé plus "
+"cette ouverture de module dissimule le constructeur %s (qui est utilisé plus "
 "tard)"
 
 #: utils/warnings.ml:532
 #, c-format
 msgid "this open statement shadows the label %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule l'étiquette %s (qui est utilisé plus tard="
+"cette ouverture de module dissimule l'étiquette %s (qui est utilisée plus "
+"tard)"
 
 #: utils/warnings.ml:509
 #, c-format
 msgid ""
 "this open statement shadows the module identifier %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule l'identifiant de module %s(qui est utilisé "
-"plus tard)"
+"cette ouverture de module dissimule l'identifiant de module %s (qui est "
+"utilisé plus tard)"
 
 #: utils/warnings.ml:514
 #, c-format
@@ -2879,23 +2883,23 @@ msgid ""
 "this open statement shadows the module type identifier %s (which is later "
 "used)"
 msgstr ""
-"cet ouverture de module dissimule l'identifiant du type %s (qui est utilisé "
-"plus tard)"
+"cette ouverture de module dissimule l'identifiant du type %s (qui est utilisé"
+" plus tard)"
 
 #: utils/warnings.ml:524
 #, c-format
 msgid ""
 "this open statement shadows the type identifier %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule l'identifiant du type %s (qui est utilisé "
-"plus tard)"
+"cette ouverture de module dissimule l'identifiant du type %s (qui est utilisé"
+" plus tard)"
 
 #: utils/warnings.ml:499
 #, c-format
 msgid ""
 "this open statement shadows the value identifier %s (which is later used)"
 msgstr ""
-"cet ouverture de module dissimule l'identifiant de la valeur %s (qui est "
+"cette ouverture de module dissimule l'identifiant de la valeur %s (qui est "
 "utilisé plus tard)"
 
 #: utils/warnings.ml:387
@@ -2945,13 +2949,13 @@ msgid ""
 "not visible in the current scope: %s.\n"
 "They will not be selected if the type becomes unknown."
 msgstr ""
-"cet enregistrement de type %s contient des champ qui ne sont\n"
-"pas visible dans la portée courante : %s\n"
+"cet enregistrement de type %s contient des champs qui ne sont\n"
+"pas visibles dans la portée courante : %s\n"
 "Ils ne seront pas sélectionnés si le type devient inconnu."
 
 #: utils/warnings.ml:395
 msgid "this statement never returns (or has an unsound type.)"
-msgstr "ce phrase ne retourne jamais (ou a un type insensé.)"
+msgstr "cette phrase ne retourne jamais (ou a un type insensé.)"
 
 #: utils/warnings.ml:369
 msgid "this sub-pattern is unused."
@@ -2975,7 +2979,7 @@ msgid ""
 "this use of %s relies on type-directed disambiguation,\n"
 "it will not compile with OCaml 4.00 or earlier."
 msgstr ""
-"cet usage de %s repose sur la désambiguïsation dirigé par le type,\n"
+"cet usage de %s repose sur la désambiguïsation dirigée par le type,\n"
 "il n'est pas compilable avec une version d'OCaml plus ancienne que 4.00."
 
 #: typing/typecore.ml:3366
@@ -3061,7 +3065,7 @@ msgstr "avertissement"
 #: typing/typecore.ml:5135
 #, c-format
 msgid "which is less general than"
-msgstr "qui est moins générale que"
+msgstr "qui est moins général que"
 
 #: utils/warnings.ml:408
 msgid "wildcard pattern given as argument to a constant constructor"
@@ -3081,7 +3085,7 @@ msgstr "avec l'étiquette %s"
 #: typing/typecore.ml:4976
 #, c-format
 msgid "without label"
-msgstr "sans label"
+msgstr "sans étiquette"
 
 #~ msgid "this is the start of a comment."
 #~ msgstr "ceci est le début d'un commentaire."

@@ -100,6 +100,7 @@ let is_printf f = match f.pexp_desc with
     begin match f with
       | "printf" | "sprintf" -> S(true,0)
       | "s" -> S (false, 0)
+      | "f" -> S (true, 0)
       | "kfprintf" -> S(true,2)
       | "fprintf" -> S(true,1)
       | "fnprintf" -> P(true,2)
